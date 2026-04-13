@@ -1,6 +1,6 @@
-# Binary
-wizardry
-wizardry.exe
+# Binary (root only — don't match cmd/wizardry/)
+/wizardry
+/wizardry.exe
 
 # OS files
 .DS_Store
