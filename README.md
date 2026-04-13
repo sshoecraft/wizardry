@@ -80,7 +80,7 @@ If your terminal does not support Sixel, the game falls back to Unicode half-blo
 
 ## Building
 
-Requires Go 1.22 or later.
+Requires Go 1.24 or later.
 
 ```bash
 # Build
