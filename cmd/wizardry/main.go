@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.14.1"
+const version = "0.14.2"
 
 func main() {
 	scenarioName := "1"
@@ -2448,25 +2448,30 @@ func handleAlignmentInput(game *engine.GameState, cs *engine.CreationState, ev *
 }
 
 func handleStatsInput(game *engine.GameState, cs *engine.CreationState, ev *tcell.EventKey) {
-	// From p-code ROLLER proc 14: +/- to adjust, RET for next stat, ESC when done
+	// Pascal GIVEPTS (ROLLER.TEXT lines 255-330):
+	// +/- adjusts stats, RET cycles to next stat (wraps), ESC exits when points==0 AND a class qualifies
 	switch ev.Key() {
 	case tcell.KeyEscape:
-		// P-code IC 2228-2239: ESC advances to class selection when bonus==0
+		// Pascal line 311: UNTIL (INCHAR = CHR(27)) AND CANCHG AND (PTSLEFT = 0)
 		if cs.BonusPoints == 0 {
-			cs.AvailClasses = cs.CalculateAvailableClasses()
-			cs.ClassCursor = 0
-			cs.Step = engine.StepClass
+			avail := cs.ClassAvailability()
+			canChange := false
+			for _, v := range avail {
+				if v {
+					canChange = true
+					break
+				}
+			}
+			if canChange {
+				cs.Step = engine.StepClass
+			}
 		}
 	case tcell.KeyEnter:
-		// RET moves to next stat; if on last stat and bonus==0, advance
+		// Pascal lines 302-309: RET cycles to next stat, wraps LUCK → STR
 		if cs.StatCursor < 5 {
 			cs.StatCursor++
-		} else if cs.BonusPoints == 0 {
-			cs.AvailClasses = cs.CalculateAvailableClasses()
-			cs.ClassCursor = 0
-			cs.Step = engine.StepClass
 		} else {
-			cs.StatCursor = 0 // wrap around
+			cs.StatCursor = 0
 		}
 	case tcell.KeyRune:
 		switch ev.Rune() {
