@@ -67,7 +67,8 @@ Terminals with Sixel graphics support:
 
 | Terminal | Platform | Notes |
 |----------|----------|-------|
-| [WezTerm](https://wezfurlong.org/wezterm/) | macOS, Linux, Windows | Recommended. Full Sixel support out of the box |
+| [iTerm2](https://iterm2.com/) | macOS | Native Sixel support |
+| [WezTerm](https://wezfurlong.org/wezterm/) | macOS, Linux, Windows | Full Sixel support out of the box |
 | [foot](https://codeberg.org/dnkl/foot) | Linux (Wayland) | Native Sixel support |
 | [mlterm](https://github.com/arakiken/mlterm) | Linux, macOS | Native Sixel support |
 | [contour](https://github.com/contour-terminal/contour) | Linux, macOS, Windows | Native Sixel support |
