@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.13.3"
+const version = "0.14.1"
 
 func main() {
 	scenarioName := "1"
@@ -741,7 +741,7 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 			if ch == 'y' || ch == 'Y' {
 				town.Creation = engine.NewCreationState()
 				town.Creation.Name = town.PendingCreateName
-				town.Creation.Step = engine.StepRace
+				town.Creation.Step = engine.StepPassword
 				game.Phase = engine.PhaseCreation
 				town.Message = ""
 				town.Message2 = ""
@@ -2326,7 +2326,7 @@ func handleCharEdit(game *engine.GameState, ev *tcell.EventKey) bool {
 		town.Roster.Remove(name)
 		town.Creation = engine.NewCreationState()
 		town.Creation.Name = name
-		town.Creation.Step = engine.StepRace
+		town.Creation.Step = engine.StepPassword
 		game.Phase = engine.PhaseCreation
 		town.EditChar = nil
 		town.InputMode = engine.InputNone
@@ -2497,10 +2497,7 @@ func handleClassInput(game *engine.GameState, cs *engine.CreationState, ev *tcel
 			avail := cs.ClassAvailability()
 			if avail[idx] {
 				cs.Class = engine.Class(idx)
-				cs.PasswordStep = 0
-				cs.Password = ""
-				cs.PasswordFirst = ""
-				cs.Step = engine.StepPassword
+				cs.Step = engine.StepConfirm
 			}
 		}
 	}
@@ -2534,7 +2531,7 @@ func handlePasswordInput(game *engine.GameState, cs *engine.CreationState, ev *t
 			// Confirm entry — check match
 			if cs.Password == cs.PasswordFirst {
 				cs.Password = cs.PasswordFirst
-				cs.Step = engine.StepConfirm
+				cs.Step = engine.StepRace
 			} else {
 				// Mismatch — restart password entry
 				cs.PasswordStep = 0

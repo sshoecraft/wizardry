@@ -2,6 +2,7 @@ package render
 
 import (
 	"fmt"
+	"strings"
 
 	"wizardry/engine"
 )
@@ -53,8 +54,11 @@ func (s *Screen) RenderCreation(cs *engine.CreationState) {
 		s.DrawString(10+len(cs.Name), 0, styleNormal, "_")
 	}
 
-	// Row 1: PASSWORD
+	// Row 1: PASSWORD + masked value after password step
 	s.DrawString(0, 1, styleNormal, fmt.Sprintf("%9s", "PASSWORD"))
+	if cs.Step >= engine.StepRace && len(cs.Password) > 0 {
+		s.DrawString(10, 1, styleNormal, strings.Repeat("*", len(cs.Password)))
+	}
 
 	// Row 2: RACE + value at col 10
 	s.DrawString(0, 2, styleNormal, fmt.Sprintf("%9s", "RACE"))
@@ -95,7 +99,7 @@ func (s *Screen) RenderCreation(cs *engine.CreationState) {
 
 	// Row 13: CLASS + class name at GOTOXY(10,13)
 	s.DrawString(0, 13, styleNormal, fmt.Sprintf("%9s", "CLASS"))
-	if cs.Step >= engine.StepPassword {
+	if cs.Step >= engine.StepConfirm {
 		s.DrawString(10, 13, styleNormal, cs.Class.String())
 	}
 

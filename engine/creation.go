@@ -7,11 +7,11 @@ type CreationStep int
 
 const (
 	StepName CreationStep = iota
+	StepPassword     // "ENTER A PASSWORD ([RET] FOR NONE)" + confirm
 	StepRace
 	StepAlignment
 	StepStats
 	StepClass
-	StepPassword     // "ENTER A PASSWORD ([RET] FOR NONE)" + confirm
 	StepConfirm
 )
 
