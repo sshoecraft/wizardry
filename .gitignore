@@ -1,0 +1,19 @@
+# Binary
+wizardry
+wizardry.exe
+
+# OS files
+.DS_Store
+._*
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Save files
+saves/
+*.sav

@@ -1,0 +1,8927 @@
+{
+  "game": "PROVING GROUNDS OF THE MAD OVERLORD!",
+  "source": "scenario.dsk",
+  "monsters": [
+    {
+      "name": "BUBBLY SLIME",
+      "name_plural": "BUBBLY SLIMES",
+      "name_unknown": "SLIME",
+      "name_unknown_plural": "SLIMES",
+      "pic": 0,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 2,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 3,
+        "bonus": 1
+      },
+      "class": 8,
+      "ac": 12,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 1,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 1,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 65,
+      "sppc": 0,
+      "index": 0
+    },
+    {
+      "name": "ORC",
+      "name_plural": "ORCS",
+      "name_unknown": "SMALL HUMANOID",
+      "name_unknown_plural": "SMALL HUMANOIDS",
+      "pic": 1,
+      "calc1": {
+        "num_dice": 3,
+        "die_size": 2,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 10,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 2,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 2,
+      "sppc": 48,
+      "index": 1
+    },
+    {
+      "name": "KOBOLD",
+      "name_plural": "KOBOLDS",
+      "name_unknown": "SMALL HUMANOID",
+      "name_unknown_plural": "SMALL HUMANOIDS",
+      "pic": 1,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 2,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 1
+      },
+      "class": 0,
+      "ac": 8,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 1,
+      "team_percent": 15,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 5,
+      "sppc": 48,
+      "index": 2
+    },
+    {
+      "name": "UNDEAD KOBOLD",
+      "name_plural": "UNDEAD KOBOLDS",
+      "name_unknown": "SKELETON",
+      "name_unknown_plural": "SKELETONS",
+      "pic": 2,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 2
+      },
+      "class": 10,
+      "ac": 10,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 2,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 6,
+      "sppc": 0,
+      "index": 3
+    },
+    {
+      "name": "ROGUE",
+      "name_plural": "ROGUES",
+      "name_unknown": "SCRUFFY MAN",
+      "name_unknown_plural": "SCRUFFY MEN",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 5,
+        "bonus": 1
+      },
+      "class": 3,
+      "ac": 10,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 2,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 1,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 4
+    },
+    {
+      "name": "BUSHWACKER",
+      "name_plural": "BUSHWACKERS",
+      "name_unknown": "SCRUFFY MAN",
+      "name_unknown_plural": "SCRUFFY MEN",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 6,
+        "bonus": 1
+      },
+      "class": 0,
+      "ac": 8,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 1
+        },
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 7,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 5
+    },
+    {
+      "name": "HIGHWAYMAN",
+      "name_plural": "HIGHWAYMEN",
+      "name_unknown": "MAN IN CHAIN",
+      "name_unknown_plural": "MEN IN CHAIN",
+      "pic": 4,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 4,
+        "bonus": 2
+      },
+      "class": 0,
+      "ac": 6,
+      "num_attack_types": 4,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 7,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 56,
+      "index": 6
+    },
+    {
+      "name": "ZOMBIE",
+      "name_plural": "ZOMBIES",
+      "name_unknown": "WEIRD HUMANOID",
+      "name_unknown_plural": "WEIRD HUMANOIDS",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 10,
+        "bonus": 1
+      },
+      "class": 10,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 8,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 4,
+      "index": 7
+    },
+    {
+      "name": "CREEPING CRUD",
+      "name_plural": "CREEPING CRUDS",
+      "name_unknown": "SLIME",
+      "name_unknown_plural": "SLIMES",
+      "pic": 0,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 0,
+      "team_percent": 24,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 68,
+      "sppc": 2,
+      "index": 8
+    },
+    {
+      "name": "GAS CLOUD",
+      "name_plural": "GAS CLOUDS",
+      "name_unknown": "GAS CLOUD",
+      "name_unknown_plural": "GAS CLOUDS",
+      "pic": 6,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 13,
+      "ac": 10,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 10,
+      "team_monster": 0,
+      "team_percent": 15,
+      "mage_spells": 2,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 36,
+      "index": 9
+    },
+    {
+      "name": "LVL 1 MAGE",
+      "name_plural": "LVL 1 MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 1
+      },
+      "class": 1,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 2,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 6,
+      "team_percent": 20,
+      "mage_spells": 1,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 10
+    },
+    {
+      "name": "LVL 1 PRIEST",
+      "name_plural": "LVL 1 PRIESTS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 5,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 4,
+      "team_percent": 25,
+      "mage_spells": 0,
+      "priest_spells": 1,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 11
+    },
+    {
+      "name": "CREEPING COIN?",
+      "name_plural": "CREEPING COINS?",
+      "name_unknown": "SMALL OBJECT",
+      "name_unknown_plural": "SMALL OBJECTS",
+      "pic": 19,
+      "calc1": {
+        "num_dice": 9,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "class": 13,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 1,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 4,
+      "team_monster": 12,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 4,
+      "unaffect": 0,
+      "wep_vs_type3": 62,
+      "sppc": 64,
+      "index": 12
+    },
+    {
+      "name": "LVL 1 NINJA",
+      "name_plural": "LVL 1 NINJAS",
+      "name_unknown": "KIMONOED MAN",
+      "name_unknown_plural": "KIMONOED MEN",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 2
+      },
+      "class": 0,
+      "ac": 5,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 13,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 24,
+      "index": 13
+    },
+    {
+      "name": "VORPAL BUNNY",
+      "name_plural": "VORPAL BUNNIES",
+      "name_unknown": "RABBIT",
+      "name_unknown_plural": "RABBITS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 2
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 6,
+        "bonus": 2
+      },
+      "class": 8,
+      "ac": 6,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 15,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 4,
+      "sppc": 40,
+      "index": 14
+    },
+    {
+      "name": "CAPYBARA",
+      "name_plural": "CAPYBARAS",
+      "name_unknown": "GIANT RODENT",
+      "name_unknown_plural": "GIANT RODENTS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 8,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 17,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 34,
+      "index": 15
+    },
+    {
+      "name": "GIANT TOAD",
+      "name_plural": "GIANT TOADS",
+      "name_unknown": "AMPHIBIAN",
+      "name_unknown_plural": "AMPHIBIANS",
+      "pic": 12,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 2,
+        "bonus": 4
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 7,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 3,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 17,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 2,
+      "sppc": 34,
+      "index": 16
+    },
+    {
+      "name": "COYOTE",
+      "name_plural": "COYOTES",
+      "name_unknown": "MANGY DOG",
+      "name_unknown_plural": "MANGY DOGS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 4,
+        "die_size": 2,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 8,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 4,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 14,
+      "team_percent": 25,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 56,
+      "sppc": 32,
+      "index": 17
+    },
+    {
+      "name": "LVL 3 PRIEST",
+      "name_plural": "LVL 3 PRIESTS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 2,
+        "bonus": 3
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 8,
+        "bonus": 1
+      },
+      "class": 2,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 11,
+      "team_percent": 30,
+      "mage_spells": 0,
+      "priest_spells": 2,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 50,
+      "index": 18
+    },
+    {
+      "name": "LVL 3 SAMURAI",
+      "name_plural": "LVL 3 SAMURAI",
+      "name_unknown": "KIMONOED MAN",
+      "name_unknown_plural": "KIMONOED MEN",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 4,
+        "die_size": 2,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 6,
+        "bonus": 4
+      },
+      "class": 0,
+      "ac": 5,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 1,
+      "reward2": 11,
+      "team_monster": 12,
+      "team_percent": 20,
+      "mage_spells": 1,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 32,
+      "index": 19
+    },
+    {
+      "name": "LVL 3 NINJA",
+      "name_plural": "LVL 3 NINJA",
+      "name_unknown": "KIMONOED MAN",
+      "name_unknown_plural": "KIMONOED MEN",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 2
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 3,
+      "num_attack_types": 5,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 13,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 10,
+      "index": 20
+    },
+    {
+      "name": "WERE BEAR",
+      "name_plural": "WERE BEARS",
+      "name_unknown": "BEAR",
+      "name_unknown_plural": "BEARS",
+      "pic": 10,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 2
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 3,
+          "die_size": 6,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 1,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 14,
+      "team_percent": 30,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 12,
+      "sppc": 38,
+      "index": 21
+    },
+    {
+      "name": "DRAGON FLY",
+      "name_plural": "DRAGON FLIES",
+      "name_unknown": "FLY",
+      "name_unknown_plural": "FLIES",
+      "pic": 13,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 3,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 7,
+      "ac": 4,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 0,
+      "team_percent": 0,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 1,
+      "unaffect": 20,
+      "wep_vs_type3": 2,
+      "sppc": 16,
+      "index": 22
+    },
+    {
+      "name": "ROTTING CORPSE",
+      "name_plural": "ROTTING CORPSES",
+      "name_unknown": "WEIRD HUMANOID",
+      "name_unknown_plural": "WEIRD HUMANOIDS",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 10,
+      "ac": 6,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 34,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 4,
+      "index": 23
+    },
+    {
+      "name": "OGRE",
+      "name_plural": "OGRES",
+      "name_unknown": "OGRE",
+      "name_unknown_plural": "OGRES",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 1
+      },
+      "class": 0,
+      "ac": 5,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 14,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 24
+    },
+    {
+      "name": "HUGE SPIDER",
+      "name_plural": "HUGE SPIDERS",
+      "name_unknown": "INSECT",
+      "name_unknown_plural": "INSECTS",
+      "pic": 14,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 8,
+        "bonus": 2
+      },
+      "class": 12,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 27,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 18,
+      "index": 25
+    },
+    {
+      "name": "WERERAT",
+      "name_plural": "WERERATS",
+      "name_unknown": "WERERAT",
+      "name_unknown_plural": "WERERATS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 8,
+        "bonus": 1
+      },
+      "class": 9,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 17,
+      "team_percent": 50,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 64,
+      "sppc": 16,
+      "index": 26
+    },
+    {
+      "name": "BORING BEETLE",
+      "name_plural": "BORING BEETLES",
+      "name_unknown": "INSECT",
+      "name_unknown_plural": "INSECTS",
+      "pic": 14,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 12,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 5,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 25,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 27
+    },
+    {
+      "name": "GAS DRAGON",
+      "name_plural": "GAS DRAGONS",
+      "name_unknown": "DRAGON",
+      "name_unknown_plural": "DRAGONS",
+      "pic": 15,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 7,
+      "ac": 3,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 22,
+      "team_percent": 40,
+      "mage_spells": 1,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 3,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 28
+    },
+    {
+      "name": "PRIESTESS",
+      "name_plural": "PRIESTESS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIEST",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 8,
+        "bonus": 1
+      },
+      "class": 2,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 2,
+      "reward2": 12,
+      "team_monster": 28,
+      "team_percent": 60,
+      "mage_spells": 0,
+      "priest_spells": 2,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 29
+    },
+    {
+      "name": "SWORDSMAN",
+      "name_plural": "SWORDSMEN",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MEN IN ARMOR",
+      "pic": 4,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 7,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 32,
+      "team_percent": 35,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 30
+    },
+    {
+      "name": "HUGE SPIDER",
+      "name_plural": "HUGE SPIDERS",
+      "name_unknown": "INSECT",
+      "name_unknown_plural": "INSECTS",
+      "pic": 14,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 2,
+        "die_size": 8,
+        "bonus": 2
+      },
+      "class": 12,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 37,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 18,
+      "index": 31
+    },
+    {
+      "name": "ATTACK DOG",
+      "name_plural": "ATTACK DOGS",
+      "name_unknown": "ANIMAL",
+      "name_unknown_plural": "ANIMALS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 1,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 22,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 32
+    },
+    {
+      "name": "GARGOYLE",
+      "name_plural": "GARGOYLES",
+      "name_unknown": "GARGOYLE",
+      "name_unknown_plural": "GARGOYLES",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 4
+      },
+      "class": 13,
+      "ac": 5,
+      "num_attack_types": 4,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 0,
+      "team_percent": 0,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 50,
+      "wep_vs_type3": 64,
+      "sppc": 0,
+      "index": 33
+    },
+    {
+      "name": "GRAVE MIST",
+      "name_plural": "GRAVE MISTS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITY",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 10,
+      "ac": 4,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 37,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 4,
+      "index": 34
+    },
+    {
+      "name": "DRAGON PUPPY",
+      "name_plural": "DRAGON PUPPIES",
+      "name_unknown": "ANIMAL",
+      "name_unknown_plural": "ANIMALS",
+      "pic": 15,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 7,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 26,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 2,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 35
+    },
+    {
+      "name": "WEREWOLF",
+      "name_plural": "WEREWOLVES",
+      "name_unknown": "WOLF",
+      "name_unknown_plural": "WOLVES",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 3
+      },
+      "class": 9,
+      "ac": 5,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 26,
+      "team_percent": 25,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 64,
+      "sppc": 0,
+      "index": 36
+    },
+    {
+      "name": "SHADE",
+      "name_plural": "SHADES",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITY",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 3,
+        "die_size": 8,
+        "bonus": 3
+      },
+      "class": 10,
+      "ac": 7,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 1,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 23,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 64,
+      "sppc": 0,
+      "index": 37
+    },
+    {
+      "name": "BISHOP",
+      "name_plural": "BISHOPS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 39,
+      "team_percent": 10,
+      "mage_spells": 1,
+      "priest_spells": 3,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 38
+    },
+    {
+      "name": "MINOR DAIMYO",
+      "name_plural": "MINOR DAIMYOS",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MAN IN ARMOR",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 2,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 3,
+      "reward2": 13,
+      "team_monster": 38,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 39
+    },
+    {
+      "name": "LVL 5 MAGE",
+      "name_plural": "LVL 5 MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 10,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 41,
+      "team_percent": 20,
+      "mage_spells": 3,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 40
+    },
+    {
+      "name": "LVL 4 THIEF",
+      "name_plural": "LVL 4 THIEVES",
+      "name_unknown": "MAN IN LEATHER",
+      "name_unknown_plural": "MEN IN LEATHER",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 3
+      },
+      "class": 3,
+      "ac": 10,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 38,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 41
+    },
+    {
+      "name": "KILLER WOLF",
+      "name_plural": "KILLER WOLVES",
+      "name_unknown": "ANIMAL",
+      "name_unknown_plural": "ANIMALS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 6,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 0,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 35,
+      "team_percent": 15,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 42
+    },
+    {
+      "name": "SPIRIT",
+      "name_plural": "SPIRITS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITY",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 3,
+        "bonus": 2
+      },
+      "class": 6,
+      "ac": 2,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 1,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 33,
+      "team_percent": 20,
+      "mage_spells": 3,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 25,
+      "wep_vs_type3": 64,
+      "sppc": 2,
+      "index": 43
+    },
+    {
+      "name": "GIANT SPIDER",
+      "name_plural": "GIANT SPIDERS",
+      "name_unknown": "INSECT",
+      "name_unknown_plural": "INSECTS",
+      "pic": 14,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 4
+      },
+      "class": 12,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 25,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 2,
+      "index": 44
+    },
+    {
+      "name": "WERETIGER",
+      "name_plural": "WERETIGERS",
+      "name_unknown": "ANIMAL",
+      "name_unknown_plural": "ANIMALS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 9,
+      "ac": 4,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 1,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 36,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 64,
+      "sppc": 18,
+      "index": 45
+    },
+    {
+      "name": "MEDUSALIZARD",
+      "name_plural": "MEDUSALIZARDS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 6,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 43,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 1,
+      "index": 46
+    },
+    {
+      "name": "LVL 5 PRIEST",
+      "name_plural": "LVL 5 PRIESTS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 48,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 3,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 47
+    },
+    {
+      "name": "LVL 6 NINJA",
+      "name_plural": "LVL 6 NINJAS",
+      "name_unknown": "MAN IN BLACK",
+      "name_unknown_plural": "MEN IN BLACK",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 6,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 6,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 50,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 48
+    },
+    {
+      "name": "LVL 7 MAGE",
+      "name_plural": "LVL 7 MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 8,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 4,
+      "reward2": 14,
+      "team_monster": 48,
+      "team_percent": 20,
+      "mage_spells": 4,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 49
+    },
+    {
+      "name": "MASTER THIEF",
+      "name_plural": "MASTER THIEVES",
+      "name_unknown": "MAN IN LEATHER",
+      "name_unknown_plural": "MEN IN LEATHER",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 3,
+      "ac": 4,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 47,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 48,
+      "index": 50
+    },
+    {
+      "name": "MAJOR DAIMYO",
+      "name_plural": "MAJOR DAIMYOS",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MAN IN ARMOR",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 12,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 0,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 47,
+      "team_percent": 50,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 20,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 51
+    },
+    {
+      "name": "HIGH PRIEST",
+      "name_plural": "HIGH PRIESTS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 53,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 5,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 52
+    },
+    {
+      "name": "CHAMP SAMURAI",
+      "name_plural": "CHAMP SAMURAI",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MEN IN ARMOR",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 2,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 52,
+      "team_percent": 25,
+      "mage_spells": 1,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 53
+    },
+    {
+      "name": "ARCH MAGE",
+      "name_plural": "ARCH MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 4,
+        "bonus": 2
+      },
+      "class": 1,
+      "ac": 9,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 53,
+      "team_percent": 30,
+      "mage_spells": 2,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 54
+    },
+    {
+      "name": "MASTER THIEF",
+      "name_plural": "MASTER THIEVES",
+      "name_unknown": "MAN IN LEATHER",
+      "name_unknown_plural": "MEN IN LEATHER",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 6,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 3,
+      "ac": 3,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 54,
+      "team_percent": 25,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 32,
+      "index": 55
+    },
+    {
+      "name": "GAZE HOUND",
+      "name_plural": "GAZE HOUNDS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 4,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": -1,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 2,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 56,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 64,
+      "sppc": 36,
+      "index": 56
+    },
+    {
+      "name": "OGRE LORD",
+      "name_plural": "OGRE LORDS",
+      "name_unknown": "OGRE",
+      "name_unknown_plural": "OGRES",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 1,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 58,
+      "team_percent": 10,
+      "mage_spells": 3,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 57
+    },
+    {
+      "name": "TROLL",
+      "name_plural": "TROLLS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 3,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 6,
+        "die_size": 8,
+        "bonus": 6
+      },
+      "class": 0,
+      "ac": 4,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 4
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 4
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 4
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 3,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 58,
+      "team_percent": 5,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 58
+    },
+    {
+      "name": "LIFESTEALER",
+      "name_plural": "LIFESTEALERS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITIES",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 3
+      },
+      "class": 10,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 2,
+      "heal": 0,
+      "reward1": 5,
+      "reward2": 15,
+      "team_monster": 59,
+      "team_percent": 50,
+      "mage_spells": 3,
+      "priest_spells": 3,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 20,
+      "wep_vs_type3": 120,
+      "sppc": 0,
+      "index": 59
+    },
+    {
+      "name": "NIGHTSTALKER",
+      "name_plural": "NIGHTSTALKERS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITIES",
+      "pic": 2,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 5,
+        "die_size": 8,
+        "bonus": 3
+      },
+      "class": 10,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 1,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 57,
+      "team_percent": 23,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 25,
+      "wep_vs_type3": 64,
+      "sppc": 0,
+      "index": 60
+    },
+    {
+      "name": "WYVERN",
+      "name_plural": "WYVERNS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 11,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 8,
+        "bonus": 7
+      },
+      "class": 8,
+      "ac": 3,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 43,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 2,
+      "index": 61
+    },
+    {
+      "name": "LVL 8 PRIEST",
+      "name_plural": "LVL 8 PRIESTS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 61,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 4,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 62
+    },
+    {
+      "name": "LVL 10 FIGHTER",
+      "name_plural": "LVL 10 FIGHTERS",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MEN IN ARMOR",
+      "pic": 4,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 0,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 63,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 63
+    },
+    {
+      "name": "LVL 7 MAGE",
+      "name_plural": "LVL 7 MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 8,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 61,
+      "team_percent": 30,
+      "mage_spells": 5,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 64
+    },
+    {
+      "name": "LVL 7 THIEF",
+      "name_plural": "LVL 7 THIEVES",
+      "name_unknown": "MAN IN LEATHER",
+      "name_unknown_plural": "MEN IN LEATHER",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 3,
+      "ac": 4,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 62,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 32,
+      "index": 65
+    },
+    {
+      "name": "LVL 8 NINJA",
+      "name_plural": "LVL 8 NINJAS",
+      "name_unknown": "MONK",
+      "name_unknown_plural": "MONKS",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 3,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 4,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 60,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 8,
+      "index": 66
+    },
+    {
+      "name": "EARTH GIANT",
+      "name_plural": "EARTH GIANTS",
+      "name_unknown": "GIANT",
+      "name_unknown_plural": "GIANTS",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 40
+      },
+      "class": 5,
+      "ac": 9,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 0,
+      "team_percent": 0,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 85,
+      "wep_vs_type3": 64,
+      "sppc": 0,
+      "index": 67
+    },
+    {
+      "name": "LESSER DEMON",
+      "name_plural": "LESSER DEMONS",
+      "name_unknown": "DEMON",
+      "name_unknown_plural": "DEMONS",
+      "pic": 17,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 11,
+      "ac": 4,
+      "num_attack_types": 5,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 4
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 66,
+      "team_percent": 80,
+      "mage_spells": 3,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 60,
+      "wep_vs_type3": 0,
+      "sppc": 64,
+      "index": 68
+    },
+    {
+      "name": "CHIMERA",
+      "name_plural": "CHIMERAS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 15,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 9,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 2,
+      "num_attack_types": 6,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 6,
+      "reward2": 16,
+      "team_monster": 54,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 1,
+      "unaffect": 0,
+      "wep_vs_type3": 2,
+      "sppc": 0,
+      "index": 69
+    },
+    {
+      "name": "FIRE GIANT",
+      "name_plural": "FIRE GIANT",
+      "name_unknown": "GIANT",
+      "name_unknown_plural": "GIANT",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 11,
+        "die_size": 8,
+        "bonus": 4
+      },
+      "class": 5,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 5,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 68,
+      "team_percent": 10,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 2,
+      "sppc": 0,
+      "index": 70
+    },
+    {
+      "name": "GORGON",
+      "name_plural": "GORGONS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 10,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 6,
+      "ac": 2,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 69,
+      "team_percent": 50,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 5,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 71
+    },
+    {
+      "name": "LVL 8 BISHOP",
+      "name_plural": "LVL 8 BISHOPS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 2,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 4
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 71,
+      "team_percent": 20,
+      "mage_spells": 3,
+      "priest_spells": 4,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 72
+    },
+    {
+      "name": "LVL 8 FIGHTER",
+      "name_plural": "LVL 8 FIGHTERS",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MEN IN ARMOR",
+      "pic": 4,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": -1,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 2
+        },
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 2
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 73,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 73
+    },
+    {
+      "name": "LVL 10 MAGE",
+      "name_plural": "LVL 10 MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 10,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 71,
+      "team_percent": 30,
+      "mage_spells": 5,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 74
+    },
+    {
+      "name": "THIEF",
+      "name_plural": "THIEVES",
+      "name_unknown": "MAN IN LEATHER",
+      "name_unknown_plural": "MEN IN LEATHER",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 9,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 3,
+      "ac": 4,
+      "num_attack_types": 4,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 3,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 2,
+          "die_size": 10,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 71,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 32,
+      "index": 75
+    },
+    {
+      "name": "MASTER NINJA",
+      "name_plural": "MASTER NINJAS",
+      "name_unknown": "MAN IN ROBE",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 3,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 3
+        },
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 3
+        },
+        {
+          "num_dice": 1,
+          "die_size": 10,
+          "special": 3
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 64,
+      "team_percent": 30,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 8,
+      "index": 76
+    },
+    {
+      "name": "MURPHY'S GHOST",
+      "name_plural": "MURPHY'S GHOSTS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITIES",
+      "pic": 5,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 10,
+        "bonus": 10
+      },
+      "class": 10,
+      "ac": -3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 1,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 1,
+      "reward1": 3,
+      "reward2": 3,
+      "team_monster": 77,
+      "team_percent": 80,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 40,
+      "wep_vs_type3": 126,
+      "sppc": 16,
+      "index": 77
+    },
+    {
+      "name": "WILL O' WISP",
+      "name_plural": "WILL O' WISPS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITIES",
+      "pic": 6,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 2,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 13,
+      "ac": -8,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 0,
+      "team_percent": 0,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 95,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 78
+    },
+    {
+      "name": "BLEEB",
+      "name_plural": "BLEEBS",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 12,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 0,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 1
+        },
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 7,
+      "reward2": 17,
+      "team_monster": 76,
+      "team_percent": 20,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 127,
+      "sppc": 96,
+      "index": 79
+    },
+    {
+      "name": "FROST GIANT",
+      "name_plural": "FROST GIANTS",
+      "name_unknown": "GIANT",
+      "name_unknown_plural": "GIANTS",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 50
+      },
+      "class": 5,
+      "ac": 6,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 3,
+          "die_size": 10,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 75,
+      "team_percent": 30,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 95,
+      "wep_vs_type3": 4,
+      "sppc": 0,
+      "index": 80
+    },
+    {
+      "name": "FIRE DRAGON",
+      "name_plural": "FIRE DRAGON",
+      "name_unknown": "DRAGON",
+      "name_unknown_plural": "DRAGON",
+      "pic": 15,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 12,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 7,
+      "ac": -1,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 4,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 0,
+      "team_percent": 0,
+      "mage_spells": 5,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 1,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 81
+    },
+    {
+      "name": "HIGH PRIEST",
+      "name_plural": "HIGH PRIEST",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIEST",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 11,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 2,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 70,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 6,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 82
+    },
+    {
+      "name": "HIGH WIZARD",
+      "name_plural": "HIGH WIZARDS",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 12,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 4,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 72,
+      "team_percent": 100,
+      "mage_spells": 6,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 2,
+      "sppc": 0,
+      "index": 83
+    },
+    {
+      "name": "MASTER THIEF",
+      "name_plural": "MASTER THIEVES",
+      "name_unknown": "MAN IN LEATHER",
+      "name_unknown_plural": "MEN IN LEATHER",
+      "pic": 3,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 12,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "class": 3,
+      "ac": 2,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 5,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 73,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 8,
+      "sppc": 32,
+      "index": 84
+    },
+    {
+      "name": "HATAMOTO",
+      "name_plural": "HATAMOTOS",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 12,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": -1,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 74,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 8,
+      "index": 85
+    },
+    {
+      "name": "VAMPIRE",
+      "name_plural": "VAMPIRES",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITY",
+      "pic": 2,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 11,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 10,
+      "ac": -1,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 2,
+      "heal": 1,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 86,
+      "team_percent": 15,
+      "mage_spells": 3,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 20,
+      "wep_vs_type3": 56,
+      "sppc": 4,
+      "index": 86
+    },
+    {
+      "name": "GREATER DEMON",
+      "name_plural": "GREATER DEMONS",
+      "name_unknown": "DEMON",
+      "name_unknown_plural": "DEMONS",
+      "pic": 17,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 11,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 11,
+      "ac": -3,
+      "num_attack_types": 5,
+      "attacks": [
+        {
+          "num_dice": 2,
+          "die_size": 12,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 6,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 1,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 66,
+      "team_percent": 70,
+      "mage_spells": 5,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 95,
+      "wep_vs_type3": 0,
+      "sppc": 70,
+      "index": 87
+    },
+    {
+      "name": "POISON GIANT",
+      "name_plural": "POISON GIANTS",
+      "name_unknown": "GIANT",
+      "name_unknown_plural": "GIANTS",
+      "pic": 16,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 80
+      },
+      "class": 5,
+      "ac": 3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 4,
+          "die_size": 10,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 78,
+      "team_percent": 50,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 3,
+      "unaffect": 95,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 88
+    },
+    {
+      "name": "DRAGON ZOMBIE",
+      "name_plural": "DRAGON ZOMBIES",
+      "name_unknown": "DRAGON",
+      "name_unknown_plural": "DRAGONS",
+      "pic": 15,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 12,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 10,
+      "ac": -2,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 12,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 8,
+      "reward2": 18,
+      "team_monster": 79,
+      "team_percent": 10,
+      "mage_spells": 5,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 4,
+      "unaffect": 25,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 89
+    },
+    {
+      "name": "RAVER LORD",
+      "name_plural": "RAVER LORDS",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MEN IN ARMOR",
+      "pic": 4,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 15,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": 10,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 3,
+          "die_size": 12,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 12,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 2,
+      "reward1": 9,
+      "reward2": 19,
+      "team_monster": 82,
+      "team_percent": 100,
+      "mage_spells": 5,
+      "priest_spells": 4,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 2,
+      "sppc": 0,
+      "index": 90
+    },
+    {
+      "name": "THE HIGH MASTER",
+      "name_plural": "HIGH MASTERS",
+      "name_unknown": "CONEHEAD",
+      "name_unknown_plural": "CONEHEADS",
+      "pic": 1,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 15,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": -2,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 3,
+          "die_size": 12,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 12,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 6,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 9,
+      "reward2": 19,
+      "team_monster": 85,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 126,
+      "sppc": 8,
+      "index": 91
+    },
+    {
+      "name": "FLACK",
+      "name_plural": "FLECK",
+      "name_unknown": "STRANGE ANIMAL",
+      "name_unknown_plural": "STRANGE ANIMALS",
+      "pic": 0,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 15,
+        "die_size": 12,
+        "bonus": 0
+      },
+      "class": 8,
+      "ac": -3,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 4,
+          "die_size": 8,
+          "special": 3
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 9,
+      "reward2": 19,
+      "team_monster": 77,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 2,
+      "unaffect": 0,
+      "wep_vs_type3": 127,
+      "sppc": 15,
+      "index": 92
+    },
+    {
+      "name": "ARCH MAGE",
+      "name_plural": "ARCH MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 20,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 0,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 9,
+      "reward2": 19,
+      "team_monster": 83,
+      "team_percent": 100,
+      "mage_spells": 6,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 93
+    },
+    {
+      "name": "MAELIFIC",
+      "name_plural": "MAELIFICS",
+      "name_unknown": "UNSEEN BEING",
+      "name_unknown_plural": "UNSEEN BEINGS",
+      "pic": 17,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 0,
+        "bonus": 1
+      },
+      "hp": {
+        "num_dice": 25,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 10,
+      "ac": -5,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 0,
+          "special": 1
+        }
+      ],
+      "xp": 0,
+      "drain": 3,
+      "heal": 3,
+      "reward1": 9,
+      "reward2": 19,
+      "team_monster": 88,
+      "team_percent": 100,
+      "mage_spells": 7,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 50,
+      "wep_vs_type3": 0,
+      "sppc": 6,
+      "index": 94
+    },
+    {
+      "name": "VAMPIRE LORD",
+      "name_plural": "VAMPIRE LORDS",
+      "name_unknown": "UNSEEN ENTITY",
+      "name_unknown_plural": "UNSEEN ENTITYS",
+      "pic": 2,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 20,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 10,
+      "ac": -5,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 4,
+      "heal": 4,
+      "reward1": 9,
+      "reward2": 19,
+      "team_monster": 86,
+      "team_percent": 100,
+      "mage_spells": 6,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 4,
+      "index": 95
+    },
+    {
+      "name": "W E R D N A",
+      "name_plural": "W E R D N A",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MAN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 10,
+        "die_size": 10,
+        "bonus": 20
+      },
+      "class": 1,
+      "ac": -7,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 8,
+          "die_size": 5,
+          "special": 0
+        },
+        {
+          "num_dice": 8,
+          "die_size": 5,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 4,
+      "heal": 5,
+      "reward1": 20,
+      "reward2": 20,
+      "team_monster": 95,
+      "team_percent": 100,
+      "mage_spells": 7,
+      "priest_spells": 7,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 70,
+      "wep_vs_type3": 14,
+      "sppc": 15,
+      "index": 96
+    },
+    {
+      "name": "HIGH NINJA",
+      "name_plural": "HIGH NINJAS",
+      "name_unknown": "MAN IN KIMONO",
+      "name_unknown_plural": "MEN IN KIMONOS",
+      "pic": 9,
+      "calc1": {
+        "num_dice": 1,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 12,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": -1,
+      "num_attack_types": 3,
+      "attacks": [
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        },
+        {
+          "num_dice": 3,
+          "die_size": 8,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 0,
+      "team_monster": 0,
+      "team_percent": 0,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 8,
+      "index": 97
+    },
+    {
+      "name": "HIGH PRIEST",
+      "name_plural": "HIGH PRIESTS",
+      "name_unknown": "PRIEST",
+      "name_unknown_plural": "PRIESTS",
+      "pic": 8,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 8,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "class": 2,
+      "ac": 2,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 8,
+          "special": 4
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 0,
+      "team_monster": 97,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 5,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 98
+    },
+    {
+      "name": "LVL 7 MAGE",
+      "name_plural": "LVL 7 MAGES",
+      "name_unknown": "MAN IN ROBES",
+      "name_unknown_plural": "MEN IN ROBES",
+      "pic": 7,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "class": 1,
+      "ac": 8,
+      "num_attack_types": 1,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 4,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 0,
+      "reward2": 0,
+      "team_monster": 98,
+      "team_percent": 100,
+      "mage_spells": 4,
+      "priest_spells": 0,
+      "unique": -1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 16,
+      "index": 99
+    },
+    {
+      "name": "LVL 7 FIGHTER",
+      "name_plural": "LVL 7 FIGHTERS",
+      "name_unknown": "MAN IN ARMOR",
+      "name_unknown_plural": "MEN IN ARMOR",
+      "pic": 4,
+      "calc1": {
+        "num_dice": 2,
+        "die_size": 1,
+        "bonus": 0
+      },
+      "hp": {
+        "num_dice": 7,
+        "die_size": 10,
+        "bonus": 0
+      },
+      "class": 0,
+      "ac": 0,
+      "num_attack_types": 2,
+      "attacks": [
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 0
+        },
+        {
+          "num_dice": 1,
+          "die_size": 12,
+          "special": 0
+        }
+      ],
+      "xp": 0,
+      "drain": 0,
+      "heal": 0,
+      "reward1": 21,
+      "reward2": 21,
+      "team_monster": 99,
+      "team_percent": 100,
+      "mage_spells": 0,
+      "priest_spells": 0,
+      "unique": 1,
+      "breathe": 0,
+      "unaffect": 0,
+      "wep_vs_type3": 0,
+      "sppc": 0,
+      "index": 100
+    }
+  ],
+  "items": [
+    {
+      "name": "BROKEN ITEM",
+      "name_unknown": "BROKEN ITEM",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 0
+    },
+    {
+      "name": "LONG SWORD",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 25,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 4,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 1
+    },
+    {
+      "name": "SHORT SWORD",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 15,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 3,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 2
+    },
+    {
+      "name": "ANOINTED MACE",
+      "name_unknown": "KNOBBED STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 30,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 245,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 2,
+      "damage": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 3
+    },
+    {
+      "name": "ANOINTED FLAIL",
+      "name_unknown": "STICK W/CHAIN",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 150,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 3,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 7,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 4
+    },
+    {
+      "name": "STAFF",
+      "name_unknown": "STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 10,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 5
+    },
+    {
+      "name": "DAGGER",
+      "name_unknown": "DAGGER",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 5,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 235,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 6
+    },
+    {
+      "name": "SMALL SHIELD",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 20,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 253,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 7
+    },
+    {
+      "name": "LARGE SHIELD",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 40,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 3,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 8
+    },
+    {
+      "name": "ROBES",
+      "name_unknown": "CLOTHING",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 15,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 1,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 9
+    },
+    {
+      "name": "LEATHER ARMOR",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 50,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 253,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 10
+    },
+    {
+      "name": "CHAIN MAIL",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 90,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 3,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 11
+    },
+    {
+      "name": "BREAST PLATE",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 200,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 4,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 12
+    },
+    {
+      "name": "PLATE MAIL",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 750,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 5,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 13
+    },
+    {
+      "name": "HELM",
+      "name_unknown": "HELM",
+      "type": "helmet",
+      "type_id": 3,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 100,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 1,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 14
+    },
+    {
+      "name": "DIOS POTION",
+      "name_unknown": "POTION",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 500,
+      "stock": -1,
+      "spell_power": 23,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 15
+    },
+    {
+      "name": "LATUMOFIS POT.",
+      "name_unknown": "POTION",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 300,
+      "stock": -1,
+      "spell_power": 37,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 16
+    },
+    {
+      "name": "LONG SWORD+1",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 5,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 1
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 17
+    },
+    {
+      "name": "SHORT SWORD+1",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 70536,
+      "stock": 2,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 4,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 1
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 18
+    },
+    {
+      "name": "MACE+1",
+      "name_unknown": "KNOBBED STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 68036,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 245,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 3,
+      "damage": {
+        "num_dice": 2,
+        "die_size": 4,
+        "bonus": 1
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 19
+    },
+    {
+      "name": "STAFF OF MOGREF",
+      "name_unknown": "STAFF",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 25,
+      "price": 3000,
+      "stock": 1,
+      "spell_power": 2,
+      "class_use": 18,
+      "usable_by": [
+        "mage",
+        "bishop"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 20
+    },
+    {
+      "name": "SCROLL/KANTINO",
+      "name_unknown": "SCROLL",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 500,
+      "stock": 1,
+      "spell_power": 3,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 21
+    },
+    {
+      "name": "LEATHER + 1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 253,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 3,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 22
+    },
+    {
+      "name": "CHAIN MAIL + 1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 4,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 23
+    },
+    {
+      "name": "PLATE MAIL + 1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": 1,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 6,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 24
+    },
+    {
+      "name": "SHIELD + 1",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 237,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 4,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 25
+    },
+    {
+      "name": "BREAST PLATE +1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 5,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 26
+    },
+    {
+      "name": "SCROLL/BADIOS",
+      "name_unknown": "PAPER",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 25,
+      "price": 500,
+      "stock": -1,
+      "spell_power": 24,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 27
+    },
+    {
+      "name": "SCROLL/HALITO",
+      "name_unknown": "SCROLL",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 500,
+      "stock": 25,
+      "spell_power": 1,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 28
+    },
+    {
+      "name": "LONG SWORD -1",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": -1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 29
+    },
+    {
+      "name": "SHORT SWORD -1",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1000,
+      "stock": 1,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": -1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 30
+    },
+    {
+      "name": "MACE -1",
+      "name_unknown": "KNOBBED STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 245,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": -1,
+      "damage": {
+        "num_dice": 2,
+        "die_size": 3,
+        "bonus": 0
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 31
+    },
+    {
+      "name": "STAFF +2",
+      "name_unknown": "STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 2500,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 2,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 2
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 32
+    },
+    {
+      "name": "DRAGON SLAYER",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 128,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 10,
+        "bonus": 1
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 128,
+      "index": 33
+    },
+    {
+      "name": "HELM + 1",
+      "name_unknown": "HELM",
+      "type": "helmet",
+      "type_id": 3,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 3000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 34
+    },
+    {
+      "name": "LEATHER -1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 125,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 1,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 35
+    },
+    {
+      "name": "CHAIN -1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 36
+    },
+    {
+      "name": "BREAST PLATE-1",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 3,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 37
+    },
+    {
+      "name": "SHIELD -1",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1500,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 109,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "samurai",
+        "lord"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": -1,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 38
+    },
+    {
+      "name": "JEWELED AMULET",
+      "name_unknown": "AMULET",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 5000,
+      "stock": 0,
+      "spell_power": 4,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 39
+    },
+    {
+      "name": "SCROLL/BADIOS",
+      "name_unknown": "SCROLL",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 500,
+      "stock": 0,
+      "spell_power": 24,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 40
+    },
+    {
+      "name": "POTION OF SOPIC",
+      "name_unknown": "POTION",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 1500,
+      "stock": 1,
+      "spell_power": 6,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 41
+    },
+    {
+      "name": "LONG SWORD + 2",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 4000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 6,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 10,
+        "bonus": 2
+      },
+      "extra_swings": 3,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 42
+    },
+    {
+      "name": "SHORT SWORD +2",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 4000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 5,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 2
+      },
+      "extra_swings": 3,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 43
+    },
+    {
+      "name": "MACE + 2",
+      "name_unknown": "KNOBBED STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 4000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 245,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 4,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 2
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 44
+    },
+    {
+      "name": "SCROLL/LOMILWA",
+      "name_unknown": "SCROLL",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 2500,
+      "stock": 0,
+      "spell_power": 31,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 45
+    },
+    {
+      "name": "SCROLL/DILTO",
+      "name_unknown": "SCROLL",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 2500,
+      "stock": 0,
+      "spell_power": 5,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 46
+    },
+    {
+      "name": "COPPER GLOVES",
+      "name_unknown": "GLOVES",
+      "type": "gauntlet",
+      "type_id": 4,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 6000,
+      "stock": -1,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 1,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 47
+    },
+    {
+      "name": "LEATHER + 2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 6000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 253,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 4,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 48
+    },
+    {
+      "name": "CHAIN + 2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 6000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 5,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 49
+    },
+    {
+      "name": "PLATE MAIL + 2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 6000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 7,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 50
+    },
+    {
+      "name": "SHIELD + 2",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 7000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 237,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 5,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 51
+    },
+    {
+      "name": "HELM +2 (EVIL)",
+      "name_unknown": "HELM",
+      "type": "helmet",
+      "type_id": 3,
+      "alignment": 3,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 24,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 3,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 52
+    },
+    {
+      "name": "POTION OF DIAL",
+      "name_unknown": "POTION",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 5000,
+      "stock": 0,
+      "spell_power": 35,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 53
+    },
+    {
+      "name": "RING OF PORFIC",
+      "name_unknown": "RING",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 5,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 26,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 54
+    },
+    {
+      "name": "WERE SLAYER",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 512,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 5,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 10,
+        "bonus": 1
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 512,
+      "index": 55
+    },
+    {
+      "name": "MAGE MASHER",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 2,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 5,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 1
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 2,
+      "index": 56
+    },
+    {
+      "name": "MACE PRO POISON",
+      "name_unknown": "KNOBBED STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 245,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 4096,
+      "wep_vs_type3": 8,
+      "ac_mod": 0,
+      "hit_mod": 3,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 57
+    },
+    {
+      "name": "STAFF/MONTINO",
+      "name_unknown": "STAFF",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 5,
+      "change_chance": 10,
+      "price": 70536,
+      "stock": 0,
+      "spell_power": 30,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 1
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 58
+    },
+    {
+      "name": "BLADE CUSINART'",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 70536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 6,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 3,
+        "bonus": 9
+      },
+      "extra_swings": 4,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 59
+    },
+    {
+      "name": "AMULET/MANIFO",
+      "name_unknown": "AMULET",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 10,
+      "price": 70536,
+      "stock": 0,
+      "spell_power": 29,
+      "class_use": 4,
+      "usable_by": [
+        "priest"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 60
+    },
+    {
+      "name": "ROD OF FLAME",
+      "name_unknown": "ROD",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 10,
+      "price": 136072,
+      "stock": 0,
+      "spell_power": 7,
+      "class_use": 50,
+      "usable_by": [
+        "mage",
+        "bishop",
+        "samurai"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 2,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 61
+    },
+    {
+      "name": "EVIL CHAIN + 2",
+      "name_unknown": "CHAIN",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 3,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 5,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 62
+    },
+    {
+      "name": "NEUT P-MAIL + 2",
+      "name_unknown": "PLATE ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 2,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 7,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 63
+    },
+    {
+      "name": "EVIL SHIELD +3",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 3,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 136072,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 237,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 5,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 64
+    },
+    {
+      "name": "AMULET/MAKANITO",
+      "name_unknown": "AMULET",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 5,
+      "price": 131072,
+      "stock": 0,
+      "spell_power": 13,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 65
+    },
+    {
+      "name": "DIADEM OF MALOR",
+      "name_unknown": "DIADEM",
+      "type": "helmet",
+      "type_id": 3,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 14,
+      "change_chance": 100,
+      "price": 136072,
+      "stock": 0,
+      "spell_power": 19,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 66
+    },
+    {
+      "name": "SCROLL/BADIAL",
+      "name_unknown": "SCROLL",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 36,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 67
+    },
+    {
+      "name": "SHORT SWORD -2",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 68
+    },
+    {
+      "name": "DAGGER + 2",
+      "name_unknown": "DAGGER",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 235,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 3,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 2
+      },
+      "extra_swings": 2,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 69
+    },
+    {
+      "name": "MACE -2",
+      "name_unknown": "KNOBBED STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 245,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 8,
+        "bonus": 0
+      },
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 70
+    },
+    {
+      "name": "STAFF -2",
+      "name_unknown": "STICK",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": -2,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "extra_swings": 1,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 71
+    },
+    {
+      "name": "DAGGER OF SPEED",
+      "name_unknown": "DAGGER",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 196608,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 130,
+      "usable_by": [
+        "mage",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": -3,
+      "hit_mod": -1,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 4,
+        "bonus": 0
+      },
+      "extra_swings": 7,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 72
+    },
+    {
+      "name": "CURSED ROBE",
+      "name_unknown": "ROBE",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": -2,
+      "hit_mod": -2,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 73
+    },
+    {
+      "name": "LEATHER -2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 253,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 74
+    },
+    {
+      "name": "CHAIN -2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 1,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 75
+    },
+    {
+      "name": "BREAST PLATE -2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 76
+    },
+    {
+      "name": "SHIELD - 2",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 8000,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 237,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 77
+    },
+    {
+      "name": "CURSED HELMET",
+      "name_unknown": "HELM",
+      "type": "helmet",
+      "type_id": 3,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 327680,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": -2,
+      "hit_mod": -2,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 78
+    },
+    {
+      "name": "BREAST PLATE +2",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 65536,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 6,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 79
+    },
+    {
+      "name": "SILVER GLOVES",
+      "name_unknown": "GAUNTLETS",
+      "type": "gauntlet",
+      "type_id": 4,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 393216,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 3,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 80
+    },
+    {
+      "name": "EVIL SWORD + 3",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 3,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 327680,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 225,
+      "usable_by": [
+        "fighter",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 7,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 10,
+        "bonus": 3
+      },
+      "extra_swings": 4,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 81
+    },
+    {
+      "name": "EVIL SSWORD + 3",
+      "name_unknown": "SWORD",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 327680,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 233,
+      "usable_by": [
+        "fighter",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 6,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "extra_swings": 4,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 82
+    },
+    {
+      "name": "THIEVES DAGGER",
+      "name_unknown": "DAGGER",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": 17,
+      "change_to": 0,
+      "change_chance": 100,
+      "price": 327680,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 136,
+      "usable_by": [
+        "thief",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 5,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 6,
+        "bonus": 0
+      },
+      "extra_swings": 4,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 83
+    },
+    {
+      "name": "BREAST PLATE +3",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 655360,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 7,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 84
+    },
+    {
+      "name": "LORDS GARB",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": 23,
+      "change_to": 0,
+      "change_chance": 50,
+      "price": 6553600,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 64,
+      "usable_by": [
+        "lord"
+      ],
+      "heal_pts": 1,
+      "wep_vs_type2": 192,
+      "wep_vs_type3": 0,
+      "ac_mod": 10,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": true,
+      "wep_vs_type": 3584,
+      "index": 85
+    },
+    {
+      "name": "MURASAMA BLADE",
+      "name_unknown": "WEAPON",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 0,
+      "cursed": false,
+      "special": 1,
+      "change_to": 0,
+      "change_chance": 50,
+      "price": 6553600,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 32,
+      "usable_by": [
+        "samurai"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 8,
+      "damage": {
+        "num_dice": 10,
+        "die_size": 5,
+        "bonus": 0
+      },
+      "extra_swings": 3,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 86
+    },
+    {
+      "name": "SHURIKEN",
+      "name_unknown": "WEAPON",
+      "type": "weapon",
+      "type_id": 0,
+      "alignment": 3,
+      "cursed": false,
+      "special": 22,
+      "change_to": 0,
+      "change_chance": 50,
+      "price": 327680,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 128,
+      "usable_by": [
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 24,
+      "ac_mod": 0,
+      "hit_mod": 7,
+      "damage": {
+        "num_dice": 1,
+        "die_size": 5,
+        "bonus": 10
+      },
+      "extra_swings": 3,
+      "crit_hit": true,
+      "wep_vs_type": 0,
+      "index": 87
+    },
+    {
+      "name": "CHAIN PRO FIRE",
+      "name_unknown": "ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 983040,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 2,
+      "ac_mod": 6,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 88
+    },
+    {
+      "name": "EVIL PLATE + 3",
+      "name_unknown": "PLATE ARMOR",
+      "type": "armor",
+      "type_id": 1,
+      "alignment": 3,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 983040,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 229,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 9,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 89
+    },
+    {
+      "name": "SHIELD + 3",
+      "name_unknown": "SHIELD",
+      "type": "shield",
+      "type_id": 2,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1638400,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 237,
+      "usable_by": [
+        "fighter",
+        "priest",
+        "thief",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 6,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 90
+    },
+    {
+      "name": "RING OF HEALING",
+      "name_unknown": "RING",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 1966080,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 1,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 91
+    },
+    {
+      "name": "RING PRO UNDEAD",
+      "name_unknown": "RING",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 3276800,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 0,
+      "wep_vs_type2": 1024,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 92
+    },
+    {
+      "name": "DEADLY RING",
+      "name_unknown": "RING",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 0,
+      "cursed": true,
+      "special": -1,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 3276800,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": -3,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 93
+    },
+    {
+      "name": "WERDNA'S AMULET",
+      "name_unknown": "AMULET",
+      "type": "misc",
+      "type_id": 6,
+      "alignment": 3,
+      "cursed": true,
+      "special": 23,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 42946033297167,
+      "stock": 0,
+      "spell_power": 19,
+      "class_use": 255,
+      "usable_by": [
+        "fighter",
+        "mage",
+        "priest",
+        "thief",
+        "bishop",
+        "samurai",
+        "lord",
+        "ninja"
+      ],
+      "heal_pts": 5,
+      "wep_vs_type2": 8191,
+      "wep_vs_type3": 127,
+      "ac_mod": 10,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 94
+    },
+    {
+      "name": "STATUETTE/BEAR",
+      "name_unknown": "STATUETTE/BEAR",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 95
+    },
+    {
+      "name": "STATUETTE/FROG",
+      "name_unknown": "STATUETTE/FROG",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 2,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 96
+    },
+    {
+      "name": "BRONZE KEY",
+      "name_unknown": "BRONZE KEY",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 97
+    },
+    {
+      "name": "SILVER KEY",
+      "name_unknown": "SILVER KEY",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 98
+    },
+    {
+      "name": "GOLD KEY",
+      "name_unknown": "GOLD KEY",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 99
+    },
+    {
+      "name": "BLUE RIBBON",
+      "name_unknown": "BLUE RIBBON",
+      "type": "special",
+      "type_id": 5,
+      "alignment": 0,
+      "cursed": false,
+      "special": 0,
+      "change_to": 0,
+      "change_chance": 0,
+      "price": 0,
+      "stock": 0,
+      "spell_power": 0,
+      "class_use": 0,
+      "usable_by": [],
+      "heal_pts": 0,
+      "wep_vs_type2": 0,
+      "wep_vs_type3": 0,
+      "ac_mod": 0,
+      "hit_mod": 0,
+      "damage": null,
+      "extra_swings": 0,
+      "crit_hit": false,
+      "wep_vs_type": 0,
+      "index": 100
+    }
+  ],
+  "rewards": [
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 2,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [],
+      "index": 0
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 4,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [],
+      "index": 1
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 6,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 0,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 6
+        }
+      ],
+      "index": 2
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 25,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 8,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 70,
+          "type": "item",
+          "item_start": 3,
+          "item_count": 7
+        }
+      ],
+      "index": 3
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 27,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 5,
+          "item_count": 4,
+          "bonus_start": 4,
+          "bonus_param": 2,
+          "bonus_count": 0
+        }
+      ],
+      "index": 4
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 155,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 12,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 40,
+          "type": "item",
+          "item_start": 5,
+          "item_count": 4,
+          "bonus_start": 4,
+          "bonus_param": 1,
+          "bonus_count": 0
+        },
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 15,
+          "item_count": 4,
+          "bonus_start": 5,
+          "bonus_param": 2,
+          "bonus_count": 20
+        }
+      ],
+      "index": 5
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [],
+      "index": 6
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 2,
+        "gold_extra": 0
+      },
+      "slots": [],
+      "index": 7
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 4,
+        "gold_extra": 0
+      },
+      "slots": [],
+      "index": 8
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 239,
+        "tier": 1,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 8,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 10,
+          "item_count": 5,
+          "bonus_start": 5,
+          "bonus_param": 1,
+          "bonus_count": 30
+        }
+      ],
+      "index": 9
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 11,
+        "tier": 2,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 2,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 10,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 15
+        }
+      ],
+      "index": 10
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 15,
+        "tier": 3,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 4,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 20,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 15
+        },
+        {
+          "chance": 10,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        }
+      ],
+      "index": 11
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 27,
+        "tier": 3,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 6,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 30,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 15
+        },
+        {
+          "chance": 15,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        }
+      ],
+      "index": 12
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 31,
+        "tier": 3,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 8,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 40,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 15
+        },
+        {
+          "chance": 20,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        }
+      ],
+      "index": 13
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 47,
+        "tier": 4,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 15
+        },
+        {
+          "chance": 30,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        },
+        {
+          "chance": 10,
+          "type": "item",
+          "item_start": 33,
+          "item_count": 18
+        }
+      ],
+      "index": 14
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 143,
+        "tier": 4,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 12,
+        "gold_sides": 5,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 1,
+          "item_count": 15
+        },
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        },
+        {
+          "chance": 20,
+          "type": "item",
+          "item_start": 33,
+          "item_count": 18
+        }
+      ],
+      "index": 15
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 121,
+        "tier": 4,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 1,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 75,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        },
+        {
+          "chance": 25,
+          "type": "item",
+          "item_start": 33,
+          "item_count": 18
+        },
+        {
+          "chance": 10,
+          "type": "item",
+          "item_start": 52,
+          "item_count": 27
+        }
+      ],
+      "index": 16
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 151,
+        "tier": 4,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 2,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 17,
+          "item_count": 15
+        },
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 33,
+          "item_count": 18
+        },
+        {
+          "chance": 15,
+          "type": "item",
+          "item_start": 52,
+          "item_count": 27
+        }
+      ],
+      "index": 17
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 102,
+        "tier": 4,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 4,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 70,
+          "type": "item",
+          "item_start": 33,
+          "item_count": 18
+        },
+        {
+          "chance": 25,
+          "type": "item",
+          "item_start": 52,
+          "item_count": 27
+        },
+        {
+          "chance": 5,
+          "type": "item",
+          "item_start": 79,
+          "item_count": 13
+        }
+      ],
+      "index": 18
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 255,
+        "tier": 4,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 0,
+        "gold_range": 10,
+        "gold_min": 1,
+        "gold_mult": 8,
+        "gold_extra": 0
+      },
+      "slots": [
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 33,
+          "item_count": 18
+        },
+        {
+          "chance": 50,
+          "type": "item",
+          "item_start": 52,
+          "item_count": 27
+        },
+        {
+          "chance": 10,
+          "type": "item",
+          "item_start": 78,
+          "item_count": 13
+        }
+      ],
+      "index": 19
+    },
+    {
+      "header": {
+        "chest": false,
+        "trap_level": 0,
+        "tier": 1,
+        "base_prob": 100,
+        "special": true,
+        "gold_dice": 94,
+        "gold_sides": 0,
+        "gold_bonus": 0,
+        "gold_range": 0,
+        "gold_min": 0,
+        "gold_mult": 5,
+        "gold_extra": 5
+      },
+      "slots": [],
+      "index": 20
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 158,
+        "tier": 3,
+        "base_prob": 100,
+        "special": true,
+        "gold_dice": 16,
+        "gold_sides": 0,
+        "gold_bonus": 0,
+        "gold_range": 0,
+        "gold_min": 0,
+        "gold_mult": 4,
+        "gold_extra": 4
+      },
+      "slots": [
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 93,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 61,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 84,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 59,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 81,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 77,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "item",
+          "item_start": 16,
+          "item_count": 0
+        },
+        {
+          "chance": 100,
+          "type": "gold",
+          "gold_amount": 12000,
+          "params": [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0
+          ]
+        }
+      ],
+      "index": 21
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 190,
+        "tier": 3,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 15,
+        "gold_bonus": 10,
+        "gold_range": 5,
+        "gold_min": 5,
+        "gold_mult": 5,
+        "gold_extra": 5
+      },
+      "slots": [
+        {
+          "chance": 60,
+          "type": "item",
+          "item_start": 50,
+          "item_count": 15,
+          "bonus_start": 10,
+          "bonus_param": 0,
+          "bonus_count": 0
+        },
+        {
+          "chance": 20,
+          "type": "item",
+          "item_start": 50,
+          "item_count": 20,
+          "bonus_start": 10,
+          "bonus_param": 0,
+          "bonus_count": 0
+        }
+      ],
+      "index": 22
+    },
+    {
+      "header": {
+        "chest": true,
+        "trap_level": 254,
+        "tier": 3,
+        "base_prob": 100,
+        "special": false,
+        "gold_dice": 10,
+        "gold_sides": 10,
+        "gold_bonus": 10,
+        "gold_range": 7,
+        "gold_min": 5,
+        "gold_mult": 5,
+        "gold_extra": 5
+      },
+      "slots": [
+        {
+          "chance": 30,
+          "type": "item",
+          "item_start": 40,
+          "item_count": 5,
+          "bonus_start": 5,
+          "bonus_param": 5,
+          "bonus_count": 30
+        },
+        {
+          "chance": 30,
+          "type": "item",
+          "item_start": 50,
+          "item_count": 10,
+          "bonus_start": 10,
+          "bonus_param": 1,
+          "bonus_count": 50
+        }
+      ],
+      "index": 23
+    }
+  ],
+  "exp_table": {
+    "fighter": {
+      "cap": 1844717,
+      "levels": {
+        "2": 1000,
+        "3": 1724,
+        "4": 2972,
+        "5": 5124,
+        "6": 8834,
+        "7": 70767,
+        "8": 137332,
+        "9": 267419,
+        "10": 466812,
+        "11": 856554,
+        "12": 1509372,
+        "13": 2621515
+      }
+    },
+    "mage": {
+      "cap": 2040145,
+      "levels": {
+        "2": 1100,
+        "3": 1896,
+        "4": 3268,
+        "5": 5634,
+        "6": 9713,
+        "7": 72282,
+        "8": 139944,
+        "9": 271923,
+        "10": 530113,
+        "11": 925478,
+        "12": 1643527,
+        "13": 2827922
+      }
+    },
+    "priest": {
+      "cap": 1970212,
+      "levels": {
+        "2": 1050,
+        "3": 1810,
+        "4": 3120,
+        "5": 5379,
+        "6": 9274,
+        "7": 71525,
+        "8": 138639,
+        "9": 269673,
+        "10": 526234,
+        "11": 918790,
+        "12": 1576460,
+        "13": 2696969
+      }
+    },
+    "thief": {
+      "cap": 1704575,
+      "levels": {
+        "2": 900,
+        "3": 1551,
+        "4": 2674,
+        "5": 4610,
+        "6": 7948,
+        "7": 69239,
+        "8": 134697,
+        "9": 262876,
+        "10": 458979,
+        "11": 787513,
+        "12": 1319480,
+        "13": 2303691
+      }
+    },
+    "bishop": {
+      "cap": 2826527,
+      "levels": {
+        "2": 1200,
+        "3": 2105,
+        "4": 3692,
+        "5": 6477,
+        "6": 66899,
+        "7": 75471,
+        "8": 201581,
+        "9": 394572,
+        "10": 663002,
+        "11": 1188493,
+        "12": 2163995,
+        "13": 3802328
+      }
+    },
+    "samurai": {
+      "cap": 2955721,
+      "levels": {
+        "2": 1250,
+        "3": 2192,
+        "4": 3845,
+        "5": 6745,
+        "6": 67369,
+        "7": 131831,
+        "8": 203027,
+        "9": 397108,
+        "10": 722987,
+        "11": 1251834,
+        "12": 2233224,
+        "13": 3937423
+      }
+    },
+    "lord": {
+      "cap": 3085200,
+      "levels": {
+        "2": 1300,
+        "3": 2280,
+        "4": 4000,
+        "5": 7017,
+        "6": 67846,
+        "7": 132668,
+        "8": 204495,
+        "9": 399684,
+        "10": 727506,
+        "11": 1315298,
+        "12": 2302668,
+        "13": 4072895
+      }
+    },
+    "ninja": {
+      "cap": 3417628,
+      "levels": {
+        "2": 1450,
+        "3": 2543,
+        "4": 4461,
+        "5": 7826,
+        "6": 69265,
+        "7": 135157,
+        "8": 264398,
+        "9": 462881,
+        "10": 852018,
+        "11": 1449949,
+        "12": 2621715,
+        "13": 4589756
+      }
+    }
+  }
+}
