@@ -50,15 +50,14 @@ func expandPath(path string) string {
 	return filepath.Clean(path)
 }
 
-// BackupRoster copies the current roster.json to the given path.
+// BackupRoster copies the current roster file to the given path.
 func BackupRoster(game *GameState, destPath string) error {
 	destPath = expandPath(destPath)
 	key := scenarioKey(game.Scenario.Game)
-	dir, err := SaveDir(key)
+	srcPath, err := RosterPath(key)
 	if err != nil {
 		return err
 	}
-	srcPath := dir + "/roster.json"
 	data, err := os.ReadFile(srcPath)
 	if err != nil {
 		return fmt.Errorf("read roster: %w", err)
@@ -69,7 +68,7 @@ func BackupRoster(game *GameState, destPath string) error {
 	return nil
 }
 
-// RestoreRoster copies a backup file over the current roster.json and reloads.
+// RestoreRoster copies a backup file over the current roster and reloads.
 func RestoreRoster(game *GameState, srcPath string) error {
 	srcPath = expandPath(srcPath)
 	data, err := os.ReadFile(srcPath)
@@ -77,11 +76,10 @@ func RestoreRoster(game *GameState, srcPath string) error {
 		return fmt.Errorf("read backup: %w", err)
 	}
 	key := scenarioKey(game.Scenario.Game)
-	dir, err := SaveDir(key)
+	destPath, err := RosterPath(key)
 	if err != nil {
 		return err
 	}
-	destPath := dir + "/roster.json"
 	if err := os.WriteFile(destPath, data, 0644); err != nil {
 		return fmt.Errorf("write roster: %w", err)
 	}
@@ -93,29 +91,37 @@ func RestoreRoster(game *GameState, srcPath string) error {
 // Characters are stripped of items and gold (as in the original disk transfer).
 // Dead/Lost characters are skipped.
 func TransferCharacters(game *GameState, sourceScenario string) ([]string, error) {
-	dir, err := SaveDir(sourceScenario)
+	rosterPath, err := RosterPath(sourceScenario)
 	if err != nil {
-		return nil, fmt.Errorf("source save dir: %w", err)
+		return nil, fmt.Errorf("roster path: %w", err)
 	}
-	rosterPath := filepath.Join(dir, "roster.json")
-	data, err := os.ReadFile(rosterPath)
+	rosterData, err := os.ReadFile(rosterPath)
 	if err != nil {
-		return nil, fmt.Errorf("no roster found for %s", sourceScenario)
+		if os.IsNotExist(err) {
+			// Try legacy path
+			legacy := legacyRosterPath(sourceScenario)
+			rosterData, err = os.ReadFile(legacy)
+			if err != nil {
+				return nil, fmt.Errorf("no roster found for scenario %s", sourceScenario)
+			}
+		} else {
+			return nil, fmt.Errorf("read roster: %w", err)
+		}
 	}
 
 	// Save format: {"roster": [characters], "party": [...]}
 	var saveFile struct {
 		Roster []*Character `json:"roster"`
 	}
-	if err := json.Unmarshal(data, &saveFile); err != nil {
+	if err := json.Unmarshal(rosterData, &saveFile); err != nil {
 		return nil, fmt.Errorf("corrupt roster: %w", err)
 	}
 	characters := saveFile.Roster
 
 	scenarioNames := map[string]string{
-		"wiz1": "PROVING GROUNDS",
-		"wiz2": "KNIGHT OF DIAMONDS",
-		"wiz3": "LEGACY OF LLYLGAMYN",
+		"1": "PROVING GROUNDS",
+		"2": "KNIGHT OF DIAMONDS",
+		"3": "LEGACY OF LLYLGAMYN",
 	}
 	srcName := scenarioNames[sourceScenario]
 	if srcName == "" {
@@ -184,18 +190,22 @@ func TransferCharacters(game *GameState, sourceScenario string) ([]string, error
 // excluding the current scenario.
 func AvailableTransferScenarios(currentGame *GameState) []string {
 	current := scenarioKey(currentGame.Scenario.Game)
-	all := []string{"wiz1", "wiz2", "wiz3"}
+	all := []string{"1", "2", "3"}
 	var available []string
 	for _, key := range all {
 		if key == current {
 			continue
 		}
-		dir, err := SaveDir(key)
+		rosterPath, err := RosterPath(key)
 		if err != nil {
 			continue
 		}
-		rosterPath := filepath.Join(dir, "roster.json")
 		if _, err := os.Stat(rosterPath); err == nil {
+			available = append(available, key)
+			continue
+		}
+		// Check legacy path for un-migrated saves
+		if _, err := os.Stat(legacyRosterPath(key)); err == nil {
 			available = append(available, key)
 		}
 	}

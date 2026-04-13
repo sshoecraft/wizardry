@@ -20,7 +20,7 @@ import (
 const version = "0.13.3"
 
 func main() {
-	scenarioName := "wiz1"
+	scenarioName := "1"
 	vpScale := 1.0 // --vpscale: viewport scale (1.0=100%, 1.5=150%, etc.)
 
 	for i := 1; i < len(os.Args); i++ {
@@ -41,8 +41,11 @@ func main() {
 				}
 				vpScale = v
 			}
-		} else {
-			scenarioName = arg
+		} else if strings.HasPrefix(arg, "--scenario=") {
+			scenarioName = strings.TrimPrefix(arg, "--scenario=")
+		} else if arg == "--scenario" && i+1 < len(os.Args) {
+			i++
+			scenarioName = os.Args[i]
 		}
 	}
 
@@ -4292,13 +4295,13 @@ func clamp(val *int, max int) {
 
 func loadScenario(name string) (*data.Scenario, error) {
 	switch name {
-	case "wiz1", "1":
+	case "1":
 		return wiz1.Load()
-	case "wiz2", "2":
+	case "2":
 		return wiz2.Load()
-	case "wiz3", "3":
+	case "3":
 		return wiz3.Load()
 	default:
-		return nil, fmt.Errorf("unknown scenario: %s (use wiz1, wiz2, or wiz3)", name)
+		return nil, fmt.Errorf("unknown scenario: %s (use --scenario=1, --scenario=2, or --scenario=3)", name)
 	}
 }

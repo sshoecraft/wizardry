@@ -13,37 +13,46 @@ type SaveState struct {
 	PartyNames []string     `json:"party"` // character names in party order
 }
 
-// SaveDir returns ~/.config/wizardry/<scenario>/
-func SaveDir(scenario string) (string, error) {
+// RosterPath returns the full path to the roster file for a scenario key.
+// e.g. key "1" -> ~/.config/wizardry/roster1.json
+// Creates ~/.config/wizardry/ if it doesn't exist.
+func RosterPath(key string) (string, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", fmt.Errorf("home dir: %w", err)
 	}
-	dir := filepath.Join(home, ".config", "wizardry", scenario)
+	dir := filepath.Join(home, ".config", "wizardry")
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return "", fmt.Errorf("mkdir %s: %w", dir, err)
 	}
-	return dir, nil
+	return filepath.Join(dir, "roster"+key+".json"), nil
 }
 
-// scenarioKey returns a short key like "wiz1" from the game name.
+// legacyRosterPath returns the old-style path for migration.
+// e.g. key "1" -> ~/.config/wizardry/wiz1/roster.json
+func legacyRosterPath(key string) string {
+	home, _ := os.UserHomeDir()
+	return filepath.Join(home, ".config", "wizardry", "wiz"+key, "roster.json")
+}
+
+// scenarioKey returns "1", "2", or "3" from the game name string.
 func scenarioKey(gameName string) string {
 	switch {
 	case len(gameName) >= 8 && gameName[:8] == "PROVING ":
-		return "wiz1"
+		return "1"
 	case len(gameName) >= 6 && gameName[:6] == "THE KN":
-		return "wiz2"
+		return "2"
 	case len(gameName) >= 6 && gameName[:6] == "THE LE":
-		return "wiz3"
+		return "3"
 	default:
-		return "wiz1"
+		return "1"
 	}
 }
 
 // Save writes the current roster and party to disk.
 func (g *GameState) Save() error {
 	key := scenarioKey(g.Scenario.Game)
-	dir, err := SaveDir(key)
+	path, err := RosterPath(key)
 	if err != nil {
 		return err
 	}
@@ -62,7 +71,6 @@ func (g *GameState) Save() error {
 		return fmt.Errorf("marshal: %w", err)
 	}
 
-	path := filepath.Join(dir, "roster.json")
 	if err := os.WriteFile(path, data, 0644); err != nil {
 		return fmt.Errorf("write %s: %w", path, err)
 	}
@@ -70,20 +78,29 @@ func (g *GameState) Save() error {
 }
 
 // Load reads the roster and party from disk. No error if file doesn't exist.
+// Checks new flat path first, falls back to legacy subdirectory path for migration.
 func (g *GameState) Load() error {
 	key := scenarioKey(g.Scenario.Game)
-	dir, err := SaveDir(key)
+	path, err := RosterPath(key)
 	if err != nil {
 		return err
 	}
 
-	path := filepath.Join(dir, "roster.json")
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil // fresh game, no save yet
+			// Try legacy path: ~/.config/wizardry/wiz<key>/roster.json
+			legacy := legacyRosterPath(key)
+			data, err = os.ReadFile(legacy)
+			if err != nil {
+				if os.IsNotExist(err) {
+					return nil // fresh game, no save yet
+				}
+				return fmt.Errorf("read %s: %w", legacy, err)
+			}
+		} else {
+			return fmt.Errorf("read %s: %w", path, err)
 		}
-		return fmt.Errorf("read %s: %w", path, err)
 	}
 
 	var state SaveState

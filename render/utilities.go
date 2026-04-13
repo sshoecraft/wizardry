@@ -125,9 +125,9 @@ func (s *Screen) RenderUtilities(game *engine.GameState) {
 			s.drawRaw(2, 5, styleNormal, "QUEST ITEMS BLOCK TRANSFER.")
 			s.drawRaw(2, 7, styleNormal, "SELECT SOURCE:")
 			names := map[string]string{
-				"wiz1": "1) PROVING GROUNDS OF THE MAD OVERLORD",
-				"wiz2": "2) KNIGHT OF DIAMONDS",
-				"wiz3": "3) LEGACY OF LLYLGAMYN",
+				"1": "1) PROVING GROUNDS OF THE MAD OVERLORD",
+				"2": "2) KNIGHT OF DIAMONDS",
+				"3": "3) LEGACY OF LLYLGAMYN",
 			}
 			for i, key := range util.TransferSources {
 				name := names[key]

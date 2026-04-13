@@ -100,16 +100,16 @@ sudo make uninstall
 
 ```bash
 # Run Wizardry 1 (default)
-./wizardry wiz1
+./wizardry
 
 # Run Wizardry 2: Knight of Diamonds
-./wizardry wiz2
+./wizardry --scenario=2
 
 # Run Wizardry 3: Legacy of Llylgamyn
-./wizardry wiz3
+./wizardry --scenario=3
 
 # Run with larger viewport (1.5x, 2x, etc.)
-./wizardry wiz1 --vpscale=2
+./wizardry --vpscale=2
 ```
 
 ## Controls
@@ -158,7 +158,7 @@ Navigate town locations by pressing the highlighted letter in each menu option. 
 
 ## Save Files
 
-Game state is saved automatically and stored in `~/.wizardry/` as JSON files. Each scenario has its own save directory.
+Game state (roster and party) is saved automatically to `~/.config/wizardry/roster<N>.json` (e.g. `roster1.json` for scenario 1).
 
 ## License
 
