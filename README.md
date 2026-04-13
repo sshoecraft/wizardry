@@ -10,6 +10,8 @@ A terminal-based recreation of Wizardry: Proving Grounds of the Mad Overlord (an
 
 This is a clean-room implementation of the Wizardry 1-3 game engine for modern terminals. It recreates the original game mechanics, screen layouts, and dungeon rendering as faithfully as possible. All three scenarios share the same engine and data format, and are included in a single binary.
 
+**Current status:** Scenario 1 (Proving Grounds of the Mad Overlord) is complete and playable. Scenarios 2 and 3 are still in development — game data is extracted but scenario-specific features are not yet fully implemented.
+
 **What this is:**
 - A complete, playable Wizardry implementation in Go
 - Wireframe 3D dungeon rendering using Unicode characters (or Sixel graphics)
