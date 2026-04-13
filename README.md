@@ -50,7 +50,7 @@ Sixel mode activates automatically when a compatible terminal is detected.
 
 ### Viewport Scaling
 
-Use the `CLUSTER` command (or `V` key) to adjust viewport scale. `VP SCALE = 2` doubles the dungeon viewport size:
+Use the `--vpscale` flag to adjust viewport scale. `--vpscale=2` doubles the dungeon viewport size:
 
 | Standard VP Scale | VP Scale = 2 |
 |---|---|
@@ -106,6 +106,9 @@ sudo make uninstall
 
 # Run Wizardry 3: Legacy of Llylgamyn
 ./wizardry wiz3
+
+# Run with larger viewport (1.5x, 2x, etc.)
+./wizardry wiz1 --vpscale=2
 ```
 
 ## Controls
@@ -126,7 +129,6 @@ sudo make uninstall
 | Q | Quick plot (fast redraw) |
 | I | Inspect (search for characters) |
 | T | Set animation delay |
-| V | Viewport scale (CLUSTER) |
 
 ### Combat
 
