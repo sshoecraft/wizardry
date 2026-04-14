@@ -87,6 +87,11 @@ func (s *Screen) Size() (int, int) {
 	return s.tcell.Size()
 }
 
+// Colors returns the number of colors the terminal supports.
+func (s *Screen) Colors() int {
+	return s.tcell.Colors()
+}
+
 // PollEvent waits for and returns the next terminal event.
 func (s *Screen) PollEvent() tcell.Event {
 	return s.tcell.PollEvent()

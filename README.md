@@ -25,7 +25,7 @@ This is a clean-room implementation of the Wizardry 1-3 game engine for modern t
 
 - All three Wizardry scenarios: Proving Grounds of the Mad Overlord, Knight of Diamonds, Legacy of Llylgamyn
 - Scenario-specific title sequences: Wiz 1 animated WT bitmap, Wiz 2 KODIMAGE, Wiz 3 PICTURE.BITS 10-frame story
-- NTSC artifact color mode (`--color`) for all Sixel graphics — title screens, dungeon views, monster images
+- Auto-detected NTSC artifact color mode for Sixel graphics — title screens, dungeon views, monster images
 - Full character creation with all 5 races, 8 classes, and 3 alignments
 - Wiz 3 character import with Rite of Passage ceremony (converts Wiz 1/2 characters to descendants)
 - All 50 spells (21 mage + 29 priest) with original effects
@@ -61,25 +61,28 @@ Use the `--vpscale` flag to adjust viewport scale. `--vpscale=2` doubles the dun
 
 ### Title Screen (Sixel)
 
-| Monochrome (default) | NTSC Color (`--color`) |
+| Monochrome (`--green`) | NTSC Color (default on 256+ color terminals) |
 |---|---|
 | ![Title Screen](images/sixel_title.png) | ![Color Title Screen](images/color_title.png) |
 
 ### NTSC Artifact Color Mode
 
-The `--color` flag enables Apple II NTSC artifact color rendering for all Sixel graphics — title screens, dungeon views, and combat monster images. This simulates the color signal artifacts produced by the Apple II's NTSC video output, where pixel patterns on the Hi-Res screen produce characteristic purple, green, blue, and orange fringes.
+Color mode is auto-detected based on terminal capability. Terminals with 256+ colors automatically get NTSC artifact color rendering for all Sixel graphics — title screens, dungeon views, and combat monster images. This simulates the color signal artifacts produced by the Apple II's NTSC video output, where pixel patterns on the Hi-Res screen produce characteristic purple, green, blue, and orange fringes.
 
 The color algorithm detects adjacent pixel patterns in the raw Hi-Res framebuffer: lone pixels produce position-dependent color (purple/green for palette 0, blue/orange for palette 1), adjacent ON pixels merge to white, and alternating patterns produce solid color bands.
 
 ```bash
-# Enable NTSC artifact color
-./wizardry --color
+# Auto-detect color (default) — color on 256+ color terminals
+./wizardry
 
-# Color mode with scenario 2
-./wizardry --scenario=2 --color
+# Force green phosphor monochrome (the iconic Wizardry look)
+./wizardry --green
+
+# Force NTSC color even if auto-detect says otherwise
+./wizardry --color
 ```
 
-Without `--color`, all Sixel graphics render in the original green phosphor monochrome, which is the iconic Wizardry look.
+Use `--green` to force the original green phosphor monochrome look regardless of terminal color support. Use `--color` to force NTSC color rendering even on terminals that report fewer than 256 colors.
 
 ### Compatible Terminals
 
@@ -131,7 +134,10 @@ sudo make uninstall
 # Run with larger viewport (1.5x, 2x, etc.)
 ./wizardry --vpscale=2
 
-# Enable NTSC artifact color rendering (Sixel terminals only)
+# Force green phosphor monochrome (overrides auto-detect)
+./wizardry --green
+
+# Force NTSC artifact color (overrides auto-detect)
 ./wizardry --color
 ```
 

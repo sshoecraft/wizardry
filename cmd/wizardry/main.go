@@ -17,17 +17,20 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.15.3"
+const version = "0.15.4"
 
 func main() {
 	scenarioName := "1"
 	vpScale := 1.0 // --vpscale: viewport scale (1.0=100%, 1.5=150%, etc.)
-	colorMode := false
+	forceColor := false
+	forceGreen := false
 
 	for i := 1; i < len(os.Args); i++ {
 		arg := os.Args[i]
 		if arg == "--color" {
-			colorMode = true
+			forceColor = true
+		} else if arg == "--green" {
+			forceGreen = true
 		} else if strings.HasPrefix(arg, "--vpscale=") {
 			val := strings.TrimPrefix(arg, "--vpscale=")
 			if v, err := strconv.ParseFloat(val, 64); err == nil {
@@ -80,8 +83,17 @@ func main() {
 	defer screen.Close()
 
 	screen.VPScale = vpScale
-	render.ColorMode = colorMode
-	if colorMode {
+
+	// Color mode: --green forces monochrome phosphor, --color forces color,
+	// otherwise auto-detect based on terminal color support (256+ colors).
+	if forceGreen {
+		render.ColorMode = false
+	} else if forceColor {
+		render.ColorMode = true
+	} else {
+		render.ColorMode = screen.Colors() >= 256
+	}
+	if render.ColorMode {
 		render.ApplyColorMode()
 	}
 
