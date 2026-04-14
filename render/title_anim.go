@@ -2,6 +2,7 @@ package render
 
 import (
 	"encoding/binary"
+	"image/color"
 
 	"github.com/gdamore/tcell/v2"
 )
@@ -357,7 +358,12 @@ func (a *WTAnimation) EmitSixelFrame() {
 }
 
 // EmitCanvasFrame renders the current framebuffer as half-block art to a tcell screen.
+// In color mode, uses NTSC artifact colors from the raw Hi-Res framebuffer.
 func (a *WTAnimation) EmitCanvasFrame(s *Screen, style tcell.Style) {
+	if ColorMode {
+		a.emitCanvasFrameColor(s)
+		return
+	}
 	canvas := a.RenderToCanvas()
 	for row := 0; row < 24; row++ {
 		pyTop := row * 2
@@ -379,6 +385,86 @@ func (a *WTAnimation) EmitCanvasFrame(s *Screen, style tcell.Style) {
 			s.tcell.SetContent(col, row, ch, nil, style)
 		}
 	}
+}
+
+// emitCanvasFrameColor renders the framebuffer with NTSC artifact colors.
+// Each terminal cell covers a 3.5x8 pixel region of the 280x192 source.
+// Top/bottom half-block halves each get the dominant color from their 4 source rows.
+func (a *WTAnimation) emitCanvasFrameColor(s *Screen) {
+	colorPixels := HiResToColorPixels(a.hires[:])
+	black := tcell.StyleDefault.Background(tcell.ColorBlack)
+
+	for row := 0; row < 24; row++ {
+		// Each terminal row covers 8 source rows (192/24), split into top 4 and bottom 4
+		srcYTop := row * 8
+		srcYBot := row*8 + 4
+		for col := 0; col < 80; col++ {
+			// Each terminal col covers 3.5 source pixels (280/80)
+			srcXStart := col * 280 / 80
+			srcXEnd := (col + 1) * 280 / 80
+			if srcXEnd <= srcXStart {
+				srcXEnd = srcXStart + 1
+			}
+
+			topColor := dominantColor(colorPixels, srcXStart, srcXEnd, srcYTop, srcYTop+4)
+			botColor := dominantColor(colorPixels, srcXStart, srcXEnd, srcYBot, srcYBot+4)
+
+			topOn := topColor != (tcell.Color(0))
+			botOn := botColor != (tcell.Color(0))
+
+			if !topOn && !botOn {
+				continue
+			}
+
+			var ch rune
+			var st tcell.Style
+			switch {
+			case topOn && botOn:
+				ch = '\u2588'
+				if topColor == botColor {
+					st = black.Foreground(topColor)
+				} else {
+					// Upper half-block with fg=top, bg=bottom
+					st = tcell.StyleDefault.Foreground(topColor).Background(botColor)
+				}
+			case topOn:
+				ch = '\u2580'
+				st = black.Foreground(topColor)
+			case botOn:
+				ch = '\u2584'
+				st = black.Foreground(botColor)
+			}
+			s.tcell.SetContent(col, row, ch, nil, st)
+		}
+	}
+}
+
+// dominantColor finds the most common non-black NTSC color in a pixel region.
+// Returns a tcell.Color, or 0 if the region is all black.
+func dominantColor(pixels [][]color.RGBA, x0, x1, y0, y1 int) tcell.Color {
+	type rgb struct{ r, g, b uint8 }
+	counts := make(map[rgb]int)
+	for y := y0; y < y1 && y < len(pixels); y++ {
+		for x := x0; x < x1 && x < len(pixels[y]); x++ {
+			c := pixels[y][x]
+			if c.R == 0 && c.G == 0 && c.B == 0 {
+				continue
+			}
+			counts[rgb{c.R, c.G, c.B}]++
+		}
+	}
+	if len(counts) == 0 {
+		return 0
+	}
+	var best rgb
+	bestN := 0
+	for c, n := range counts {
+		if n > bestN {
+			best = c
+			bestN = n
+		}
+	}
+	return tcell.NewRGBColor(int32(best.r), int32(best.g), int32(best.b))
 }
 
 // dummy use to keep import

@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.15.2"
+const version = "0.15.3"
 
 func main() {
 	scenarioName := "1"

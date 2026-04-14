@@ -212,6 +212,14 @@ func (s *Screen) RenderCombat(game *engine.GameState) {
 		overlayMonsterFromCombat(&bmp, game, combat)
 		bmp.BlitToCanvas(canvas)
 		s.DrawCanvas(canvas, 1, 1, white)
+
+		// Color mode: overlay NTSC-colored monster on the tcell viewport
+		if ColorMode {
+			pic := findMonsterPic(game, combat)
+			if pic != nil && len(pic.HiRes) > 0 {
+				s.drawMonsterColor(pic, 1, 1, vpWidth*s.scale, viewRows)
+			}
+		}
 	}
 
 	// Monster Groups (tcell) — use DisplayAliveCount during CombatExecute
@@ -448,6 +456,81 @@ func (s *Screen) renderCombatLower(game *engine.GameState, combat *engine.Combat
 				st = base
 			}
 			s.DrawString(1, partyStart+1+i, st, line)
+		}
+	}
+}
+
+// drawMonsterColor renders an NTSC-colored monster using half-block characters.
+// The monster is scaled to fit the viewport area at (sx, sy) with size (vw x vh terminal cells).
+func (s *Screen) drawMonsterColor(pic *data.MonsterPic, sx, sy, vw, vh int) {
+	monW := pic.HiResW * 7 // bytes to pixels
+	monH := pic.HiResH
+	if monW == 0 || monH == 0 {
+		return
+	}
+
+	// Convert raw hires bytes to a flat byte buffer for HiResToColorPixelsRegion
+	hires := make([]byte, pic.HiResW*monH)
+	for i, v := range pic.HiRes {
+		if i < len(hires) {
+			hires[i] = byte(v)
+		}
+	}
+	colorPixels := HiResToColorPixelsRegion(hires, pic.HiResW, monH)
+
+	// Scale monster to fit viewport, centered
+	scaleX := float64(vw) / float64(monW)
+	scaleY := float64(vh*2) / float64(monH) // *2 because each cell is 2 pixel rows
+	sc := scaleX
+	if scaleY < sc {
+		sc = scaleY
+	}
+	dstW := int(float64(monW) * sc)
+	dstH := int(float64(monH) * sc) // in pixel rows
+	ox := sx + (vw-dstW)/2
+	oy := sy + (vh-dstH/2)/2 // convert pixel rows to cell rows
+
+	black := tcell.StyleDefault.Background(tcell.ColorBlack)
+
+	for row := 0; row < dstH/2; row++ {
+		for col := 0; col < dstW; col++ {
+			// Map to source
+			srcX := col * monW / dstW
+			srcYTop := (row * 2) * monH / dstH
+			srcYBot := (row*2 + 1) * monH / dstH
+
+			topC := colorPixels[srcYTop][srcX]
+			botC := colorPixels[srcYBot][srcX]
+			topOn := topC.R != 0 || topC.G != 0 || topC.B != 0
+			botOn := botC.R != 0 || botC.G != 0 || botC.B != 0
+
+			if !topOn && !botOn {
+				continue
+			}
+
+			tx := ox + col
+			ty := oy + row
+			if tx < 0 || ty < 0 {
+				continue
+			}
+
+			var ch rune
+			var st tcell.Style
+			topTC := tcell.NewRGBColor(int32(topC.R), int32(topC.G), int32(topC.B))
+			botTC := tcell.NewRGBColor(int32(botC.R), int32(botC.G), int32(botC.B))
+
+			switch {
+			case topOn && botOn:
+				ch = '\u2588'
+				st = tcell.StyleDefault.Foreground(topTC).Background(botTC)
+			case topOn:
+				ch = '\u2580'
+				st = black.Foreground(topTC)
+			case botOn:
+				ch = '\u2584'
+				st = black.Foreground(botTC)
+			}
+			s.tcell.SetContent(tx, ty, ch, nil, st)
 		}
 	}
 }

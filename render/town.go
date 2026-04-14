@@ -27,8 +27,9 @@ var (
 	styleBorder    = base
 )
 
-// ApplyColorMode switches all text styles from green phosphor to white,
-// matching a real Apple II color display.
+// ApplyColorMode switches from green phosphor monochrome to a color palette.
+// Base text becomes white (matching Apple II color display), and named styles
+// get distinct colors for improved readability.
 func ApplyColorMode() {
 	white := tcell.NewRGBColor(0xFF, 0xFF, 0xFF)
 	base = tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(white)
@@ -36,12 +37,12 @@ func ApplyColorMode() {
 	styleTitle = base.Bold(true)
 	styleNormal = base
 	styleHighlight = base.Foreground(tcell.ColorBlack).Background(white)
-	styleDim = base
-	styleGold = base
-	styleGreen = base
-	styleRed = base
-	styleCyan = base
-	styleBorder = base
+	styleDim = base.Foreground(tcell.NewRGBColor(0x88, 0x88, 0x88))
+	styleGold = base.Foreground(tcell.NewRGBColor(0xFF, 0xD7, 0x00))
+	styleGreen = base.Foreground(tcell.NewRGBColor(0x33, 0xFF, 0x33))
+	styleRed = base.Foreground(tcell.NewRGBColor(0xFF, 0x44, 0x44))
+	styleCyan = base.Foreground(tcell.NewRGBColor(0x00, 0xDD, 0xFF))
+	styleBorder = base.Foreground(tcell.NewRGBColor(0xA0, 0xA0, 0xA0))
 
 	// Switch sixel foreground from green to white
 	sixelFG = color.RGBA{0xFF, 0xFF, 0xFF, 255}

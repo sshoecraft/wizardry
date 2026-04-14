@@ -148,7 +148,11 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 				s.MarkSixel()
 				return
 			}
-			s.renderTitleCanvas(tb, startSrcY, green)
+			if ColorMode && len(tb.HiRes) == 8192 {
+				s.renderTitleCanvasColor(tb, startSrcY)
+			} else {
+				s.renderTitleCanvas(tb, startSrcY, green)
+			}
 			s.Show()
 			return
 		}
@@ -396,6 +400,57 @@ func (s *Screen) renderTitleCanvas(tb *data.TitleBitmap, startSrcY int, style tc
 				continue
 			}
 			s.tcell.SetContent(col, row, ch, nil, style)
+		}
+	}
+}
+
+// renderTitleCanvasColor renders a TitleBitmap with NTSC artifact colors
+// using half-block characters. Each cell gets the dominant NTSC color.
+func (s *Screen) renderTitleCanvasColor(tb *data.TitleBitmap, startSrcY int) {
+	hires := make([]byte, len(tb.HiRes))
+	for i, v := range tb.HiRes {
+		hires[i] = byte(v)
+	}
+	colorPixels := HiResToColorPixels(hires)
+	black := tcell.StyleDefault.Background(tcell.ColorBlack)
+
+	for row := 0; row < 24; row++ {
+		// Each terminal row covers 8 source rows (192/24)
+		srcYTop := row * 8
+		srcYBot := row*8 + 4
+		if srcYTop < startSrcY {
+			continue
+		}
+		for col := 0; col < 80; col++ {
+			srcXStart := col * 280 / 80
+			srcXEnd := (col + 1) * 280 / 80
+			if srcXEnd <= srcXStart {
+				srcXEnd = srcXStart + 1
+			}
+
+			topColor := dominantColor(colorPixels, srcXStart, srcXEnd, srcYTop, srcYTop+4)
+			botColor := dominantColor(colorPixels, srcXStart, srcXEnd, srcYBot, srcYBot+4)
+			topOn := topColor != 0
+			botOn := botColor != 0
+
+			if !topOn && !botOn {
+				continue
+			}
+
+			var ch rune
+			var st tcell.Style
+			switch {
+			case topOn && botOn:
+				ch = '\u2588'
+				st = tcell.StyleDefault.Foreground(topColor).Background(botColor)
+			case topOn:
+				ch = '\u2580'
+				st = black.Foreground(topColor)
+			case botOn:
+				ch = '\u2584'
+				st = black.Foreground(botColor)
+			}
+			s.tcell.SetContent(col, row, ch, nil, st)
 		}
 	}
 }

@@ -434,6 +434,77 @@ func (s *SixelImage) BlitMonster(x, y int, data [][]int, c color.RGBA) {
 
 // BlitMonsterColor draws a monster image with NTSC artifact colors.
 // hiresBytes: raw Apple II Hi-Res bytes, bytesPerLine: bytes per scanline (10).
+// HiResToColorPixelsRegion converts a linear Hi-Res byte buffer (row-major,
+// bytesPerLine bytes per row) to NTSC artifact color pixels.
+// Used for monster images and other non-framebuffer hires data.
+func HiResToColorPixelsRegion(hires []byte, bytesPerLine, height int) [][]color.RGBA {
+	pixelW := bytesPerLine * 7
+	pixels := make([][]color.RGBA, height)
+	for line := 0; line < height; line++ {
+		pixels[line] = make([]color.RGBA, pixelW)
+		var on [280]bool
+		var pal [280]byte
+		for bi := 0; bi < bytesPerLine; bi++ {
+			idx := line*bytesPerLine + bi
+			if idx >= len(hires) {
+				continue
+			}
+			b := hires[idx]
+			p := (b >> 7) & 1
+			for bit := 0; bit < 7; bit++ {
+				px := bi*7 + bit
+				if px < pixelW {
+					on[px] = b&(1<<uint(bit)) != 0
+					pal[px] = p
+				}
+			}
+		}
+		px := 0
+		for px < pixelW {
+			if !on[px] {
+				px++
+				continue
+			}
+			nxt := px < pixelW-1 && on[px+1]
+			if nxt {
+				for px < pixelW && on[px] {
+					pixels[line][px] = ntscWhite
+					px++
+				}
+				continue
+			}
+			end := px
+			for end+2 < pixelW && !on[end+1] && on[end+2] {
+				end += 2
+			}
+			var c color.RGBA
+			if pal[px] == 0 {
+				if px%2 == 0 {
+					c = ntscPurple
+				} else {
+					c = ntscGreen
+				}
+			} else {
+				if px%2 == 0 {
+					c = ntscBlue
+				} else {
+					c = ntscOrange
+				}
+			}
+			if end > px {
+				for fill := px; fill <= end; fill++ {
+					pixels[line][fill] = c
+				}
+				px = end + 1
+			} else {
+				pixels[line][px] = c
+				px++
+			}
+		}
+	}
+	return pixels
+}
+
 func (s *SixelImage) BlitMonsterColor(x, y int, hiresBytes []int, bytesPerLine, pixelH int) {
 	pixelW := bytesPerLine * 7
 	if pixelW > 70 {
