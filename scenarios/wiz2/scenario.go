@@ -17,11 +17,15 @@ var mazeJSON []byte
 //go:embed wiz2_messages.json
 var messagesJSON []byte
 
+//go:embed wiz2_title.json
+var titleJSON []byte
+
 func Load() (*data.Scenario, error) {
-	s, err := data.LoadScenario(gameJSON, mazeJSON, nil, nil)
+	s, err := data.LoadScenario(gameJSON, mazeJSON, nil, titleJSON)
 	if err != nil {
 		return nil, err
 	}
+	s.ScenarioNum = 2
 	if len(messagesJSON) > 0 {
 		json.Unmarshal(messagesJSON, &s.Messages)
 	}

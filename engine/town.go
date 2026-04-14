@@ -188,8 +188,10 @@ type TownState struct {
 	// Equip state — category walk from UTILITIE segment p-code
 	// Categories: 0=WEAPON, 1=ARMOR, 2=SHIELD, 3=HELMET, 4=GAUNTLETS, 6=MISC
 	// (5=SPECIAL is skipped during equip)
-	EquipCategory int   // current category being equipped (0-6)
-	EquipChoices  []int // item positions (0-based) matching current category
+	EquipCategory  int   // current category being equipped (0-6)
+	EquipChoices   []int // item positions (0-based) matching current category
+	EquipPartyMode bool  // true = equipping all party members in sequence (camp top-level E)
+	EquipPartyIdx  int   // current party member index in party-wide equip mode
 
 	// Class change — from ROLLER CHGCLASS (Pascal lines 574-639)
 	ClassChangeList [8]bool // which classes the character qualifies for (excluding current)

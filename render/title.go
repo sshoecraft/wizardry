@@ -86,8 +86,53 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 			s.DrawString(12, 14, white, "IN FANTASY GAMES")
 		}
 
+	case engine.TitleStory:
+		// Multi-frame story sequence (Wiz 3)
+		// 11 text pages, 10 image frames: pages 8-9 share image 8, page 10 uses image 9
+		idx := title.StoryFrame
+		imgIdx := idx
+		if imgIdx >= 9 {
+			imgIdx = idx - 1 // pages 9→image 8, page 10→image 9
+		}
+		hasSixelFrame := false
+		if SixelSupported && imgIdx >= 0 && imgIdx < len(game.Scenario.TitleFrames) {
+			tb := game.Scenario.TitleFrames[imgIdx]
+			if tb != nil && len(tb.Pixels) > 0 {
+				// Full-screen image, text overlaid at bottom rows
+				si := s.buildStorySixel(tb, 24)
+				WriteSixel(0, si.Encode())
+				s.MarkSixel()
+				hasSixelFrame = true
+			}
+		}
+		// Draw story text
+		if idx >= 0 && idx < len(game.Scenario.TitleStory) {
+			page := game.Scenario.TitleStory[idx]
+			if hasSixelFrame {
+				// Text overlaid on bottom 4 rows of the image
+				startY := 19
+				for i, line := range page {
+					pad := (40 - len(line)) / 2
+					if pad < 0 {
+						pad = 0
+					}
+					s.DrawString(pad, startY+i, white, line)
+				}
+				s.Show()
+				return
+			}
+			// Non-sixel: centered text only
+			startY := (24 - len(page)) / 2
+			for i, line := range page {
+				pad := (40 - len(line)) / 2
+				if pad < 0 {
+					pad = 0
+				}
+				s.DrawString(pad, startY+i, white, line)
+			}
+		}
+
 	case engine.TitleArt:
-		// Non-sixel: render from bitmap if available.
 		animRow := title.AnimRow
 		revealFrac := 1.0
 		if animRow > 0 {
@@ -97,12 +142,18 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 		tb := game.Scenario.Title
 		if tb != nil && len(tb.Pixels) > 0 {
 			startSrcY := int(float64(tb.Height) * (1.0 - revealFrac))
+			if SixelSupported {
+				si := s.buildTitleSixel(tb, startSrcY)
+				WriteSixel(0, si.Encode())
+				s.MarkSixel()
+				return
+			}
 			s.renderTitleCanvas(tb, startSrcY, green)
 			s.Show()
 			return
 		}
 
-		// Fallback: hardcoded Unicode half-block art.
+		// Fallback: hardcoded Unicode half-block art (Wiz 1 only).
 		for i := 0; i < 24 && i < len(titleArtFull); i++ {
 			if i < animRow {
 				continue
@@ -115,32 +166,110 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 		}
 
 	case engine.TitleMenu:
-		// Copyright + version + menu.
-		// From p-code OPTIONS (seg 3), exact strings at offsets 43-522:
-		y := 1
-		s.DrawString(0, y, white, "COPYRIGHT (C)1981 ALL RIGHTS RESERVED BY")
-		y++
-		s.DrawString(0, y, white, "ANDREW GREENBERG, INC & ROBERT WOODHEAD,")
-		y++
-		s.DrawString(0, y, white, "INC.  THIS PROGRAM  IS  PROTECTED  UNDER")
-		y++
-		s.DrawString(0, y, white, "THE LAWS OF THE UNITED STATES  AND OTHER")
-		y++
-		s.DrawString(0, y, white, "COUNTRIES,  AND ILLEGAL DISTRIBUTION MAY")
-		y++
-		s.DrawString(0, y, white, "RESULT IN CIVIL  LIABILITY  AND CRIMINAL")
-		y++
-		s.DrawString(0, y, white, "PROSECUTION.")
-		y += 2
-		s.DrawString(0, y, white, "  VERSION 2.1 OF 22-JAN-82")
-		y += 4
-		s.DrawString(0, y, white, "  S)TART GAME  U)TILITIES  T)ITLE PAGE")
+		if game.Scenario.Title == nil {
+			// Wiz 3: text-only title with game name (no title image)
+			y := 4
+			name := game.Scenario.Game
+			pad := (40 - len(name)) / 2
+			if pad < 0 {
+				pad = 0
+			}
+			for i := 0; i < pad; i++ {
+				name = " " + name
+			}
+			s.DrawString(0, y, white, name)
+			y += 4
+			s.DrawString(0, y, white, "COPYRIGHT (C)1981 ALL RIGHTS RESERVED BY")
+			y++
+			s.DrawString(0, y, white, "ANDREW GREENBERG, INC & ROBERT WOODHEAD,")
+			y++
+			s.DrawString(0, y, white, "INC.")
+			y += 4
+			s.DrawString(0, y, white, "  S)TART GAME  U)TILITIES")
+		} else {
+			// Wiz 1: full copyright + version + menu
+			// From p-code OPTIONS (seg 3), exact strings at offsets 43-522:
+			y := 1
+			s.DrawString(0, y, white, "COPYRIGHT (C)1981 ALL RIGHTS RESERVED BY")
+			y++
+			s.DrawString(0, y, white, "ANDREW GREENBERG, INC & ROBERT WOODHEAD,")
+			y++
+			s.DrawString(0, y, white, "INC.  THIS PROGRAM  IS  PROTECTED  UNDER")
+			y++
+			s.DrawString(0, y, white, "THE LAWS OF THE UNITED STATES  AND OTHER")
+			y++
+			s.DrawString(0, y, white, "COUNTRIES,  AND ILLEGAL DISTRIBUTION MAY")
+			y++
+			s.DrawString(0, y, white, "RESULT IN CIVIL  LIABILITY  AND CRIMINAL")
+			y++
+			s.DrawString(0, y, white, "PROSECUTION.")
+			y += 2
+			s.DrawString(0, y, white, "  VERSION 2.1 OF 22-JAN-82")
+			y += 4
+			s.DrawString(0, y, white, "  S)TART GAME  U)TILITIES  T)ITLE PAGE")
+		}
 	}
 
 	s.Show()
 }
 
-// buildTitleSixel renders the Apple II title bitmap as a full-screen sixel image.
+// buildStorySixel renders a Wiz 3 story frame as a sixel image.
+// 2x scale matching show_picbits.py --sixel output. Text overlaid via tcell.
+func (s *Screen) buildStorySixel(tb *data.TitleBitmap, rows int) *SixelImage {
+	// 2x scale: 280x192 → 560x384
+	dstW := tb.Width * 2
+	dstH := tb.Height * 2
+	imgH := dstH
+	if imgH%6 != 0 {
+		imgH += 6 - imgH%6
+	}
+
+	si := NewSixelImage(dstW, imgH)
+
+	// NTSC color mode: convert raw framebuffer to color pixels
+	if ColorMode && len(tb.HiRes) == 8192 {
+		hires := make([]byte, 8192)
+		for i, v := range tb.HiRes {
+			hires[i] = byte(v)
+		}
+		colorPixels := HiResToColorPixels(hires)
+		for py := 0; py < dstH; py++ {
+			srcY := py / 2
+			if srcY >= 192 {
+				continue
+			}
+			for px := 0; px < dstW; px++ {
+				srcX := px / 2
+				if srcX < 280 {
+					c := colorPixels[srcY][srcX]
+					if c.R != 0 || c.G != 0 || c.B != 0 {
+						si.SetPixel(px, py, c)
+					}
+				}
+			}
+		}
+		return si
+	}
+
+	// Monochrome: use sixelFG (green in normal mode, white in color mode)
+	white := sixelFG
+	for py := 0; py < dstH; py++ {
+		srcY := py / 2
+		if srcY >= tb.Height {
+			continue
+		}
+		row := tb.Pixels[srcY]
+		for px := 0; px < dstW; px++ {
+			srcX := px / 2
+			if srcX < len(row) && row[srcX] != 0 {
+				si.SetPixel(px, py, white)
+			}
+		}
+	}
+
+	return si
+}
+
 func (s *Screen) buildTitleSixel(tb *data.TitleBitmap, startSrcY int) *SixelImage {
 	cw := CellWidth
 	ch := CellHeight
@@ -165,16 +294,39 @@ func (s *Screen) buildTitleSixel(tb *data.TitleBitmap, startSrcY int) *SixelImag
 	ox := (imgW - dstW) / 2
 	oy := (imgH - dstH) / 2
 
-	for py := 0; py < dstH; py++ {
-		srcY := py * tb.Height / dstH
-		if srcY < startSrcY || srcY >= tb.Height {
-			continue
+	if ColorMode && len(tb.HiRes) == 8192 {
+		hires := make([]byte, 8192)
+		for i, v := range tb.HiRes {
+			hires[i] = byte(v)
 		}
-		row := tb.Pixels[srcY]
-		for px := 0; px < dstW; px++ {
-			srcX := px * tb.Width / dstW
-			if srcX < len(row) && row[srcX] != 0 {
-				si.SetPixel(ox+px, oy+py, fc)
+		colorPixels := HiResToColorPixels(hires)
+		for py := 0; py < dstH; py++ {
+			srcY := py * tb.Height / dstH
+			if srcY < startSrcY || srcY >= 192 {
+				continue
+			}
+			for px := 0; px < dstW; px++ {
+				srcX := px * tb.Width / dstW
+				if srcX < 280 {
+					c := colorPixels[srcY][srcX]
+					if c.R != 0 || c.G != 0 || c.B != 0 {
+						si.SetPixel(ox+px, oy+py, c)
+					}
+				}
+			}
+		}
+	} else {
+		for py := 0; py < dstH; py++ {
+			srcY := py * tb.Height / dstH
+			if srcY < startSrcY || srcY >= tb.Height {
+				continue
+			}
+			row := tb.Pixels[srcY]
+			for px := 0; px < dstW; px++ {
+				srcX := px * tb.Width / dstW
+				if srcX < len(row) && row[srcX] != 0 {
+					si.SetPixel(ox+px, oy+py, fc)
+				}
 			}
 		}
 	}
@@ -244,6 +396,50 @@ func (s *Screen) renderTitleCanvas(tb *data.TitleBitmap, startSrcY int, style tc
 				continue
 			}
 			s.tcell.SetContent(col, row, ch, nil, style)
+		}
+	}
+}
+
+// renderTitleBraille renders a TitleBitmap using Unicode Braille characters.
+// Each braille char is 2 dots wide × 4 dots tall, giving 160×96 effective
+// resolution on an 80×24 terminal — much better than half-block for wireframes.
+func (s *Screen) renderTitleBraille(tb *data.TitleBitmap, style tcell.Style) {
+	cols := 80
+	rows := 24
+	dotW := cols * 2  // 160
+	dotH := rows * 4  // 96
+
+	// Braille dot bit positions:
+	// Dot 1 (0x01) top-left     Dot 4 (0x08) top-right
+	// Dot 2 (0x02) mid-left     Dot 5 (0x10) mid-right
+	// Dot 3 (0x04) bot-left     Dot 6 (0x20) bot-right
+	// Dot 7 (0x40) low-left     Dot 8 (0x80) low-right
+	type dotDef struct {
+		dy, bit int
+		right   bool
+	}
+	dots := []dotDef{
+		{0, 0x01, false}, {1, 0x02, false}, {2, 0x04, false}, {3, 0x40, false},
+		{0, 0x08, true}, {1, 0x10, true}, {2, 0x20, true}, {3, 0x80, true},
+	}
+
+	for row := 0; row < rows; row++ {
+		for col := 0; col < cols; col++ {
+			bits := 0
+			for _, d := range dots {
+				dx := 0
+				if d.right {
+					dx = 1
+				}
+				sx := (col*2 + dx) * tb.Width / dotW
+				sy := (row*4 + d.dy) * tb.Height / dotH
+				if sy >= 0 && sy < tb.Height && sx >= 0 && sx < tb.Width {
+					if len(tb.Pixels[sy]) > sx && tb.Pixels[sy][sx] != 0 {
+						bits |= d.bit
+					}
+				}
+			}
+			s.tcell.SetContent(col, row, rune(0x2800+bits), nil, style)
 		}
 	}
 }

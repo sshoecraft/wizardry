@@ -4,8 +4,39 @@ import (
 	"fmt"
 
 	"github.com/gdamore/tcell/v2"
+	"wizardry/data"
 	"wizardry/engine"
 )
+
+// findMonsterPic returns the MonsterPic for the current combat encounter.
+func findMonsterPic(game *engine.GameState, combat *engine.CombatState) *data.MonsterPic {
+	if combat.Phase == engine.CombatChest || combat.Phase == engine.CombatChestResult {
+		if pic, ok := game.Scenario.MonsterPics[18]; ok {
+			return pic
+		}
+		return nil
+	}
+	if combat.Phase == engine.CombatVictory || combat.Phase == engine.CombatDefeat {
+		if pic, ok := game.Scenario.MonsterPics[19]; ok {
+			return pic
+		}
+		return nil
+	}
+	for _, group := range combat.Groups {
+		if group.AliveCount() == 0 {
+			continue
+		}
+		if group.MonsterID < 0 || group.MonsterID >= len(game.Scenario.Monsters) {
+			continue
+		}
+		mon := &game.Scenario.Monsters[group.MonsterID]
+		if pic, ok := game.Scenario.MonsterPics[mon.Pic]; ok {
+			return pic
+		}
+		return nil
+	}
+	return nil
+}
 
 // overlayMonsterFromCombat shows the appropriate graphic in the viewport:
 // - Monster groups alive → first group's monster pic
@@ -469,6 +500,27 @@ func (s *Screen) buildCombatSixel(game *engine.GameState, combat *engine.CombatS
 			game.LightLevel, game.QuickPlot)
 		overlayMonsterFromCombat(&bmp, game, combat)
 		bmp.BlitToSixel(si, vpX, vpY, vpW, vpH, fc)
+
+		// Color mode: overlay NTSC-colored monster directly onto sixel
+		if ColorMode {
+			pic := findMonsterPic(game, combat)
+			if pic != nil && len(pic.HiRes) > 0 {
+				// Scale and center monster in viewport
+				monW := pic.HiResW * 7
+				monH := pic.HiResH
+				sx := float64(vpW) / float64(monW)
+				sy := float64(vpH) / float64(monH)
+				msc := sx
+				if sy < msc {
+					msc = sy
+				}
+				dw := int(float64(monW) * msc)
+				dh := int(float64(monH) * msc)
+				mx := vpX + (vpW-dw)/2
+				my := vpY + (vpH-dh)/2
+				si.BlitMonsterColorScaled(mx, my, dw, dh, pic.HiRes, pic.HiResW, pic.HiResH)
+			}
+		}
 	}
 
 	// ── Monster groups (rows 1 to rpDiv-1) ──

@@ -257,8 +257,6 @@ func (a *WTAnimation) RenderToSixel() *SixelImage {
 	}
 
 	si := NewSixelImage(imgW, imgH)
-	fc := sixelFG
-	pixels := a.ToPixels()
 
 	// Scale 280×192 to imgW×imgH, centered, preserving aspect ratio
 	scaleX := float64(imgW) / 280.0
@@ -272,15 +270,37 @@ func (a *WTAnimation) RenderToSixel() *SixelImage {
 	ox := (imgW - dstW) / 2
 	oy := (imgH - dstH) / 2
 
-	for py := 0; py < dstH; py++ {
-		srcY := py * 192 / dstH
-		if srcY >= 192 {
-			continue
+	if ColorMode {
+		// NTSC artifact color from raw framebuffer
+		colorPixels := HiResToColorPixels(a.hires[:])
+		for py := 0; py < dstH; py++ {
+			srcY := py * 192 / dstH
+			if srcY >= 192 {
+				continue
+			}
+			for px := 0; px < dstW; px++ {
+				srcX := px * 280 / dstW
+				if srcX < 280 {
+					c := colorPixels[srcY][srcX]
+					if c.R != 0 || c.G != 0 || c.B != 0 {
+						si.SetPixel(ox+px, oy+py, c)
+					}
+				}
+			}
 		}
-		for px := 0; px < dstW; px++ {
-			srcX := px * 280 / dstW
-			if srcX < 280 && pixels[srcY][srcX] {
-				si.SetPixel(ox+px, oy+py, fc)
+	} else {
+		fc := sixelFG
+		pixels := a.ToPixels()
+		for py := 0; py < dstH; py++ {
+			srcY := py * 192 / dstH
+			if srcY >= 192 {
+				continue
+			}
+			for px := 0; px < dstW; px++ {
+				srcX := px * 280 / dstW
+				if srcX < 280 && pixels[srcY][srcX] {
+					si.SetPixel(ox+px, oy+py, fc)
+				}
 			}
 		}
 	}

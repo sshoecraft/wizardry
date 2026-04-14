@@ -93,9 +93,10 @@ const (
 type TitleStep int
 
 const (
-	TitleText TitleStep = iota // "PREPARE YOURSELF / FOR THE ULTIMATE / IN FANTASY GAMES"
-	TitleArt                   // wizard bitmap with "WIZARDRY" text
-	TitleMenu                  // copyright + "S)TART GAME  U)TILITIES  T)ITLE PAGE"
+	TitleText   TitleStep = iota // "PREPARE YOURSELF / FOR THE ULTIMATE / IN FANTASY GAMES"
+	TitleArt                     // wizard bitmap with "WIZARDRY" text
+	TitleStory                   // multi-frame story (Wiz 3: 10 frames, keypress advances)
+	TitleMenu                    // copyright + "S)TART GAME  U)TILITIES  T)ITLE PAGE"
 )
 
 // TitleState holds the title screen animation state.
@@ -104,21 +105,36 @@ const (
 //   Any key during TitleText or TitleArt skips straight to TitleMenu.
 //   TitleMenu: S=start game, U=utilities, T=show title art again.
 type TitleState struct {
-	Step     TitleStep
-	TextLine int         // which text line is currently displayed (0-2)
-	AnimRow  int         // for TitleArt: smoke reveals from this row up (10→0)
-	Skipped  bool        // true if user pressed a key to skip
-	Anim     interface{} // *render.WTAnimation (stored as interface to avoid circular import)
-	Done     chan struct{} // closed when animation goroutine exits
+	Step       TitleStep
+	TextLine   int         // which text line is currently displayed (0-2)
+	AnimRow    int         // for TitleArt: smoke reveals from this row up (10→0)
+	Skipped    bool        // true if user pressed a key to skip
+	Anim       interface{} // *render.WTAnimation (stored as interface to avoid circular import)
+	Done       chan struct{} // closed when animation goroutine exits
+	StoryFrame int         // current frame index in multi-frame story (Wiz 3)
 }
 
 // New creates a new game session with the given scenario data.
 func New(scenario *data.Scenario) *GameState {
+	// Wiz 1: full title sequence (text intro → animated art → menu)
+	// Wiz 2: static title image (no text intro, no animation) → menu
+	// Wiz 3: multi-frame story sequence (10 frames, keypress advances) → menu
+	titleState := &TitleState{Step: TitleText, TextLine: -1, AnimRow: 10}
+	if len(scenario.TitleFrames) > 0 || len(scenario.TitleStory) > 0 {
+		// Multi-frame story sequence (Wiz 3)
+		titleState = &TitleState{Step: TitleStory, StoryFrame: 0}
+	} else if scenario.Title != nil && scenario.TitleWT == nil {
+		// Has bitmap but no animation — show static art (Wiz 2)
+		titleState = &TitleState{Step: TitleArt, AnimRow: 0}
+	} else if scenario.Title == nil {
+		// No bitmap at all — straight to menu
+		titleState = &TitleState{Step: TitleMenu}
+	}
 	return &GameState{
 		Scenario:  scenario,
 		Phase:     PhaseTitle,
 		Town:      NewTownState(),
-		Title:     &TitleState{Step: TitleText, TextLine: -1, AnimRow: 10},
+		Title:     titleState,
 		MazeLevel: 0,
 		PlayerX:   0,
 		PlayerY:   0,

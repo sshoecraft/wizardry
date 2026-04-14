@@ -14,6 +14,185 @@ import (
 // SixelSupported is set on startup after querying the terminal.
 var SixelSupported bool
 
+// ColorMode enables Apple II NTSC artifact color rendering for sixel graphics.
+var ColorMode bool
+
+// Apple II NTSC artifact colors.
+// Each pixel's color depends on its screen position and the byte's palette bit (bit 7).
+var (
+	ntscBlack  = color.RGBA{0, 0, 0, 255}
+	ntscPurple = color.RGBA{255, 68, 253, 255}
+	ntscGreen  = color.RGBA{20, 245, 60, 255}
+	ntscBlue   = color.RGBA{20, 207, 253, 255}
+	ntscOrange = color.RGBA{255, 106, 60, 255}
+	ntscWhite  = color.RGBA{255, 255, 255, 255}
+)
+
+// HiResToColorPixels converts an 8192-byte Apple II Hi-Res framebuffer to
+// a 280x192 color pixel grid using NTSC artifact color simulation.
+//
+// Algorithm: each byte has 7 data bits (0-6) and a palette bit (7).
+// Adjacent set bits produce white. A lone set bit produces a color
+// based on its screen X position (even=purple/blue, odd=green/orange)
+// and the palette bit.
+// hiresLineAddr maps Apple II scanline number to byte offset within the 8K framebuffer.
+var hiresLineAddr [192]int
+
+func init() {
+	l04bc := [192]byte{
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+		0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28,
+		0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8,
+		0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28,
+		0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8,
+		0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28,
+		0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8,
+		0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28,
+		0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8,
+		0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50,
+		0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0,
+		0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50,
+		0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0,
+		0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50,
+		0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0,
+		0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50,
+		0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0,
+	}
+	l057c := [192]byte{
+		0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
+		0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
+		0x21, 0x25, 0x29, 0x2D, 0x31, 0x35, 0x39, 0x3D,
+		0x21, 0x25, 0x29, 0x2D, 0x31, 0x35, 0x39, 0x3D,
+		0x22, 0x26, 0x2A, 0x2E, 0x32, 0x36, 0x3A, 0x3E,
+		0x22, 0x26, 0x2A, 0x2E, 0x32, 0x36, 0x3A, 0x3E,
+		0x23, 0x27, 0x2B, 0x2F, 0x33, 0x37, 0x3B, 0x3F,
+		0x23, 0x27, 0x2B, 0x2F, 0x33, 0x37, 0x3B, 0x3F,
+		0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
+		0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
+		0x21, 0x25, 0x29, 0x2D, 0x31, 0x35, 0x39, 0x3D,
+		0x21, 0x25, 0x29, 0x2D, 0x31, 0x35, 0x39, 0x3D,
+		0x22, 0x26, 0x2A, 0x2E, 0x32, 0x36, 0x3A, 0x3E,
+		0x22, 0x26, 0x2A, 0x2E, 0x32, 0x36, 0x3A, 0x3E,
+		0x23, 0x27, 0x2B, 0x2F, 0x33, 0x37, 0x3B, 0x3F,
+		0x23, 0x27, 0x2B, 0x2F, 0x33, 0x37, 0x3B, 0x3F,
+		0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
+		0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
+		0x21, 0x25, 0x29, 0x2D, 0x31, 0x35, 0x39, 0x3D,
+		0x21, 0x25, 0x29, 0x2D, 0x31, 0x35, 0x39, 0x3D,
+		0x22, 0x26, 0x2A, 0x2E, 0x32, 0x36, 0x3A, 0x3E,
+		0x22, 0x26, 0x2A, 0x2E, 0x32, 0x36, 0x3A, 0x3E,
+		0x23, 0x27, 0x2B, 0x2F, 0x33, 0x37, 0x3B, 0x3F,
+		0x23, 0x27, 0x2B, 0x2F, 0x33, 0x37, 0x3B, 0x3F,
+	}
+	for i := 0; i < 192; i++ {
+		addr := int(l057c[i])<<8 | int(l04bc[i])
+		hiresLineAddr[i] = addr - 0x2000
+	}
+}
+
+func HiResToColorPixels(hires []byte) [][]color.RGBA {
+	pixels := make([][]color.RGBA, 192)
+	for line := 0; line < 192; line++ {
+		pixels[line] = make([]color.RGBA, 280)
+		base := hiresLineAddr[line]
+
+		// First pass: extract pixel on/off and palette per pixel
+		var on [280]bool
+		var pal [280]byte
+		for byteIdx := 0; byteIdx < 40; byteIdx++ {
+			addr := base + byteIdx
+			if addr < 0 || addr >= len(hires) {
+				continue
+			}
+			b := hires[addr]
+			p := (b >> 7) & 1
+			for bit := 0; bit < 7; bit++ {
+				px := byteIdx*7 + bit
+				if px < 280 {
+					on[px] = b&(1<<uint(bit)) != 0
+					pal[px] = p
+				}
+			}
+		}
+
+		// Second pass: assign colors with NTSC artifact pattern detection.
+		// Adjacent ON pixels → white.
+		// Alternating ON/off/ON pattern → solid color (NTSC smears them).
+		// Lone ON pixel → colored by position and palette.
+		px := 0
+		for px < 280 {
+			if !on[px] {
+				// pixels[line][px] is already zero (black)
+				px++
+				continue
+			}
+
+			nxt := px < 279 && on[px+1]
+			if nxt {
+				// Adjacent pair → white. Extend through all consecutive ON pixels.
+				for px < 280 && on[px] {
+					pixels[line][px] = ntscWhite
+					px++
+				}
+				continue
+			}
+
+			// This pixel is ON, next is OFF. Scan for alternating pattern.
+			end := px
+			for end+2 < 280 && !on[end+1] && on[end+2] {
+				end += 2
+			}
+
+			if end > px {
+				// Alternating pattern — NTSC smears into solid color
+				var c color.RGBA
+				if pal[px] == 0 {
+					if px%2 == 0 {
+						c = ntscPurple
+					} else {
+						c = ntscGreen
+					}
+				} else {
+					if px%2 == 0 {
+						c = ntscBlue
+					} else {
+						c = ntscOrange
+					}
+				}
+				// Fill entire region (ON and OFF pixels) with solid color
+				for fill := px; fill <= end; fill++ {
+					pixels[line][fill] = c
+				}
+				px = end + 1
+			} else {
+				// Lone pixel
+				if pal[px] == 0 {
+					if px%2 == 0 {
+						pixels[line][px] = ntscPurple
+					} else {
+						pixels[line][px] = ntscGreen
+					}
+				} else {
+					if px%2 == 0 {
+						pixels[line][px] = ntscBlue
+					} else {
+						pixels[line][px] = ntscOrange
+					}
+				}
+				px++
+			}
+		}
+	}
+	return pixels
+}
+
 // DetectSixel queries the terminal for sixel support via DA1 (Primary Device Attributes).
 // Sends ESC[c and checks if attribute 4 (sixel) is in the response.
 func DetectSixel() bool {
@@ -248,6 +427,189 @@ func (s *SixelImage) BlitMonster(x, y int, data [][]int, c color.RGBA) {
 		for px, pixel := range row {
 			if pixel != 0 {
 				s.SetPixel(x+px, y+py, c)
+			}
+		}
+	}
+}
+
+// BlitMonsterColor draws a monster image with NTSC artifact colors.
+// hiresBytes: raw Apple II Hi-Res bytes, bytesPerLine: bytes per scanline (10).
+func (s *SixelImage) BlitMonsterColor(x, y int, hiresBytes []int, bytesPerLine, pixelH int) {
+	pixelW := bytesPerLine * 7
+	if pixelW > 70 {
+		pixelW = 70
+	}
+
+	// Extract pixel on/off and palette per pixel
+	for line := 0; line < pixelH; line++ {
+		var on [70]bool
+		var pal [70]byte
+		for bi := 0; bi < bytesPerLine; bi++ {
+			idx := line*bytesPerLine + bi
+			if idx >= len(hiresBytes) {
+				continue
+			}
+			b := byte(hiresBytes[idx])
+			p := (b >> 7) & 1
+			for bit := 0; bit < 7; bit++ {
+				px := bi*7 + bit
+				if px < 70 {
+					on[px] = b&(1<<uint(bit)) != 0
+					pal[px] = p
+				}
+			}
+		}
+
+		// NTSC color assignment with pattern detection
+		px := 0
+		for px < pixelW {
+			if !on[px] {
+				px++
+				continue
+			}
+
+			nxt := px < pixelW-1 && on[px+1]
+			if nxt {
+				// Adjacent ON → white
+				for px < pixelW && on[px] {
+					s.SetPixel(x+px, y+line, ntscWhite)
+					px++
+				}
+				continue
+			}
+
+			// Check for alternating pattern
+			end := px
+			for end+2 < pixelW && !on[end+1] && on[end+2] {
+				end += 2
+			}
+
+			if end > px {
+				var c color.RGBA
+				if pal[px] == 0 {
+					if px%2 == 0 {
+						c = ntscPurple
+					} else {
+						c = ntscGreen
+					}
+				} else {
+					if px%2 == 0 {
+						c = ntscBlue
+					} else {
+						c = ntscOrange
+					}
+				}
+				for fill := px; fill <= end; fill++ {
+					s.SetPixel(x+fill, y+line, c)
+				}
+				px = end + 1
+			} else {
+				var c color.RGBA
+				if pal[px] == 0 {
+					if px%2 == 0 {
+						c = ntscPurple
+					} else {
+						c = ntscGreen
+					}
+				} else {
+					if px%2 == 0 {
+						c = ntscBlue
+					} else {
+						c = ntscOrange
+					}
+				}
+				s.SetPixel(x+px, y+line, c)
+				px++
+			}
+		}
+	}
+}
+
+// BlitMonsterColorScaled draws a monster with NTSC colors, scaled to fit (dstW x dstH) at (x, y).
+func (s *SixelImage) BlitMonsterColorScaled(x, y, dstW, dstH int, hiresBytes []int, bytesPerLine, pixelH int) {
+	pixelW := bytesPerLine * 7
+	if pixelW > 70 {
+		pixelW = 70
+	}
+
+	// Build NTSC color pixels for the monster
+	colorPixels := make([][]color.RGBA, pixelH)
+	for line := 0; line < pixelH; line++ {
+		colorPixels[line] = make([]color.RGBA, pixelW)
+		var on [70]bool
+		var pal [70]byte
+		for bi := 0; bi < bytesPerLine; bi++ {
+			idx := line*bytesPerLine + bi
+			if idx >= len(hiresBytes) {
+				continue
+			}
+			b := byte(hiresBytes[idx])
+			p := (b >> 7) & 1
+			for bit := 0; bit < 7; bit++ {
+				px := bi*7 + bit
+				if px < pixelW {
+					on[px] = b&(1<<uint(bit)) != 0
+					pal[px] = p
+				}
+			}
+		}
+		px := 0
+		for px < pixelW {
+			if !on[px] {
+				px++
+				continue
+			}
+			nxt := px < pixelW-1 && on[px+1]
+			if nxt {
+				for px < pixelW && on[px] {
+					colorPixels[line][px] = ntscWhite
+					px++
+				}
+				continue
+			}
+			end := px
+			for end+2 < pixelW && !on[end+1] && on[end+2] {
+				end += 2
+			}
+			var c color.RGBA
+			if pal[px] == 0 {
+				if px%2 == 0 {
+					c = ntscPurple
+				} else {
+					c = ntscGreen
+				}
+			} else {
+				if px%2 == 0 {
+					c = ntscBlue
+				} else {
+					c = ntscOrange
+				}
+			}
+			if end > px {
+				for fill := px; fill <= end; fill++ {
+					colorPixels[line][fill] = c
+				}
+				px = end + 1
+			} else {
+				colorPixels[line][px] = c
+				px++
+			}
+		}
+	}
+
+	// Scale and blit to sixel image
+	for py := 0; py < dstH; py++ {
+		srcY := py * pixelH / dstH
+		if srcY >= pixelH {
+			continue
+		}
+		for px := 0; px < dstW; px++ {
+			srcX := px * pixelW / dstW
+			if srcX < pixelW {
+				c := colorPixels[srcY][srcX]
+				if c.R != 0 || c.G != 0 || c.B != 0 {
+					s.SetPixel(x+px, y+py, c)
+				}
 			}
 		}
 	}

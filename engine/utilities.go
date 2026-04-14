@@ -88,8 +88,9 @@ func RestoreRoster(game *GameState, srcPath string) error {
 }
 
 // TransferCharacters imports characters from another scenario's roster.
-// Characters are stripped of items and gold (as in the original disk transfer).
-// Dead/Lost characters are skipped.
+// From Pascal TRANGOOD (WIZUTILC.TEXT line 250): raw character copy — everything
+// transfers as-is (level, stats, spells, items, gold). Only restrictions:
+// STATUS must be OK, and quest items (index > 93) block transfer.
 func TransferCharacters(game *GameState, sourceScenario string) ([]string, error) {
 	rosterPath, err := RosterPath(sourceScenario)
 	if err != nil {

@@ -31,6 +31,13 @@ func NewScreen() (*Screen, error) {
 	s.SetStyle(tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(phosphor))
 	s.Clear()
 
+	// Force the terminal's true background to black (OSC 11).
+	// Sixel transparent pixels reveal the terminal's actual background,
+	// not tcell's painted background. Without this, terminals with
+	// non-black profiles show visible artifacts under sixel images.
+	fmt.Fprintf(os.Stdout, "\x1b]11;#000000\x07")
+	os.Stdout.Sync()
+
 	w, h := s.Size()
 	return &Screen{
 		tcell:   s,
@@ -43,6 +50,9 @@ func NewScreen() (*Screen, error) {
 
 // Close shuts down the terminal screen.
 func (s *Screen) Close() {
+	// Restore the terminal's original background color (OSC 111)
+	fmt.Fprintf(os.Stdout, "\x1b]111\x07")
+	os.Stdout.Sync()
 	s.tcell.Fini()
 }
 

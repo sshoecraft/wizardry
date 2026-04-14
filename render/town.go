@@ -2,6 +2,7 @@ package render
 
 import (
 	"fmt"
+	"image/color"
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
@@ -10,6 +11,7 @@ import (
 
 var (
 	// Monochrome phosphor green (#33FF33) — matches Apple II green monitor
+	// ColorMode switches to white text (matches Apple II color display)
 	phosphor   = tcell.NewRGBColor(0x33, 0xFF, 0x33)
 	base       = tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(phosphor)
 	BaseStyle  = base // exported for use by animation goroutine
@@ -24,6 +26,29 @@ var (
 	styleCyan      = base
 	styleBorder    = base
 )
+
+// ApplyColorMode switches all text styles from green phosphor to white,
+// matching a real Apple II color display.
+func ApplyColorMode() {
+	white := tcell.NewRGBColor(0xFF, 0xFF, 0xFF)
+	base = tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(white)
+	BaseStyle = base
+	styleTitle = base.Bold(true)
+	styleNormal = base
+	styleHighlight = base.Foreground(tcell.ColorBlack).Background(white)
+	styleDim = base
+	styleGold = base
+	styleGreen = base
+	styleRed = base
+	styleCyan = base
+	styleBorder = base
+
+	// Switch sixel foreground from green to white
+	sixelFG = color.RGBA{0xFF, 0xFF, 0xFF, 255}
+	sixelDim = color.RGBA{0x88, 0x88, 0x88, 255}
+	sixelBright = color.RGBA{0xFF, 0xFF, 0xFF, 255}
+	sixelBorder = color.RGBA{0xA0, 0xA0, 0xA0, 255}
+}
 
 // Box width matches original Apple II 40-column screen
 const boxW = 40
@@ -123,8 +148,14 @@ func (s *Screen) RenderTown(game *engine.GameState) {
 
 	// Row 1: proc 37 header — "! CASTLE" + location:30 + " !"
 	// P-code uses '!' for side borders (Apple II vertical bar)
+	// Wiz 2 uses "LLYLGAMN" (from CASTLE segment p-code proc 37)
 	loc := locationShort[town.Location]
-	header := fmt.Sprintf("! CASTLE%30s !", loc)
+	townName := "CASTLE"
+	if game.Scenario.ScenarioNum == 2 {
+		townName = "LLYLGAMN"
+	}
+	locPad := 36 - len(townName) // total 40: "! " (2) + name + pad + " !" (2)
+	header := fmt.Sprintf("! %s%*s !", townName, locPad, loc)
 	s.DrawString(0, 1, styleTitle, header)
 
 	// Row 2: divider
@@ -599,29 +630,60 @@ func (s *Screen) renderTrainingScreen(game *engine.GameState) {
 	// Row 0: centered title (12 spaces + 16 chars = centered on 40 cols)
 	s.DrawString(12, 0, styleTitle, "TRAINING GROUNDS")
 
-	// Row 2: menu text (from ROLLER segment LSA strings)
-	s.DrawString(0, 2, styleNormal, "YOU MAY ENTER A CHARACTER NAME TO ADD,")
-	s.DrawString(8, 3, styleNormal, "INSPECT OR EDIT,")
+	if game.Scenario.ScenarioNum >= 2 {
+		// Wiz 2/3: no character creation allowed
+		// From Wiz 2 ROLLER proc 8 (IC 2818-3277)
+		s.DrawString(0, 2, styleNormal, "ENTER THE NAME OF THE CHARACTER YOU WANT")
+		s.DrawString(0, 3, styleNormal, "TO INSPECT OR EDIT, OR \"*ROSTER\" TO  SEE")
+		s.DrawString(0, 4, styleNormal, "THE ROSTER OF CHARACTERS, OR [RET] TO GO")
+		if game.Scenario.ScenarioNum == 2 {
+			s.DrawString(0, 5, styleNormal, "BACK TO LLYLGAMN.")
+		} else {
+			s.DrawString(0, 5, styleNormal, "BACK TO CASTLE.")
+		}
+		s.DrawString(0, 7, styleNormal, "YOU CANNOT CREATE CHARACTERS HERE.")
+		s.DrawString(0, 8, styleNormal, "THEY SHOULD BE CREATED IN THE \"PROVING")
+		s.DrawString(0, 9, styleNormal, "GROUNDS\" AND THEN TRANSFERRED HERE WHEN")
+		s.DrawString(0, 10, styleNormal, "13TH LEVEL OR SO.")
 
-	s.DrawString(8, 5, styleNormal, "\"*ROSTER\" TO SEE ROSTER,")
-
-	// From p-code: no indentation — WRITESTR at cursor col 0
-	s.DrawString(0, 7, styleNormal, "OR PRESS [RET] FOR CASTLE.")
-
-	// Row 9: name prompt — GOTOXY(13,9) from p-code byte 5657-5659
-	s.DrawString(13, 9, styleNormal, "NAME >")
-	if town.InputMode == engine.InputTrainingName {
-		s.DrawString(19, 9, styleNormal, town.InputBuf)
-		s.DrawString(19+len(town.InputBuf), 9, styleGold, "_")
+		// Name prompt at row 13
+		s.DrawString(13, 13, styleNormal, "NAME >")
+		if town.InputMode == engine.InputTrainingName {
+			s.DrawString(19, 13, styleNormal, town.InputBuf)
+			s.DrawString(19+len(town.InputBuf), 13, styleGold, "_")
+		} else {
+			s.DrawString(19, 13, styleGold, "_")
+		}
 	} else {
-		s.DrawString(19, 9, styleGold, "_")
+		// Wiz 1: original training grounds text
+		// Row 2: menu text (from ROLLER segment LSA strings)
+		s.DrawString(0, 2, styleNormal, "YOU MAY ENTER A CHARACTER NAME TO ADD,")
+		s.DrawString(8, 3, styleNormal, "INSPECT OR EDIT,")
+
+		s.DrawString(8, 5, styleNormal, "\"*ROSTER\" TO SEE ROSTER,")
+
+		// From p-code: no indentation — WRITESTR at cursor col 0
+		s.DrawString(0, 7, styleNormal, "OR PRESS [RET] FOR CASTLE.")
+
+		// Row 9: name prompt — GOTOXY(13,9) from p-code byte 5657-5659
+		s.DrawString(13, 9, styleNormal, "NAME >")
+		if town.InputMode == engine.InputTrainingName {
+			s.DrawString(19, 9, styleNormal, town.InputBuf)
+			s.DrawString(19+len(town.InputBuf), 9, styleGold, "_")
+		} else {
+			s.DrawString(19, 9, styleGold, "_")
+		}
 	}
 
 	if town.Message != "" {
-		s.DrawString(0, 11, styleGold, town.Message)
-	}
-	if town.Message2 != "" {
-		s.DrawString(0, 12, styleGold, town.Message2)
+		msgY := 11
+		if game.Scenario.ScenarioNum >= 2 {
+			msgY = 15
+		}
+		s.DrawString(0, msgY, styleGold, town.Message)
+		if town.Message2 != "" {
+			s.DrawString(0, msgY+1, styleGold, town.Message2)
+		}
 	}
 }
 

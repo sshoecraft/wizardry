@@ -31,6 +31,7 @@ func Load() (*data.Scenario, error) {
 	if err != nil {
 		return nil, err
 	}
+	s.ScenarioNum = 1
 	s.TitleWT = titleWTData
 	if len(messagesJSON) > 0 {
 		json.Unmarshal(messagesJSON, &s.Messages)

@@ -224,25 +224,32 @@ type MazeData struct {
 
 // MonsterPic holds a single monster image as Unicode half-block art lines.
 type MonsterPic struct {
-	Monsters []string `json:"monsters"` // monster names using this pic
-	Width    int      `json:"width"`    // pixel width (70)
-	Height   int      `json:"height"`   // terminal char height (25)
-	Art      []string `json:"art"`      // lines of Unicode half-block art
+	Monsters []string `json:"monsters"`          // monster names using this pic
+	Width    int      `json:"width"`             // pixel width (70)
+	Height   int      `json:"height"`            // terminal char height (25)
+	Art      []string `json:"art"`               // lines of Unicode half-block art
+	HiRes    []int    `json:"hires,omitempty"`   // raw Apple II Hi-Res bytes for NTSC color
+	HiResW   int      `json:"hires_w,omitempty"` // bytes per line (10)
+	HiResH   int      `json:"hires_h,omitempty"` // pixel height (50)
 }
 
 // TitleBitmap holds the title screen image as a monochrome pixel grid.
 type TitleBitmap struct {
 	Width  int     `json:"width"`
 	Height int     `json:"height"`
-	Pixels [][]int `json:"pixels"` // [height][width], 0 or 1
+	Pixels [][]int `json:"pixels"`          // [height][width], 0 or 1
+	HiRes  []int   `json:"hires,omitempty"` // raw Apple II Hi-Res framebuffer (8192 bytes) for NTSC color
 }
 
 // Scenario holds the complete data set for one game (gamedata + mazes + images).
 type Scenario struct {
 	GameData
+	ScenarioNum int // 1=Proving Grounds, 2=Knight of Diamonds, 3=Legacy of Llylgamyn
 	Mazes       MazeData
 	MonsterPics map[int]*MonsterPic // keyed by PIC index (0-19)
-	Title       *TitleBitmap        // title screen wizard bitmap (nil if not available)
-	TitleWT     []byte              // raw WT animation data (nil if not available)
-	Messages    [][]string          // SCENARIO.MESGS — message blocks indexed by MazeCell.MsgIndex
+	Title       *TitleBitmap   // title screen bitmap (nil if not available)
+	TitleWT     []byte        // raw WT animation data (Wiz 1 only, nil otherwise)
+	TitleStory  [][]string    // multi-page text story (fallback if no TitleFrames)
+	TitleFrames []*TitleBitmap // multi-frame title story bitmaps (Wiz 3)
+	Messages    [][]string    // SCENARIO.MESGS — message blocks indexed by MazeCell.MsgIndex
 }

@@ -260,6 +260,12 @@ type CombatState struct {
 	// Party member silence counters — Pascal BATTLERC[0].A.TEMP04[i].INAUDCNT
 	// Set by monster MONTINO, cleared by HAMCURE/HAMHEAL
 	PartyInaudCnt [6]int
+
+	// HAMAN/MAHAMAN interactive selection (Wiz 2/3)
+	// Pascal Wiz3 COMBAT4.TEXT lines 374-438: player chooses from 3 random boons
+	HamanSelecting bool         // true = waiting for player to choose 1/2/3
+	HamanOptions   [3]int       // the 3 effect indices offered
+	HamanCaster    *Character   // the character who cast HAMAN/MAHAMAN
 }
 
 // NewCombat creates a combat encounter from the current maze cell.
@@ -3262,13 +3268,169 @@ func (cs *CombatState) endAction() {
 }
 
 
+// HAMAN/MAHAMAN effect names for interactive selection (Wiz 2/3)
+var hamanEffectNames = [7]string{
+	"CURE THE PARTY",
+	"SILENCE THE MONSTERS",
+	"MAKE MAGIC MORE EFFECTIVE",
+	"TELEPORT THE MONSTERS",
+	"HEAL THE PARTY",
+	"PROTECT THE PARTY",
+	"REANIMATE CORPSES!",
+}
+
+// hamCure implements HAMCURE: cure + heal 9d8 per member
+func (cs *CombatState) hamCure(game *GameState) {
+	for _, m := range game.Town.Party.Members {
+		if m == nil || m.IsDead() {
+			continue
+		}
+		m.Status = OK
+		for i, pm := range game.Town.Party.Members {
+			if pm == m && i < 6 {
+				cs.PartyInaudCnt[i] = 0
+				break
+			}
+		}
+		heal := rollDice(9, 8, 0)
+		m.HP += heal
+		if m.HP > m.MaxHP {
+			m.HP = m.MaxHP
+		}
+	}
+}
+
+// hamSilen implements HAMSILEN: silence monster groups 1-3
+func (cs *CombatState) hamSilen() {
+	for gi, g := range cs.Groups {
+		if gi >= 3 {
+			break
+		}
+		for _, m := range g.Members {
+			m.InaudCnt = 5 + rand.Intn(5)
+		}
+	}
+}
+
+// hamMagic implements HAMMAGIC: zero Unaffect on groups 1-3
+func (cs *CombatState) hamMagic() {
+	for gi, g := range cs.Groups {
+		if gi >= 3 {
+			break
+		}
+		for _, m := range g.Members {
+			m.Unaffect = 0
+		}
+	}
+}
+
+// hamTelep implements HAMTELEP: destroy all monsters
+func (cs *CombatState) hamTelep() {
+	for _, g := range cs.Groups {
+		for _, m := range g.Members {
+			m.HP = 0
+			m.Status = 5
+		}
+	}
+}
+
+// hamHeal implements HAMHEAL: full heal + STATUS=OK + clear INAUDCNT
+func (cs *CombatState) hamHeal(game *GameState) {
+	for _, m := range game.Town.Party.Members {
+		if m == nil || m.IsDead() {
+			continue
+		}
+		m.Status = OK
+		m.HP = m.MaxHP
+		for i, pm := range game.Town.Party.Members {
+			if pm == m && i < 6 {
+				cs.PartyInaudCnt[i] = 0
+				break
+			}
+		}
+	}
+}
+
+// hamProt implements HAMPROT: set permanent AC = -10
+func (cs *CombatState) hamProt(game *GameState) {
+	for _, m := range game.Town.Party.Members {
+		if m != nil && m.AC > -10 {
+			m.AC = -10
+		}
+	}
+}
+
+// hamAlive implements HAMALIVE: all non-LOST → OK, then full heal
+func (cs *CombatState) hamAlive(game *GameState) {
+	for _, m := range game.Town.Party.Members {
+		if m == nil {
+			continue
+		}
+		if m.Status != Lost {
+			m.Status = OK
+		}
+		m.HP = m.MaxHP
+		for i, pm := range game.Town.Party.Members {
+			if pm == m && i < 6 {
+				cs.PartyInaudCnt[i] = 0
+				break
+			}
+		}
+	}
+}
+
+// executeHamanEffect dispatches effect index 0-6 to the appropriate method.
+// Prints the effect name message before executing.
+func (cs *CombatState) executeHamanEffect(game *GameState, effectIdx int) {
+	cs.addMessage(hamanEffectNames[effectIdx])
+	switch effectIdx {
+	case 0:
+		cs.hamCure(game)
+	case 1:
+		cs.hamSilen()
+	case 2:
+		cs.hamMagic()
+	case 3:
+		cs.hamTelep()
+	case 4:
+		cs.hamHeal(game)
+	case 5:
+		cs.hamProt(game)
+	case 6:
+		cs.hamAlive(game)
+	}
+}
+
+// ExecuteHamanChoice completes a Wiz 2/3 HAMAN/MAHAMAN interactive selection.
+// Called when the player presses 1, 2, or 3 during HamanSelecting.
+func (cs *CombatState) ExecuteHamanChoice(game *GameState, choice int) {
+	if choice < 0 || choice > 2 {
+		return
+	}
+	cs.HamanSelecting = false
+	effectIdx := cs.HamanOptions[choice]
+	cs.executeHamanEffect(game, effectIdx)
+
+	// HAMMANGL: (RANDOM MOD CHARLEV) == 5 → mangle spells
+	member := cs.HamanCaster
+	if member != nil && member.Level > 0 && rand.Intn(member.Level) == 5 {
+		cs.addMessage("BUT HIS SPELL BOOKS ARE MANGLED!")
+		for i := range member.SpellKnown {
+			if rand.Intn(100) > 50 {
+				member.SpellKnown[i] = false
+			}
+		}
+	}
+	cs.HamanCaster = nil
+}
+
 // hammaham implements the HAMAN/MAHAMAN sacrifice spells.
-// From Pascal HAMMAHAM (COMBAT4.TEXT lines 303-456):
-//   Requires level 13+. Costs 1 level. Random effect from 7 possibilities.
-//   HAMAN: RANDOM MOD 18. MAHAMAN: RANDOM MOD 24 (WC006 fix).
+// Wiz 1: random effect (COMBAT4.TEXT lines 303-456, WC006 fix)
+// Wiz 2/3: interactive selection from 3 random boons (COMBAT4.TEXT lines 374-438)
 func (cs *CombatState) hammaham(game *GameState, member *Character, mahamFlg int) {
 	prefix := ""
-	if mahamFlg == 8 {
+	isMahaman := mahamFlg == 8 || mahamFlg == 7
+	if isMahaman {
 		prefix = "MA"
 	}
 	cs.addMessage(fmt.Sprintf("%sHAMAN IS INTONED AND...", prefix))
@@ -3287,103 +3449,55 @@ func (cs *CombatState) hammaham(game *GameState, member *Character, mahamFlg int
 		}
 	}
 
+	if game.Scenario.ScenarioNum >= 2 {
+		// Wiz 2/3: interactive boon selection
+		// Pick 3 unique random effects from available pool
+		poolSize := 5 // HAMAN: effects 0-4
+		if isMahaman {
+			poolSize = 7 // MAHAMAN: effects 0-6
+		}
+		var picked [7]bool
+		for i := 0; i < 3; i++ {
+			idx := rand.Intn(poolSize)
+			for picked[idx] {
+				idx = (idx + 1) % 7
+			}
+			picked[idx] = true
+			cs.HamanOptions[i] = idx
+		}
+		cs.HamanSelecting = true
+		cs.HamanCaster = member
+		cs.addMessage("WHICH BOON WILL YOU INVOKE ?")
+		for i := 0; i < 3; i++ {
+			cs.addMessage(fmt.Sprintf("%d) %s", i+1, hamanEffectNames[cs.HamanOptions[i]]))
+		}
+		return // wait for player input
+	}
+
+	// Wiz 1: random effect selection
 	roll := rand.Intn(3 * mahamFlg)
 	switch {
 	case roll <= 5:
-		// HAMCURE (COMBAT4.TEXT lines 316-332): "DIALKO'S PARTY 3 TIMES"
-		// Heals 9d8 per member, STATUS=OK for all STATUS < DEAD, clear INAUDCNT
 		cs.addMessage("DIALKO'S PARTY 3 TIMES")
-		for _, m := range game.Town.Party.Members {
-			if m == nil || m.IsDead() {
-				continue
-			}
-			m.Status = OK // all STATUS < DEAD → OK (includes Stoned)
-			// Clear silence counter via combat state
-			for i, pm := range game.Town.Party.Members {
-				if pm == m && i < 6 {
-					cs.PartyInaudCnt[i] = 0
-					break
-				}
-			}
-			heal := rollDice(9, 8, 0)
-			m.HP += heal
-			if m.HP > m.MaxHP {
-				m.HP = m.MaxHP
-			}
-		}
+		cs.hamCure(game)
 	case roll >= 7 && roll <= 11:
-		// HAMSILEN (COMBAT4.TEXT lines 335-343): silence groups 1-3
 		cs.addMessage("SILENCES MONSTERS!")
-		for gi, g := range cs.Groups {
-			if gi >= 3 { // Pascal: FOR TEMP1 := 1 TO 3 (groups 1-3)
-				break
-			}
-			for _, m := range g.Members {
-				m.InaudCnt = 5 + rand.Intn(5)
-			}
-		}
+		cs.hamSilen()
 	case roll == 12 || roll == 13 || roll == 22 || roll == 23:
-		// HAMMAGIC (COMBAT4.TEXT lines 346-354): zero Unaffect on groups 1-3
 		cs.addMessage("ZAPS MONSTER MAGIC RESISTANCE!")
-		for gi, g := range cs.Groups {
-			if gi >= 3 {
-				break
-			}
-			for _, m := range g.Members {
-				m.Unaffect = 0
-			}
-		}
+		cs.hamMagic()
 	case roll == 14 || roll == 20 || roll == 21:
-		// HAMTELEP (COMBAT4.TEXT lines 357-370): destroy groups 1-4
 		cs.addMessage("DESTROYS MONSTERS!")
-		for _, g := range cs.Groups {
-			for _, m := range g.Members {
-				m.HP = 0
-				m.Status = 5
-			}
-		}
+		cs.hamTelep()
 	case roll == 6 || roll == 15 || roll == 19:
-		// HAMHEAL (COMBAT4.TEXT lines 373-387): full heal + STATUS=OK + clear INAUDCNT
 		cs.addMessage("HEALS PARTY!")
-		for _, m := range game.Town.Party.Members {
-			if m == nil || m.IsDead() {
-				continue
-			}
-			m.Status = OK
-			m.HP = m.MaxHP
-			for i, pm := range game.Town.Party.Members {
-				if pm == m && i < 6 {
-					cs.PartyInaudCnt[i] = 0
-					break
-				}
-			}
-		}
+		cs.hamHeal(game)
 	case roll == 17:
-		// HAMPROT (COMBAT4.TEXT lines 390-397): set permanent AC = -10
 		cs.addMessage("SHIELDS PARTY")
-		for _, m := range game.Town.Party.Members {
-			if m != nil && m.AC > -10 {
-				m.AC = -10
-			}
-		}
+		cs.hamProt(game)
 	case roll == 16 || roll == 18:
-		// HAMALIVE (COMBAT4.TEXT lines 400-409): all non-LOST → OK, then HAMHEAL
 		cs.addMessage("RESURRECTS AND HEALS PARTY!")
-		for _, m := range game.Town.Party.Members {
-			if m == nil {
-				continue
-			}
-			if m.Status != Lost {
-				m.Status = OK
-			}
-			m.HP = m.MaxHP
-			for i, pm := range game.Town.Party.Members {
-				if pm == m && i < 6 {
-					cs.PartyInaudCnt[i] = 0
-					break
-				}
-			}
-		}
+		cs.hamAlive(game)
 	}
 
 	// HAMMANGL (COMBAT4.TEXT lines 412-425): (RANDOM MOD CHARLEV) == 5 → mangle spells

@@ -17,15 +17,18 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.14.2"
+const version = "0.15.1"
 
 func main() {
 	scenarioName := "1"
 	vpScale := 1.0 // --vpscale: viewport scale (1.0=100%, 1.5=150%, etc.)
+	colorMode := false
 
 	for i := 1; i < len(os.Args); i++ {
 		arg := os.Args[i]
-		if strings.HasPrefix(arg, "--vpscale=") {
+		if arg == "--color" {
+			colorMode = true
+		} else if strings.HasPrefix(arg, "--vpscale=") {
 			val := strings.TrimPrefix(arg, "--vpscale=")
 			if v, err := strconv.ParseFloat(val, 64); err == nil {
 				if v < 1.0 {
@@ -77,6 +80,10 @@ func main() {
 	defer screen.Close()
 
 	screen.VPScale = vpScale
+	render.ColorMode = colorMode
+	if colorMode {
+		render.ApplyColorMode()
+	}
 
 	// Detect cell pixel size via ioctl TIOCGWINSZ — safe after tcell init,
 	// no escape sequences, no stdin reads.
@@ -94,9 +101,9 @@ func main() {
 
 	redraw(screen, game)
 
-	// Run the timed title text sequence in background
-	// From p-code: text lines appear with delays, then wizard art shows
-	if game.Phase == engine.PhaseTitle {
+	// Run the timed title text + animated art sequence in background (Wiz 1 only)
+	// Wiz 2 has static title image (no animation), Wiz 3 has no title at all
+	if game.Phase == engine.PhaseTitle && game.Scenario.TitleWT != nil {
 		game.Title.Done = make(chan struct{})
 		go startTitleSequence(screen, game)
 	}
@@ -121,6 +128,11 @@ func main() {
 	// (from p-code WIZARDRY.proc17 delay loop + proc30 screen clear)
 	combatTicker := time.NewTicker(1500 * time.Millisecond)
 	defer combatTicker.Stop()
+
+	// Story auto-advance timer: 6 seconds per page (Wiz 3 title sequence)
+	// Original Apple II auto-advances with no input required
+	storyTicker := time.NewTicker(6 * time.Second)
+	defer storyTicker.Stop()
 
 	for {
 		select {
@@ -170,7 +182,7 @@ func main() {
 						combat.CurrentActor = findNextActor(game, -1)
 					}
 					redraw(screen, game)
-				} else if combat.Phase == engine.CombatExecute {
+				} else if combat.Phase == engine.CombatExecute && !combat.HamanSelecting {
 					advanceCombatMessages(game)
 					redraw(screen, game)
 				} else if combat.Phase == engine.CombatChestResult {
@@ -201,7 +213,25 @@ func main() {
 				}
 			}
 
-			// Inn healing animation — Pascal HEALHP loop (CASTLE2.TEXT lines 423-448)
+		case <-storyTicker.C:
+			// Auto-advance Wiz 3 story pages every 6 seconds (no input required)
+			if game.Phase == engine.PhaseTitle && game.Title != nil &&
+				game.Title.Step == engine.TitleStory {
+				title := game.Title
+				title.StoryFrame++
+				totalFrames := len(game.Scenario.TitleFrames)
+				if totalFrames == 0 {
+					totalFrames = len(game.Scenario.TitleStory)
+				}
+				if title.StoryFrame >= totalFrames {
+					// No keypress through entire sequence → loop back to start
+					// (p-code: cycling loop at offsets 855-871 in TITLELOA)
+					title.StoryFrame = 0
+				}
+				redraw(screen, game)
+			}
+
+		// Inn healing animation — Pascal HEALHP loop (CASTLE2.TEXT lines 423-448)
 			// Each tick: heal HPADD HP, deduct gold, redraw. When done → level-up screen.
 			if game.Phase == engine.PhaseTown && game.Town.Location == engine.Inn &&
 				game.Town.InnStep == engine.InnHealing && game.Town.InnChar != nil {
@@ -495,6 +525,14 @@ func handleTitleInput(screen *render.Screen, game *engine.GameState, ev *tcell.E
 	}
 
 	switch title.Step {
+	case engine.TitleStory:
+		// Any keypress exits the story sequence → menu (p-code: CSP 4 XIT in proc 3)
+		title.Step = engine.TitleMenu
+		if render.SixelSupported {
+			fmt.Fprintf(os.Stdout, "\x1b[2J")
+			os.Stdout.Sync()
+		}
+
 	case engine.TitleText, engine.TitleArt:
 		// Any key skips to the menu — from p-code: keypress exits title sequence
 		title.Skipped = true
@@ -523,14 +561,28 @@ func handleTitleInput(screen *render.Screen, game *engine.GameState, ev *tcell.E
 		case 'S': // S)TART GAME → enter castle
 			game.Title = nil
 			game.Phase = engine.PhaseTown
-		case 'T': // T)ITLE PAGE → re-run full title sequence
-			// From p-code WIZBOOT offset 233: CXP seg=8 proc=1
-			// Same call as the initial boot — full text + art sequence
-			title.Step = engine.TitleText
-			title.TextLine = -1
-			title.Skipped = false
-			title.Done = make(chan struct{})
-			go startTitleSequence(screen, game)
+		case 'T': // T)ITLE PAGE → re-show title art/story
+			if len(game.Scenario.TitleFrames) > 0 || len(game.Scenario.TitleStory) > 0 {
+				// Wiz 3: restart the story sequence
+				title.Step = engine.TitleStory
+				title.StoryFrame = 0
+				return
+			}
+			if game.Scenario.Title == nil {
+				return // no title art
+			}
+			if game.Scenario.TitleWT != nil {
+				// Wiz 1: full text + animated art sequence
+				title.Step = engine.TitleText
+				title.TextLine = -1
+				title.Skipped = false
+				title.Done = make(chan struct{})
+				go startTitleSequence(screen, game)
+			} else {
+				// Wiz 2: static title image (no animation)
+				title.Step = engine.TitleArt
+				title.AnimRow = 0
+			}
 		case 'U': // U)TILITIES — from p-code WIZBOOT offset 228: CXP seg=7 proc=1
 			game.Util = engine.NewUtilState()
 			game.Phase = engine.PhaseUtilities
@@ -901,24 +953,6 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 	}
 
 	if town.InputMode == engine.InputEquip {
-		if town.EquipCategory == -1 {
-			// Camp equip: waiting for member selection (1-6)
-			if ev.Key() == tcell.KeyRune {
-				ch := ev.Rune()
-				if ch >= '1' && ch <= '6' {
-					idx := int(ch-'0') - 1
-					if idx < len(town.Party.Members) && town.Party.Members[idx] != nil {
-						town.EditChar = town.Party.Members[idx]
-						startEquipFlow(game, town)
-					}
-				}
-			}
-			if ev.Key() == tcell.KeyEnter || ev.Key() == tcell.KeyEscape {
-				town.InputMode = engine.InputNone
-				town.Message = ""
-			}
-			return false
-		}
 		if ev.Key() == tcell.KeyEnter {
 			// RETURN = skip this category (equip nothing for it)
 			advanceEquipCategory(game, town)
@@ -1127,6 +1161,12 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 					}
 				}
 				if !found {
+					if game.Scenario.ScenarioNum >= 2 {
+						// Wiz 2/3: no character creation — silently re-prompt
+						town.InputMode = engine.InputTrainingName
+						town.InputBuf = ""
+						return false
+					}
 					if len(town.Roster.Characters) >= 20 {
 						town.Message = "THERE IS NO ROOM LEFT - TRY DELETING"
 					} else {
@@ -1834,8 +1874,31 @@ func buildEquipChoices(game *engine.GameState, town *engine.TownState) {
 	if catIdx >= len(engine.EquipCategories) {
 		// Done with all categories — recalculate AC from equipped items
 		recalcAC(c, items)
-		town.InputMode = engine.InputInspect
 		town.EquipChoices = nil
+
+		// Party-wide equip mode: advance to next party member
+		if town.EquipPartyMode {
+			town.EquipPartyIdx++
+			for town.EquipPartyIdx < len(town.Party.Members) {
+				m := town.Party.Members[town.EquipPartyIdx]
+				if m != nil && m.IsAlive() {
+					break
+				}
+				town.EquipPartyIdx++
+			}
+			if town.EquipPartyIdx < len(town.Party.Members) {
+				town.EditChar = town.Party.Members[town.EquipPartyIdx]
+				startEquipFlow(game, town)
+				return
+			}
+			// All party members equipped
+			town.EquipPartyMode = false
+			town.EditChar = nil
+			town.InputMode = engine.InputNone
+			return
+		}
+
+		town.InputMode = engine.InputInspect
 		return
 	}
 	cat := engine.EquipCategories[catIdx]
@@ -2947,12 +3010,23 @@ func handleCampInput(game *engine.GameState, ev *tcell.EventKey) {
 			game.Town.ReorderResult = nil
 			game.Town.Message = ""
 		}
-	case 'E': // Equip — select a member first, then enter category equip flow
-		// In the original, camp E equips ALL members in sequence (global6=-1).
-		// For now: prompt which member, then equip that one.
-		game.Town.Message = "EQUIP WHO? (1-6)"
-		game.Town.InputMode = engine.InputEquip
-		game.Town.EquipCategory = -1 // -1 = waiting for member selection
+	case 'E': // Equip — equip ALL party members in sequence
+		// Pascal CAMP2.TEXT line 501-504: XGOTO := XEQPDSP; LLBASE04 := -1
+		// LLBASE04 = -1 means equip all party members, iterating through each
+		game.Town.EquipPartyMode = true
+		game.Town.EquipPartyIdx = 0
+		// Find first alive party member
+		for game.Town.EquipPartyIdx < len(game.Town.Party.Members) {
+			m := game.Town.Party.Members[game.Town.EquipPartyIdx]
+			if m != nil && m.IsAlive() {
+				break
+			}
+			game.Town.EquipPartyIdx++
+		}
+		if game.Town.EquipPartyIdx < len(game.Town.Party.Members) {
+			game.Town.EditChar = game.Town.Party.Members[game.Town.EquipPartyIdx]
+			startEquipFlow(game, game.Town)
+		}
 	case 'D': // Disband — from p-code CAMP proc 2 (IC 5834)
 		// Save party members back to roster, age +25 weeks, return to town
 		for i, m := range game.Town.Party.Members {
@@ -3535,6 +3609,16 @@ func handleCombatInput(game *engine.GameState, ev *tcell.EventKey) {
 		}
 
 	case engine.CombatExecute:
+		// HAMAN/MAHAMAN interactive boon selection (Wiz 2/3)
+		if combat.HamanSelecting {
+			if ev.Key() == tcell.KeyRune {
+				ch := ev.Rune()
+				if ch >= '1' && ch <= '3' {
+					combat.ExecuteHamanChoice(game, int(ch-'1'))
+				}
+			}
+			return
+		}
 		// Keypress also advances (speed through) — same as auto-advance
 		if ev.Key() == tcell.KeyEnter || ev.Key() == tcell.KeyRune {
 			advanceCombatMessages(game)
