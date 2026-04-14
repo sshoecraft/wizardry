@@ -606,6 +606,12 @@ func (s *Screen) renderTrainingScreen(game *engine.GameState) {
 	// Character inspect/edit screens — from ROLLER segment p-code
 	if town.EditChar != nil {
 		switch town.InputMode {
+		case engine.InputRiteCeremony:
+			s.renderRiteCeremony(game)
+			return
+		case engine.InputRiteAlign:
+			s.renderRiteAlign(game)
+			return
 		case engine.InputCharEdit:
 			s.renderCharEditScreen(game)
 			return
@@ -746,17 +752,68 @@ func (s *Screen) renderCharEditScreen(game *engine.GameState) {
 
 	// Rows 2-7: menu — WRITESTR widths right-justify to align at col 8
 	// "YOU MAY " is 8 chars, so I)NSPECT starts at col 8.
-	// Subsequent lines use width 32/23/29 to pad 8 leading spaces.
-	s.DrawString(0, 2, styleNormal, "YOU MAY I)NSPECT THIS CHARACTER,")
-	s.DrawString(8, 3, styleNormal, "D)ELETE  THIS CHARACTER,")
-	s.DrawString(8, 4, styleNormal, "R)EROLL  THIS CHARACTER,")
-	s.DrawString(8, 5, styleNormal, "C)HANGE  CLASS,")
-	s.DrawString(8, 6, styleNormal, "S)ET NEW PASSWORD, OR")
-	s.DrawString(0, 7, styleNormal, "  PRESS [RET] TO LEAVE")
+	// Wiz 3 has R)ITE OF PASSAGE instead of R)EROLL, A)LTER instead of S)ET.
+	// From Wiz 3 ROLLER.TEXT line 649: R)ITE OF PASSAGE/I)NSPECT/D)ELETE/C)HANGE CLASS/A)LTER PASSWORD/L)EAVE
+	if game.Scenario.ScenarioNum == 3 {
+		s.DrawString(0, 2, styleNormal, "R)ITE OF PASSAGE,")
+		s.DrawString(0, 3, styleNormal, "YOU MAY I)NSPECT THIS CHARACTER,")
+		s.DrawString(8, 4, styleNormal, "D)ELETE  THIS CHARACTER,")
+		s.DrawString(8, 5, styleNormal, "C)HANGE  CLASS,")
+		s.DrawString(8, 6, styleNormal, "S)ET NEW PASSWORD, OR")
+		s.DrawString(0, 7, styleNormal, "  PRESS [RET] TO LEAVE")
+	} else {
+		s.DrawString(0, 2, styleNormal, "YOU MAY I)NSPECT THIS CHARACTER,")
+		s.DrawString(8, 3, styleNormal, "D)ELETE  THIS CHARACTER,")
+		s.DrawString(8, 4, styleNormal, "R)EROLL  THIS CHARACTER,")
+		s.DrawString(8, 5, styleNormal, "C)HANGE  CLASS,")
+		s.DrawString(8, 6, styleNormal, "S)ET NEW PASSWORD, OR")
+		s.DrawString(0, 7, styleNormal, "  PRESS [RET] TO LEAVE")
+	}
 
 	if game.Town.Message != "" {
 		s.DrawString(0, 9, styleGold, game.Town.Message)
 	}
+}
+
+// renderRiteCeremony draws the Rite of Passage ceremony text.
+// From Pascal ROLLER.TEXT RITEPASS (lines 363-370):
+//
+//	THE RITE OF PASSAGE CEREMONY
+//	NOW BEGINS.
+//	(blank)
+//	THE TEMPLE PRIESTS LINK UP THIS
+//	ANCESTRAL SPIRIT WITH ITS
+//	DESCENDANT...
+//	(blank)
+//	PRESS (RETURN)
+func (s *Screen) renderRiteCeremony(game *engine.GameState) {
+	s.DrawString(0, 2, styleNormal, "THE RITE OF PASSAGE CEREMONY")
+	s.DrawString(0, 3, styleNormal, "NOW BEGINS.")
+	s.DrawString(0, 5, styleNormal, "THE TEMPLE PRIESTS LINK UP THIS")
+	s.DrawString(0, 6, styleNormal, "ANCESTRAL SPIRIT WITH ITS")
+	s.DrawString(0, 7, styleNormal, "DESCENDANT...")
+	s.DrawString(0, 9, styleNormal, "PRESS (RETURN)")
+}
+
+// renderRiteAlign draws the alignment selection for the Rite of Passage.
+// From Pascal ROLLER.TEXT CHOSALGN (lines 304-332).
+func (s *Screen) renderRiteAlign(game *engine.GameState) {
+	town := game.Town
+	s.DrawString(0, 2, styleNormal, "CHOOSE ALIGNMENT FOR DESCENDANT:")
+	row := 4
+	if town.RiteAlignGood {
+		s.DrawString(0, row, styleNormal, "A)    GOOD")
+		row++
+	}
+	if town.RiteAlignNeut {
+		s.DrawString(0, row, styleNormal, "B) NEUTRAL")
+		row++
+	}
+	if town.RiteAlignEvil {
+		s.DrawString(0, row, styleNormal, "C)    EVIL")
+		row++
+	}
+	s.DrawString(0, row+1, styleNormal, "SELECT ALIGNMENT >")
 }
 
 // renderClassChangeScreen draws the class change selection.

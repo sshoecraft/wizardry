@@ -125,6 +125,9 @@ type Character struct {
 	// Poison — from TCHAR LOSTXYL variant offset 0xC6
 	PoisonAmt int `json:"poison_amt,omitempty"` // HP lost per step while poisoned
 
+	// Wiz 3 legacy flag — LOSTXYL.AWARDS bit 13. Set by Rite of Passage.
+	IsLegacy bool `json:"is_legacy,omitempty"`
+
 	// Pascal MAXLEVAC: level at which HPMAX was last set. Used for drain HPMAX recalculation.
 	MaxLevAC int `json:"max_lev_ac,omitempty"`
 

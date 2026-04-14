@@ -336,3 +336,177 @@ func (cs *CreationState) FinalizeCharacter() *Character {
 
 	return c
 }
+
+// RiteCanPerform checks if a character can undergo the Rite of Passage.
+// From Pascal ROLLER.TEXT RITEPASS (lines 345-362):
+//   - Must not already be a legacy (AWARDSXX[13])
+//   - Must be alive (STATUS < DEAD)
+//   - Must be in the castle (not INMAZE, LOCATION[3] == 0)
+// Returns "" if OK, or an error message string.
+func RiteCanPerform(c *Character) string {
+	if c.IsLegacy {
+		return "THIS CHARACTER IS ALREADY A LEGACY!"
+	}
+	if c.InMaze || c.MazeLevel != 0 || c.Status >= Dead {
+		return "YOUR CHARACTER MUST BE ALIVE\nAND IN THE CASTLE TO BE ABLE\nTO GENERATE A LEGACY."
+	}
+	return ""
+}
+
+// RiteAlignOptions returns which alignments are available for the descendant.
+// From Pascal ROLLER.TEXT RITEPASS (lines 416-470): per-class restrictions.
+func RiteAlignOptions(class Class) (good, neut, evil bool) {
+	switch class {
+	case Fighter, Mage:
+		return true, true, true
+	case Priest, Bishop:
+		return true, false, true // not neutral
+	case Thief:
+		return false, true, true // not good
+	case Samurai:
+		return true, true, false // not evil
+	case Lord:
+		return false, false, false // forced good
+	case Ninja:
+		return false, false, false // forced evil
+	}
+	return true, true, true
+}
+
+// RiteApply performs the Rite of Passage transformation on a character.
+// From Pascal ROLLER.TEXT RITEPASS (lines 374-474).
+// The alignment must already be set on c before calling this.
+func RiteApply(c *Character) {
+	c.IsLegacy = true
+	c.Age = 1040
+	c.XP = 0
+	if c.Gold > 500 {
+		c.Gold = 500
+	}
+	c.Level = 1
+	c.MaxLevAC = 1
+	c.ItemCount = 0
+	c.Items = [8]Possession{}
+	c.AC = 10
+	c.InMaze = false
+	c.MazeLevel = 0
+	c.MazeX = 0
+	c.MazeY = 0
+	c.PoisonAmt = 0
+
+	// ADJATTR(attr, -3): for negative adj, random 0..abs(adj), 50% chance of negation.
+	// Result clamped to 3-18. From Pascal lines 267-282.
+	adjAttr := func(val int, adj int) int {
+		if adj < 0 {
+			r := rand.Intn(abs(adj) + 1)
+			if rand.Intn(100) > 49 {
+				r = -r
+			}
+			adj = r
+		}
+		val += adj
+		if val < 3 {
+			val = 3
+		}
+		if val > 18 {
+			val = 18
+		}
+		return val
+	}
+
+	// Count known spells before clearing (for IQ/Piety bonus)
+	mageCount := 0
+	for i := 0; i < 21; i++ {
+		if c.SpellKnown[i] {
+			mageCount++
+		}
+	}
+	priestCount := 0
+	for i := 21; i < 50; i++ {
+		if c.SpellKnown[i] {
+			priestCount++
+		}
+	}
+
+	// Adjust all attributes by -3 (random reduction)
+	c.Strength = adjAttr(c.Strength, -3)
+	c.IQ = adjAttr(c.IQ, -3)
+	c.Piety = adjAttr(c.Piety, -3)
+	c.Vitality = adjAttr(c.Vitality, -3)
+	c.Agility = adjAttr(c.Agility, -3)
+	c.Luck = adjAttr(c.Luck, -3)
+
+	// Bonus from known spells: IQ += mageCount/7, Piety += (priestCount+1)/10
+	c.IQ = adjAttr(c.IQ, mageCount/7)
+	c.Piety = adjAttr(c.Piety, (priestCount+1)/10)
+
+	// Clear all spells
+	c.SpellKnown = [50]bool{}
+	c.MageSpells = [7]int{}
+	c.PriestSpells = [7]int{}
+	c.MaxMageSpells = [7]int{}
+	c.MaxPriestSpells = [7]int{}
+
+	// Per-class: stat bonus + starting HP + starting spells
+	// From Pascal ROLLER.TEXT RITEPASS lines 416-471
+	switch c.Class {
+	case Fighter:
+		c.Strength = adjAttr(c.Strength, 2)
+		c.HP = 10
+	case Mage:
+		c.Agility = adjAttr(c.Agility, 2)
+		c.SpellKnown[SpellIndex["HALITO"]] = true
+		c.SpellKnown[SpellIndex["KATINO"]] = true
+		c.MageSpells[0] = 2
+		c.MaxMageSpells[0] = 2
+		c.HP = 4
+	case Priest:
+		c.Vitality = adjAttr(c.Vitality, 2)
+		c.SpellKnown[SpellIndex["DIOS"]] = true
+		c.SpellKnown[SpellIndex["BADIOS"]] = true
+		c.PriestSpells[0] = 2
+		c.MaxPriestSpells[0] = 2
+		c.HP = 8
+	case Thief:
+		c.Agility = adjAttr(c.Agility, 2)
+		c.HP = 6
+	case Bishop:
+		c.Vitality = adjAttr(c.Vitality, 2)
+		c.SpellKnown[SpellIndex["HALITO"]] = true
+		c.SpellKnown[SpellIndex["KATINO"]] = true
+		c.MageSpells[0] = 2
+		c.MaxMageSpells[0] = 2
+		c.SpellKnown[SpellIndex["DIOS"]] = true
+		c.SpellKnown[SpellIndex["BADIOS"]] = true
+		c.PriestSpells[0] = 2
+		c.MaxPriestSpells[0] = 2
+		c.HP = 6
+	case Samurai:
+		c.Strength = adjAttr(c.Strength, 2)
+		c.SpellKnown[SpellIndex["HALITO"]] = true
+		c.SpellKnown[SpellIndex["KATINO"]] = true
+		c.MageSpells[0] = 2
+		c.MaxMageSpells[0] = 2
+		c.HP = 12
+	case Lord:
+		c.Strength = adjAttr(c.Strength, 2)
+		c.SpellKnown[SpellIndex["DIOS"]] = true
+		c.SpellKnown[SpellIndex["BADIOS"]] = true
+		c.PriestSpells[0] = 2
+		c.MaxPriestSpells[0] = 2
+		c.HP = 12
+	case Ninja:
+		c.Agility = adjAttr(c.Agility, 2)
+		c.HP = 7
+	}
+
+	c.MaxHP = c.HP
+	c.Status = OK
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}

@@ -1,7 +1,5 @@
 # Wizardry
 
-This project is an homage to the original Apple II Wizardry game that left a lasting mark on my life. Back in the early 1980s, sitting with my cousin Brad, I encountered something that sparked a deep curiosity about how computers worked. That moment led me into programming, grew into a lifetime in IT, and ultimately became a lasting passion for computing itself. Every project I take on today traces back, in some way, to that first experience. This recreation isn't just about preserving a classic—it's about honoring the experience that started it all.
-
 A terminal-based recreation of Wizardry: Proving Grounds of the Mad Overlord (and scenarios 2-3) written in Go. Single binary, no external data files, no runtime dependencies.
 
 ![Sixel Graphics Mode - Dungeon View](images/sixel_maze.png)
@@ -29,10 +27,12 @@ This is a clean-room implementation of the Wizardry 1-3 game engine for modern t
 - Scenario-specific title sequences: Wiz 1 animated WT bitmap, Wiz 2 KODIMAGE, Wiz 3 PICTURE.BITS 10-frame story
 - NTSC artifact color mode (`--color`) for all Sixel graphics — title screens, dungeon views, monster images
 - Full character creation with all 5 races, 8 classes, and 3 alignments
+- Wiz 3 character import with Rite of Passage ceremony (converts Wiz 1/2 characters to descendants)
 - All 50 spells (21 mage + 29 priest) with original effects
 - Complete combat system with initiative, monster AI, spell resistance, breath weapons, level drain
 - Town locations: Castle, Tavern, Inn, Boltac's Trading Post, Temple, Training Grounds
 - Wireframe 3D dungeon view with 5 depth layers
+- Audible wall collision feedback (terminal bell)
 - Save/load game state
 - Map overlay (M key)
 - Adjustable viewport scaling

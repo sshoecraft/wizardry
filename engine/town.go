@@ -130,6 +130,8 @@ const (
 	InputConfirmCreate // "DO YOU WANT TO CREATE IT? Y/N ? >"
 	InputMalor         // MALOR teleport: N/S/E/W/U/D displacement, RETURN to teleport
 	InputClassChange   // class change selection: A-H picks class, RET cancels
+	InputRiteCeremony  // Wiz 3: displaying ceremony text, waiting for RETURN
+	InputRiteAlign     // Wiz 3: choosing alignment for descendant (A/B/C)
 )
 
 // TownState tracks the current town UI state.
@@ -175,6 +177,11 @@ type TownState struct {
 	PendingSpell    *Spell  // spell waiting for target selection ("CAST ON WHO")
 	PasswordStep    int     // 0=first entry, 1=confirm (for InputSetPassword)
 	PasswordFirst   string  // first password entry (for confirmation comparison)
+
+	// Rite of Passage state (Wiz 3) — from ROLLER.TEXT RITEPASS
+	RiteAlignGood bool // can choose Good
+	RiteAlignNeut bool // can choose Neutral
+	RiteAlignEvil bool // can choose Evil
 
 	// MALOR teleport displacement — from Pascal UTILITIE.TEXT lines 432-473
 	MalorDeltaEW int // east(+)/west(-) displacement

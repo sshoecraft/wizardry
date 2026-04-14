@@ -92,6 +92,12 @@ func (s *Screen) PollEvent() tcell.Event {
 	return s.tcell.PollEvent()
 }
 
+// Beep sends an audible bell to the terminal (ASCII BEL).
+// Matches original Apple II WRITE(CHR(7)) behavior.
+func (s *Screen) Beep() {
+	s.tcell.Beep()
+}
+
 // DrawString writes a string at the given position.
 // When scale > 1, x is in logical coordinates and each character
 // occupies `scale` screen columns (char + padding).

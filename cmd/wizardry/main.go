@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.15.1"
+const version = "0.15.2"
 
 func main() {
 	scenarioName := "1"
@@ -156,7 +156,7 @@ func main() {
 				case engine.PhaseCamp:
 					handleCampInput(game, ev)
 				case engine.PhaseMaze:
-					if handleMazeInput(game, ev) {
+					if handleMazeInput(screen, game, ev) {
 						return
 					}
 				case engine.PhaseCombat:
@@ -876,6 +876,68 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 		return handleClassChange(game, ev)
 	}
 
+	// Rite of Passage ceremony — waiting for RETURN
+	if town.InputMode == engine.InputRiteCeremony {
+		if ev.Key() == tcell.KeyEnter {
+			c := town.EditChar
+			good, neut, evil := engine.RiteAlignOptions(c.Class)
+			if !good && !neut && !evil {
+				// Lord → forced Good, Ninja → forced Evil
+				if c.Class == engine.Lord {
+					c.Alignment = engine.Good
+				} else {
+					c.Alignment = engine.Evil
+				}
+				engine.RiteApply(c)
+				town.Message = c.Name + " IS NOW A LEGACY!"
+				town.InputMode = engine.InputCharEdit
+				game.Save()
+			} else {
+				town.RiteAlignGood = good
+				town.RiteAlignNeut = neut
+				town.RiteAlignEvil = evil
+				town.InputMode = engine.InputRiteAlign
+			}
+		}
+		return false
+	}
+
+	// Rite of Passage alignment choice
+	if town.InputMode == engine.InputRiteAlign {
+		if ev.Key() == tcell.KeyRune {
+			ch := ev.Rune()
+			if ch >= 'a' && ch <= 'z' {
+				ch -= 32
+			}
+			c := town.EditChar
+			picked := false
+			switch ch {
+			case 'A':
+				if town.RiteAlignGood {
+					c.Alignment = engine.Good
+					picked = true
+				}
+			case 'B':
+				if town.RiteAlignNeut {
+					c.Alignment = engine.Neutral
+					picked = true
+				}
+			case 'C':
+				if town.RiteAlignEvil {
+					c.Alignment = engine.Evil
+					picked = true
+				}
+			}
+			if picked {
+				engine.RiteApply(c)
+				town.Message = c.Name + " IS NOW A LEGACY!"
+				town.InputMode = engine.InputCharEdit
+				game.Save()
+			}
+		}
+		return false
+	}
+
 	// Character edit mode — from ROLLER segment p-code
 	if town.InputMode == engine.InputCharEdit {
 		return handleCharEdit(game, ev)
@@ -1110,6 +1172,10 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 					}
 					if inParty {
 						town.Message = fmt.Sprintf("%s IS ALREADY IN THE PARTY!", c.Name)
+					} else if game.Scenario.ScenarioNum == 3 && !c.IsLegacy {
+						// Wiz 3: characters must undergo Rite of Passage before joining.
+						// From Pascal CASTLE.TEXT line 213: AWARDSXX[13] = FALSE → "** ONLY A MEMORY **"
+						town.Message = "** ONLY A MEMORY **"
 					} else if c.Password != "" {
 						// From p-code CASTLE proc 30 (IC 1416-1468):
 						// "ENTER PASSWORD  >" at GOTOXY(0,20)
@@ -2382,17 +2448,29 @@ func handleCharEdit(game *engine.GameState, ev *tcell.EventKey) bool {
 		town.InputMode = engine.InputTrainingName
 		town.InputBuf = ""
 		town.EditChar = nil
-	case 'R': // Reroll — full re-creation from p-code ROLLER (IC 5306-5330)
-		// Removes existing character from roster and starts fresh creation
-		// with the same name, going through race → alignment → stats → class → confirm
-		name := c.Name
-		town.Roster.Remove(name)
-		town.Creation = engine.NewCreationState()
-		town.Creation.Name = name
-		town.Creation.Step = engine.StepPassword
-		game.Phase = engine.PhaseCreation
-		town.EditChar = nil
-		town.InputMode = engine.InputNone
+	case 'R':
+		if game.Scenario.ScenarioNum == 3 {
+			// Rite of Passage — Wiz 3 only. From Pascal ROLLER.TEXT RITEPASS.
+			msg := engine.RiteCanPerform(c)
+			if msg != "" {
+				town.Message = msg
+			} else {
+				town.InputMode = engine.InputRiteCeremony
+				town.Message = ""
+			}
+		} else {
+			// Reroll — full re-creation from p-code ROLLER (IC 5306-5330)
+			// Removes existing character from roster and starts fresh creation
+			// with the same name, going through race → alignment → stats → class → confirm
+			name := c.Name
+			town.Roster.Remove(name)
+			town.Creation = engine.NewCreationState()
+			town.Creation.Name = name
+			town.Creation.Step = engine.StepPassword
+			game.Phase = engine.PhaseCreation
+			town.EditChar = nil
+			town.InputMode = engine.InputNone
+		}
 	case 'C': // Change class — from Pascal ROLLER.TEXT CHGCLASS (lines 574-639)
 		avail := engine.CharClassQualifies(c)
 		// Exclude current class (Pascal line 590: NOT (CLASSX = CHARREC.CLASS))
@@ -3047,7 +3125,7 @@ func handleCampInput(game *engine.GameState, ev *tcell.EventKey) {
 	}
 }
 
-func handleMazeInput(game *engine.GameState, ev *tcell.EventKey) bool {
+func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.EventKey) bool {
 	// Map view: arrow keys pan, C re-centers, any other key dismisses
 	if game.ShowMap {
 		switch ev.Key() {
@@ -3239,6 +3317,7 @@ func handleMazeInput(game *engine.GameState, ev *tcell.EventKey) bool {
 			moved = true
 		} else {
 			game.ViewportMsg = "OUCH!"
+			screen.Beep()
 		}
 	case 'L', 'A': // Turn left
 		game.TurnLeft()
@@ -3251,6 +3330,7 @@ func handleMazeInput(game *engine.GameState, ev *tcell.EventKey) bool {
 			moved = true
 		} else {
 			game.ViewportMsg = "OUCH!"
+			screen.Beep()
 		}
 	case 'C': // Camp — from p-code RUNNER: sets global[10]=12, exits to CAMP segment
 		game.Phase = engine.PhaseCamp
