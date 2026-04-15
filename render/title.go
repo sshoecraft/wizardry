@@ -181,7 +181,7 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 	case engine.TitleMenu:
 		if game.Scenario.Title == nil {
 			// Wiz 3: text-only title with game name (no title image)
-			y := 4
+			y := 2
 			name := game.Scenario.Game
 			pad := (40 - len(name)) / 2
 			if pad < 0 {
@@ -191,7 +191,7 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 				name = " " + name
 			}
 			s.DrawString(0, y, white, name)
-			y += 4
+			y += 2
 			s.drawCentered(y, white, "NOTICE")
 			y += 2
 			s.drawCentered(y, white, "THIS SOFTWARE IS A MODERN RECREATION")
@@ -213,7 +213,7 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 			s.drawCentered(y, white, "ORIGINAL GAME BY ANDREW GREENBERG")
 			y++
 			s.drawCentered(y, white, "AND ROBERT WOODHEAD")
-			y += 4
+			y += 2
 			s.drawCentered(y, white, "S)TART GAME  U)TILITIES")
 		} else {
 			// Wiz 1: notice + version + menu
