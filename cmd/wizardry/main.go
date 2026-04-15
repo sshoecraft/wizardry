@@ -3875,13 +3875,6 @@ func handleCombatInput(game *engine.GameState, ev *tcell.EventKey) {
 		return
 	}
 
-	// Input guard: consume one keypress after phase transitions to prevent
-	// key-repeat bleed (e.g. holding Enter through combat messages into victory)
-	if combat.InputGuard {
-		combat.InputGuard = false
-		return
-	}
-
 	switch combat.Phase {
 	case engine.CombatInit:
 		// Timed auto-advance — no keypress needed.
@@ -4002,9 +3995,6 @@ func advanceCombatMessages(game *engine.GameState) {
 	combat.DisplayAliveCounts = nil
 	combat.DisplayPartySnap = nil
 
-	// Guard against key-repeat bleed into the next phase
-	combat.InputGuard = true
-
 	// Resolve round end
 	if combat.Fled {
 		game.Combat = nil
@@ -4082,7 +4072,6 @@ func advanceChestMessages(game *engine.GameState) {
 	combat.ChestPauseUsed = false
 
 	// All messages shown — transition
-	combat.InputGuard = true
 	if combat.ChestOpened || combat.ChestLeft {
 		combat.FinalizeChest(game)
 	} else {

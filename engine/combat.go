@@ -206,7 +206,6 @@ type CombatState struct {
 	EncounterType int             // Pascal ATTK012: 0=random, 1=fight-zone cleared, 2=fight-zone/alarm/fixed
 	Fled         bool             // party fled successfully
 	Friendly     bool             // true if this is a friendly encounter (from CINIT disposition)
-	InputGuard   bool             // true = ignore next keypress (prevents key-repeat bleed across phase transitions)
 
 	// Spell input state
 	SpellInput     string // current spell name being typed
