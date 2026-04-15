@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-var version = "1.1.0"
+var version = "1.1.1"
 var buildDate string // set via ldflags: -ldflags "-X main.buildDate=15-APR-26"
 
 func main() {
@@ -206,12 +206,18 @@ func main() {
 			if game.Phase == engine.PhaseCombat && game.Combat != nil {
 				combat := game.Combat
 
-				// Compute delay from T)IME setting (MazeDelay 1-5000 → ms)
-				delayMs := 1500 // default
-				if game.MazeDelay > 0 {
-					delayMs = game.MazeDelay * 3 / 10 // ~0.3ms per unit
-					if delayMs < 50 {
-						delayMs = 50 // minimum 50ms
+				// Compute delay based on combat phase.
+				// PAUSE1 (CombatInit/CombatExecute): T)IME-controlled (MazeDelay 1-5000 → ms).
+				// PAUSE2 (CombatChestResult/CombatVictory/CombatDefeat): fixed delay —
+				//   Pascal PAUSE2 hardcodes 3000, independent of T)IME setting.
+				delayMs := 1500 // default (PAUSE2 fixed, and PAUSE1 with no T)IME set)
+				if combat.Phase == engine.CombatInit || combat.Phase == engine.CombatExecute {
+					// PAUSE1: uses T)IME setting
+					if game.MazeDelay > 0 {
+						delayMs = game.MazeDelay * 3 / 10 // ~0.3ms per unit
+						if delayMs < 50 {
+							delayMs = 50 // minimum 50ms
+						}
 					}
 				}
 				elapsed := time.Since(lastCombatAdvance)
