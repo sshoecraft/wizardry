@@ -69,14 +69,16 @@ type CombatMonster struct {
 type MonsterGroup struct {
 	MonsterID  int              // index into Scenario.Monsters
 	Members    []*CombatMonster // individual monsters in this group
+	AliveCnt   int              // Pascal ALIVECNT — iteration bound for alive members
 	Identified bool             // party has identified this group
 }
 
 // AliveCount returns the number of living monsters in this group.
+// Uses AliveCnt as the iteration bound (only Members[0..AliveCnt-1] are alive).
 func (g *MonsterGroup) AliveCount() int {
 	count := 0
-	for _, m := range g.Members {
-		if m.Status < 5 { // not dead
+	for i := 0; i < g.AliveCnt && i < len(g.Members); i++ {
+		if g.Members[i].Status < 5 {
 			count++
 		}
 	}
@@ -88,10 +90,12 @@ func (g *MonsterGroup) AliveCount() int {
 // (2) Shift groups so empty ones (AliveCount=0) move to end
 // Called during action selection (CombatChoose), NOT during ExecuteRound.
 func (cs *CombatState) CompactGroups() {
-	// (1) Compact alive members to front within each group
+	// (1) Compact alive members to front within each group.
+	// Pascal COMBAT3.TEXT lines 29-60: moves alive to front, updates ALIVECNT.
+	// Dead members beyond AliveCnt stay in the array for XP counting.
 	for _, g := range cs.Groups {
 		alive := 0
-		for i := 0; i < len(g.Members); i++ {
+		for i := 0; i < g.AliveCnt; i++ {
 			if g.Members[i].Status < 5 {
 				if alive != i {
 					g.Members[alive] = g.Members[i]
@@ -99,7 +103,7 @@ func (cs *CombatState) CompactGroups() {
 				alive++
 			}
 		}
-		// Don't truncate — dead members stay for XP counting
+		g.AliveCnt = alive
 	}
 	// (2) Shift non-empty groups to front
 	for i := 0; i < len(cs.Groups)-1; i++ {
@@ -376,6 +380,7 @@ func NewCombat(game *GameState) *CombatState {
 		group := &MonsterGroup{
 			MonsterID: curMonIdx,
 			Members:   make([]*CombatMonster, count),
+			AliveCnt:  count,
 		}
 		for i := 0; i < count; i++ {
 			hp := rollDice(mon.HP.Num, mon.HP.Sides, mon.HP.Bonus)
@@ -822,6 +827,7 @@ func unused_executeOneMonsterAction(cs *CombatState, cm *CombatMonster, group *M
 				Initiative: -1,
 			}
 			group.Members = append(group.Members, newMon)
+			group.AliveCnt++
 		}
 		cs.endAction()
 		return
@@ -1165,6 +1171,7 @@ func (cs *CombatState) executeMonsterSlot(slot int, game *GameState) {
 						Initiative: -1, // won't act this round
 					}
 					group.Members = append(group.Members, newMon)
+					group.AliveCnt++
 				}
 				cs.endAction()
 				continue
