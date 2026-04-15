@@ -2613,7 +2613,10 @@ func XPForNextLevel(c *Character, game *GameState) int {
 }
 
 // CheckLevelUp checks if a character has enough XP to level up, and if so,
-// levels them up, rolls HP, and runs TRYLEARN for spell learning.
+// levels them up and runs TRYLEARN for spell learning.
+// HP recalculation is NOT done here — it must happen AFTER GAINLOST (InnStatChanges)
+// because GAINLOST can change VIT, which affects the HP rolls.
+// Pascal MADELEV order: level++, MAXLEVAC, SETSPELS, TRYLEARN, GAINLOST, HP calc.
 // Returns true if new spells were learned (for "YOU LEARNED NEW SPELLS!!!!" message).
 func CheckLevelUp(c *Character, game *GameState) bool {
 	if game.Scenario.ExpTable == nil {
@@ -2632,39 +2635,42 @@ func CheckLevelUp(c *Character, game *GameState) bool {
 	}
 	if c.XP >= needed {
 		c.Level = nextLevel
-
-		// Pascal MADELEV (CASTLE2.TEXT lines 375-382): re-roll HP from scratch
-		// NEWHPMAX = sum of Level rolls of (1dClassDie + vitMod), each min 1
-		// Samurai gets one extra MOREHP roll
-		// If newMax <= oldMax, set newMax = oldMax + 1
-		// HPLEFT is NOT changed (no auto-heal)
-		die := classHPDie(c.Class)
-		vmod := vitMod(c.Vitality)
-		oldMax := c.MaxHP
-		newMax := 0
-		rolls := c.Level
-		if c.Class == Samurai {
-			rolls++ // Samurai bonus roll
+		if c.Level > c.MaxLevAC {
+			c.MaxLevAC = c.Level
 		}
-		for i := 0; i < rolls; i++ {
-			hp := rollDice(1, die, 0) + vmod
-			if hp < 1 {
-				hp = 1
-			}
-			newMax += hp
-		}
-		if newMax <= oldMax {
-			newMax = oldMax + 1
-		}
-		c.MaxHP = newMax
-		c.MaxLevAC = c.Level // Pascal: MAXLEVAC := CHARLEV
-		// Do NOT set c.HP = c.MaxHP — Pascal doesn't auto-heal on level-up
 
 		// TRYLEARN — learn new spells and recalculate slots
 		// Pascal CASTLE2.TEXT lines 209-295
 		return TryLearn(c)
 	}
 	return false
+}
+
+// RecalcHP re-rolls MaxHP from scratch for the character's current level.
+// Pascal MADELEV (CASTLE2.TEXT lines 375-382): NEWHPMAX = sum of Level rolls
+// of (1dClassDie + vitMod), each min 1. Samurai gets one extra MOREHP roll.
+// If newMax <= oldMax, set newMax = oldMax + 1. HPLEFT is NOT changed.
+// Must be called AFTER GAINLOST (InnStatChanges) since VIT may have changed.
+func RecalcHP(c *Character) {
+	die := classHPDie(c.Class)
+	vmod := vitMod(c.Vitality)
+	oldMax := c.MaxHP
+	newMax := 0
+	rolls := c.Level
+	if c.Class == Samurai {
+		rolls++ // Samurai bonus roll
+	}
+	for i := 0; i < rolls; i++ {
+		hp := rollDice(1, die, 0) + vmod
+		if hp < 1 {
+			hp = 1
+		}
+		newMax += hp
+	}
+	if newMax <= oldMax {
+		newMax = oldMax + 1
+	}
+	c.MaxHP = newMax
 }
 
 // SetSpells recalculates max spell slots based on class and level.
@@ -2725,24 +2731,20 @@ func SetSpells(c *Character) {
 	}
 }
 
+// classHPDie returns the HP die for level-up rolls (MOREHP).
+// NOTE: This is DIFFERENT from ClassHPDie used for starting HP.
+// Pascal MOREHP groups Samurai with Priest at d8, but starting HP
+// (KEEPCHYN) gives Samurai 16. Two separate tables in the original.
 func classHPDie(c Class) int {
 	switch c {
-	case Fighter:
+	case Fighter, Lord:
 		return 10
+	case Priest, Samurai:
+		return 8
+	case Thief, Bishop, Ninja:
+		return 6
 	case Mage:
 		return 4
-	case Priest:
-		return 8
-	case Thief:
-		return 6
-	case Bishop:
-		return 6
-	case Samurai:
-		return 16
-	case Lord:
-		return 10
-	case Ninja:
-		return 6
 	}
 	return 6
 }

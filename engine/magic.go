@@ -370,8 +370,13 @@ func (c *Character) UseSpellSlot(sp *Spell) bool {
 
 // TryLearn attempts to learn new spells on level-up.
 // From Pascal TRYLEARN (CASTLE2.TEXT lines 209-295).
-// Calls SetSpells after learning. Returns true if any new spells were learned.
+// Pascal calls SETSPELS before TRYLEARN so spell slots reflect the new level.
+// We call SetSpells first here to match that order.
 func TryLearn(c *Character) bool {
+	// Update spell slots BEFORE learning — Pascal does SETSPELS then TRYLEARN.
+	// Without this, new spell levels from the level-up would be skipped.
+	SetSpells(c)
+
 	learned := false
 
 	// TRYMAGE — try mage spells using IQ
@@ -388,6 +393,7 @@ func TryLearn(c *Character) bool {
 		}
 	}
 
+	// Final SetSpells to account for newly learned spells
 	SetSpells(c)
 	return learned
 }

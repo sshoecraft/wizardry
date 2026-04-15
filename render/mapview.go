@@ -122,7 +122,7 @@ func (s *Screen) RenderMap(game *engine.GameState) {
 	white := base
 	dim := base
 	bold := base.Bold(true)
-	playerStyle := base.Bold(true)
+	playerStyle := tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
 	doorStyle := base
 
 	// Map dimensions: 81 wide × 41 tall (20 cells × (3+1) + 1)

@@ -23,7 +23,10 @@ func findMonsterPic(game *engine.GameState, combat *engine.CombatState) *data.Mo
 		return nil
 	}
 	for _, group := range combat.Groups {
-		if group.AliveCount() == 0 {
+		// During CombatExecute, show the monster pic even if all are dead —
+		// the kill messages haven't scrolled yet, so the player shouldn't
+		// see the image vanish before reading them.
+		if combat.Phase != engine.CombatExecute && group.AliveCount() == 0 {
 			continue
 		}
 		if group.MonsterID < 0 || group.MonsterID >= len(game.Scenario.Monsters) {
@@ -63,7 +66,7 @@ func overlayMonsterFromCombat(bmp *MazeBitmap, game *engine.GameState, combat *e
 	// During CombatExecute, show regardless of alive count — messages haven't
 	// displayed the kills yet, so the player shouldn't see them vanish early.
 	for _, group := range combat.Groups {
-		if group.AliveCount() == 0 {
+		if combat.Phase != engine.CombatExecute && group.AliveCount() == 0 {
 			continue
 		}
 		if group.MonsterID < 0 || group.MonsterID >= len(game.Scenario.Monsters) {

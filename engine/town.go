@@ -130,6 +130,8 @@ const (
 	InputConfirmCreate // "DO YOU WANT TO CREATE IT? Y/N ? >"
 	InputMalor         // MALOR teleport: N/S/E/W/U/D displacement, RETURN to teleport
 	InputClassChange   // class change selection: A-H picks class, RET cancels
+	InputConfirmReroll // "ARE YOU SURE YOU WANT TO REROLL (Y/N) ?"
+	InputConfirmDelete // "ARE YOU SURE YOU WANT TO DELETE (Y/N) ?"
 	InputRiteCeremony  // Wiz 3: displaying ceremony text, waiting for RETURN
 	InputRiteAlign     // Wiz 3: choosing alignment for descendant (A/B/C)
 )

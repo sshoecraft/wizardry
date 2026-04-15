@@ -31,6 +31,7 @@ type CreationState struct {
 	Password      string // password being entered
 	PasswordStep  int    // 0=first entry, 1=confirm entry
 	PasswordFirst string // first entry stored for comparison
+	Reroll        bool   // true if this creation is from a reroll (return to edit screen)
 }
 
 var StatNames = [6]string{"STRENGTH", "I.Q.", "PIETY", "VITALITY", "AGILITY", "LUCK"}
@@ -57,7 +58,7 @@ func NewCreationState() *CreationState {
 // 1-in-11 chance to add +10 each time (while <= 20).
 func RollBonusPoints() int {
 	bonus := 7 + rand.Intn(4) // 7, 8, 9, or 10
-	for bonus <= 20 && rand.Intn(11) == 10 {
+	for bonus < 20 && rand.Intn(11) == 10 {
 		bonus += 10
 	}
 	return bonus
@@ -249,30 +250,33 @@ var ClassHPDie = [8]int{
 	6,  // Ninja
 }
 
-// VIT modifier table for HP. Verified from p-code.
+// VIT modifier table for HP. From Pascal KEEPCHYN/MOREHP CASE statements.
+// Uses exact case values matching the original — no ranges.
 func vitMod(vit int) int {
-	switch {
-	case vit <= 3:
+	switch vit {
+	case 3:
 		return -2
-	case vit <= 5:
+	case 4, 5:
 		return -1
-	case vit >= 18:
-		return 3
-	case vit >= 17:
-		return 2
-	case vit >= 16:
+	case 16:
 		return 1
+	case 17:
+		return 2
+	case 18:
+		return 3
 	default:
 		return 0
 	}
 }
 
 // RollHP rolls starting HP for the given class and vitality.
-// From p-code proc 13 (IC 2838-2877): die roll + VIT modifier, then
-// TWO decay passes (counter 1..2), each 50% chance of ×9/10. Min 2.
+// From p-code proc 13 (IC 2705-2895): die SIZE (not a roll!) + VIT modifier,
+// then TWO decay passes (counter 1..2), each 50% chance of ×9/10. Min 2.
+// The original game uses the die value directly — a Fighter always starts
+// at 10 + vitMod before decay, not a random 1-10.
 func RollHP(class Class, vitality int) int {
 	die := ClassHPDie[class]
-	hp := rand.Intn(die) + 1 + vitMod(vitality)
+	hp := die + vitMod(vitality)
 	// Two decay passes — p-code loops counter 1..2
 	for pass := 0; pass < 2; pass++ {
 		if rand.Intn(2) == 1 {

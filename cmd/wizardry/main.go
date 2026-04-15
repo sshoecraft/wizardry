@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.15.4"
+const version = "0.15.5"
 
 func main() {
 	scenarioName := "1"
@@ -146,6 +146,12 @@ func main() {
 	storyTicker := time.NewTicker(6 * time.Second)
 	defer storyTicker.Stop()
 
+	// Inn healing timer: ~0.7 seconds per heal tick
+	// Pascal HEALHP (CASTLE2.TEXT line 445): FOR PAUSEX := 1 TO 500 DO ;
+	// On 1 MHz Apple II with p-code interpreter, this is roughly 0.5-1 second.
+	innTicker := time.NewTicker(700 * time.Millisecond)
+	defer innTicker.Stop()
+
 	for {
 		select {
 		case ev := <-eventCh:
@@ -243,8 +249,10 @@ func main() {
 				redraw(screen, game)
 			}
 
-		// Inn healing animation — Pascal HEALHP loop (CASTLE2.TEXT lines 423-448)
+		case <-innTicker.C:
+			// Inn healing animation — Pascal HEALHP loop (CASTLE2.TEXT lines 423-448)
 			// Each tick: heal HPADD HP, deduct gold, redraw. When done → level-up screen.
+			// Pascal delay: FOR PAUSEX := 1 TO 500 DO ; (~0.5-1s on Apple II)
 			if game.Phase == engine.PhaseTown && game.Town.Location == engine.Inn &&
 				game.Town.InnStep == engine.InnHealing && game.Town.InnChar != nil {
 				c := game.Town.InnChar
@@ -955,6 +963,65 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 		return handleCharEdit(game, ev)
 	}
 
+	// Confirm reroll — p-code proc 6: "ARE YOU SURE YOU WANT TO REROLL (Y/N) ?"
+	if town.InputMode == engine.InputConfirmReroll {
+		if ev.Key() == tcell.KeyRune {
+			ch := ev.Rune()
+			if ch >= 'a' && ch <= 'z' {
+				ch -= 32
+			}
+			if ch == 'Y' {
+				c := town.EditChar
+				name := c.Name
+				town.Roster.Remove(name)
+				town.Creation = engine.NewCreationState()
+				town.Creation.Name = name
+				town.Creation.Step = engine.StepPassword
+				town.Creation.Reroll = true
+				game.Phase = engine.PhaseCreation
+				town.EditChar = nil
+				town.InputMode = engine.InputNone
+			} else if ch == 'N' {
+				town.InputMode = engine.InputCharEdit
+				town.Message = ""
+			}
+		}
+		return false
+	}
+
+	// Confirm delete — p-code proc 5: "ARE YOU SURE YOU WANT TO DELETE (Y/N) ?"
+	if town.InputMode == engine.InputConfirmDelete {
+		if ev.Key() == tcell.KeyRune {
+			ch := ev.Rune()
+			if ch >= 'a' && ch <= 'z' {
+				ch -= 32
+			}
+			if ch == 'Y' {
+				c := town.EditChar
+				for i, rc := range town.Roster.Characters {
+					if rc == c {
+						town.Roster.Characters = append(town.Roster.Characters[:i], town.Roster.Characters[i+1:]...)
+						break
+					}
+				}
+				for i, m := range town.Party.Members {
+					if m == c {
+						town.Party.Members = append(town.Party.Members[:i], town.Party.Members[i+1:]...)
+						break
+					}
+				}
+				town.Message = c.Name + " DELETED"
+				town.InputMode = engine.InputTrainingName
+				town.InputBuf = ""
+				town.EditChar = nil
+			} else if ch == 'N' {
+				town.InputMode = engine.InputCharEdit
+				town.Message = ""
+			}
+		}
+		return false
+	}
+
 	// Inspect / spell book modes
 	if town.InputMode == engine.InputInspect {
 		if ev.Key() == tcell.KeyRune {
@@ -1188,15 +1255,12 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 						// Wiz 3: characters must undergo Rite of Passage before joining.
 						// From Pascal CASTLE.TEXT line 213: AWARDSXX[13] = FALSE → "** ONLY A MEMORY **"
 						town.Message = "** ONLY A MEMORY **"
-					} else if c.Password != "" {
+					} else {
 						// From p-code CASTLE proc 30 (IC 1416-1468):
-						// "ENTER PASSWORD  >" at GOTOXY(0,20)
+						// Always prompt "ENTER PASSWORD  >" — even for empty passwords.
 						town.EditChar = c
 						town.InputMode = engine.InputTavernPassword
 						town.InputBuf = ""
-					} else {
-						town.Party.Members = append(town.Party.Members, c)
-						town.Message = fmt.Sprintf("%s JOINS THE PARTY!", c.Name)
 					}
 					found = true
 					break
@@ -1225,16 +1289,10 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 						found = true
 						town.EditChar = c
 						// From p-code ROLLER proc 2 (IC 4826-4874):
-						// If character has a password, prompt for it first
-						if c.Password != "" {
-							town.InputMode = engine.InputPassword
-							town.InputBuf = ""
-							town.Message = ""
-						} else {
-							town.InputMode = engine.InputCharEdit
-							town.InputBuf = ""
-							town.Message = ""
-						}
+						// Always prompt "PASSWORD >" — even for empty passwords.
+						town.InputMode = engine.InputPassword
+						town.InputBuf = ""
+						town.Message = ""
 						return false
 					}
 				}
@@ -1356,7 +1414,8 @@ func innTransitionToLevelUp(game *engine.GameState) {
 	town := game.Town
 	c := town.InnChar
 	prevLevel := c.Level
-	learnedSpells := engine.CheckLevelUp(c, game)
+	// Pascal MADELEV order: level++, MAXLEVAC, SETSPELS, TRYLEARN, GAINLOST, HP calc
+	learnedSpells := engine.CheckLevelUp(c, game) // level++, MAXLEVAC, TRYLEARN
 
 	if c.Level > prevLevel {
 		town.InnMessages = []string{
@@ -1366,8 +1425,11 @@ func innTransitionToLevelUp(game *engine.GameState) {
 		if learnedSpells {
 			town.InnMessages = append(town.InnMessages, "YOU LEARNED NEW SPELLS!!!!")
 		}
+		// GAINLOST — age-based stat changes (must run BEFORE HP recalc)
 		statMsgs := engine.InnStatChanges(c)
 		town.InnMessages = append(town.InnMessages, statMsgs...)
+		// HP recalculation — uses VIT which may have changed in GAINLOST
+		engine.RecalcHP(c)
 	} else {
 		needed := engine.XPForNextLevel(c, game)
 		if needed > 0 {
@@ -2442,24 +2504,9 @@ func handleCharEdit(game *engine.GameState, ev *tcell.EventKey) bool {
 		town.InputMode = engine.InputInspect
 		town.Message = ""
 		return false
-	case 'D': // Delete
-		for i, rc := range town.Roster.Characters {
-			if rc == c {
-				town.Roster.Characters = append(town.Roster.Characters[:i], town.Roster.Characters[i+1:]...)
-				break
-			}
-		}
-		// Also remove from party if present
-		for i, m := range town.Party.Members {
-			if m == c {
-				town.Party.Members = append(town.Party.Members[:i], town.Party.Members[i+1:]...)
-				break
-			}
-		}
-		town.Message = c.Name + " DELETED"
-		town.InputMode = engine.InputTrainingName
-		town.InputBuf = ""
-		town.EditChar = nil
+	case 'D': // Delete — confirm first (p-code proc 5: "ARE YOU SURE YOU WANT TO DELETE (Y/N) ?")
+		town.InputMode = engine.InputConfirmDelete
+		town.Message = ""
 	case 'R':
 		if game.Scenario.ScenarioNum == 3 {
 			// Rite of Passage — Wiz 3 only. From Pascal ROLLER.TEXT RITEPASS.
@@ -2471,17 +2518,9 @@ func handleCharEdit(game *engine.GameState, ev *tcell.EventKey) bool {
 				town.Message = ""
 			}
 		} else {
-			// Reroll — full re-creation from p-code ROLLER (IC 5306-5330)
-			// Removes existing character from roster and starts fresh creation
-			// with the same name, going through race → alignment → stats → class → confirm
-			name := c.Name
-			town.Roster.Remove(name)
-			town.Creation = engine.NewCreationState()
-			town.Creation.Name = name
-			town.Creation.Step = engine.StepPassword
-			game.Phase = engine.PhaseCreation
-			town.EditChar = nil
-			town.InputMode = engine.InputNone
+			// Reroll — confirm first (p-code proc 6: "ARE YOU SURE YOU WANT TO REROLL (Y/N) ?")
+			town.InputMode = engine.InputConfirmReroll
+			town.Message = ""
 		}
 	case 'C': // Change class — from Pascal ROLLER.TEXT CHGCLASS (lines 574-639)
 		avail := engine.CharClassQualifies(c)
@@ -2719,11 +2758,17 @@ func handleConfirmInput(game *engine.GameState, cs *engine.CreationState, ev *tc
 	if ev.Key() == tcell.KeyRune {
 		ch := ev.Rune()
 		if ch == 'y' || ch == 'Y' {
+			reroll := cs.Reroll
 			c := cs.FinalizeCharacter()
 			game.Town.Roster.Add(c)
 			game.Town.Message = ""
 			game.Town.Creation = nil
 			game.Phase = engine.PhaseTown
+			if reroll {
+				// Reroll returns to char edit screen with the new character
+				game.Town.EditChar = c
+				game.Town.InputMode = engine.InputCharEdit
+			}
 		} else if ch == 'n' || ch == 'N' {
 			// Discard and return to training grounds
 			game.Town.Creation = nil
@@ -4152,15 +4197,6 @@ func handleCombatChoose(game *engine.GameState, ev *tcell.EventKey) {
 			}
 		}
 
-	case '1', '2', '3', '4': // Direct group targeting for fight
-		idx := int(ch-'0') - 1
-		if idx < len(combat.Groups) && combat.Groups[idx].AliveCount() > 0 {
-			combat.Actions[combat.CurrentActor] = engine.PartyAction{
-				Action:      engine.ActionFight,
-				TargetGroup: idx,
-			}
-			advanceActor(game)
-		}
 	}
 }
 

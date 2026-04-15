@@ -38,7 +38,7 @@ func ApplyColorMode() {
 	styleNormal = base
 	styleHighlight = base.Foreground(tcell.ColorBlack).Background(white)
 	styleDim = base.Foreground(tcell.NewRGBColor(0x88, 0x88, 0x88))
-	styleGold = base.Foreground(tcell.NewRGBColor(0xFF, 0xD7, 0x00))
+	styleGold = base
 	styleGreen = base.Foreground(tcell.NewRGBColor(0x33, 0xFF, 0x33))
 	styleRed = base.Foreground(tcell.NewRGBColor(0xFF, 0x44, 0x44))
 	styleCyan = base.Foreground(tcell.NewRGBColor(0x00, 0xDD, 0xFF))
@@ -616,6 +616,12 @@ func (s *Screen) renderTrainingScreen(game *engine.GameState) {
 		case engine.InputCharEdit:
 			s.renderCharEditScreen(game)
 			return
+		case engine.InputConfirmReroll:
+			s.renderConfirmScreen(game, "REROLL")
+			return
+		case engine.InputConfirmDelete:
+			s.renderConfirmScreen(game, "DELETE")
+			return
 		case engine.InputClassChange:
 			s.renderClassChangeScreen(game)
 			return
@@ -774,6 +780,13 @@ func (s *Screen) renderCharEditScreen(game *engine.GameState) {
 	if game.Town.Message != "" {
 		s.DrawString(0, 9, styleGold, game.Town.Message)
 	}
+}
+
+// renderConfirmScreen draws the "ARE YOU SURE YOU WANT TO <action> (Y/N) ?" prompt.
+// From ROLLER segment p-code proc 6 (IC 3800-3889):
+// Clears screen, writes prompt at row 0, waits for Y or N.
+func (s *Screen) renderConfirmScreen(game *engine.GameState, action string) {
+	s.DrawString(0, 0, styleNormal, "ARE YOU SURE YOU WANT TO "+action+" (Y/N) ?")
 }
 
 // renderRiteCeremony draws the Rite of Passage ceremony text.
