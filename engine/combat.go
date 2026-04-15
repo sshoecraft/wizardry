@@ -202,7 +202,8 @@ type CombatState struct {
 	MessageIndex int              // current message being displayed
 	MessageTime  int64            // unix millis when current messages were shown (for auto-advance)
 	Round        int              // current round number
-	Surprised    int              // 0=none, 1=party surprised monsters, 2=monsters surprised party
+	Surprised     int             // 0=none, 1=party surprised monsters, 2=monsters surprised party
+	EncounterType int             // Pascal ATTK012: 0=random, 1=fight-zone cleared, 2=fight-zone/alarm/fixed
 	Fled         bool             // party fled successfully
 	Friendly     bool             // true if this is a friendly encounter (from CINIT disposition)
 
@@ -249,6 +250,7 @@ type CombatState struct {
 	ItemsWon  []int // item indices found
 
 	// Chest/trap state — from p-code REWARDS proc 16 (IC 3028-3216)
+	HasChest       bool          // true if BCHEST flag set on selected reward (Pascal ENMYREWD)
 	TrapType       int           // 0=trapless, 1-7=trap types
 	ChestOpened    bool          // chest has been opened (proceed to rewards)
 	ChestLeft      bool          // player chose to leave the chest
@@ -2513,25 +2515,33 @@ func (cs *CombatState) calculateRewards(game *GameState) {
 		}
 	}
 
-	// Roll for gold — Pascal: roll once from primary encounter's reward record only.
-	// Two-stage calculation:
-	//   Stage 1: CALCULAT(TRIES, AVEAMT, MINADD) × MULTX
-	//   Stage 2: result × CALCULAT(TRIES2, AVEAMT2, MINADD2)
-	totalGold := 0
+	// Pascal CHSTGOLD: ENMYREWD selects reward based on encounter type,
+	// then gold and items come from that ONE reward record.
+	// Select reward index using same ENMYREWD logic as generateTrap.
+	rewardIdx := -1
 	if len(cs.Groups) > 0 {
 		primaryMon := &monsters[cs.Groups[0].MonsterID]
-		if primaryMon.Reward1 >= 0 && primaryMon.Reward1 < len(game.Scenario.Rewards) {
-			reward := &game.Scenario.Rewards[primaryMon.Reward1]
-			gold := rollDice(reward.Header.GoldDice, reward.Header.GoldSides, reward.Header.GoldBonus)
-			if reward.Header.GoldMult > 0 {
-				gold *= reward.Header.GoldMult
-			}
-			mult2 := rollDice(reward.Header.GoldRange, reward.Header.GoldMin, reward.Header.GoldExtra)
-			if mult2 > 0 {
-				gold *= mult2
-			}
-			totalGold = gold
+		switch cs.EncounterType {
+		case 2:
+			rewardIdx = primaryMon.Reward2
+		default:
+			rewardIdx = primaryMon.Reward1
 		}
+	}
+
+	// Roll for gold — Pascal CALCULAT two-stage calculation
+	totalGold := 0
+	if rewardIdx >= 0 && rewardIdx < len(game.Scenario.Rewards) {
+		reward := &game.Scenario.Rewards[rewardIdx]
+		gold := rollDice(reward.Header.GoldDice, reward.Header.GoldSides, reward.Header.GoldBonus)
+		if reward.Header.GoldMult > 0 {
+			gold *= reward.Header.GoldMult
+		}
+		mult2 := rollDice(reward.Header.GoldRange, reward.Header.GoldMin, reward.Header.GoldExtra)
+		if mult2 > 0 {
+			gold *= mult2
+		}
+		totalGold = gold
 	}
 
 	cs.TotalGold = totalGold
@@ -2547,29 +2557,18 @@ func (cs *CombatState) calculateRewards(game *GameState) {
 		}
 	}
 
-	// Roll for item drops — from p-code REWARDS proc 34/37:
-	// Check each reward slot: if random()%100 < slot.Chance, drop an item.
-	// Item chosen from slot.ItemStart + random()%slot.ItemCount.
+	// Roll for item drops — Pascal GETREWRD: from the ENMYREWD-selected reward only
 	cs.ItemsWon = nil
-	for _, group := range cs.Groups {
-		if group.MonsterID < 0 || group.MonsterID >= len(monsters) {
-			continue
-		}
-		mon := &monsters[group.MonsterID]
-		for _, rewardIdx := range []int{mon.Reward1, mon.Reward2} {
-			if rewardIdx < 0 || rewardIdx >= len(game.Scenario.Rewards) {
+	if rewardIdx >= 0 && rewardIdx < len(game.Scenario.Rewards) {
+		reward := &game.Scenario.Rewards[rewardIdx]
+		for _, slot := range reward.Slots {
+			if slot.Chance <= 0 || slot.ItemCount <= 0 {
 				continue
 			}
-			reward := &game.Scenario.Rewards[rewardIdx]
-			for _, slot := range reward.Slots {
-				if slot.Chance <= 0 || slot.ItemCount <= 0 {
-					continue
-				}
-				if rand.Intn(100) < slot.Chance {
-					itemIdx := slot.ItemStart + rand.Intn(slot.ItemCount)
-					if itemIdx >= 0 && itemIdx < len(game.Scenario.Items) {
-						cs.ItemsWon = append(cs.ItemsWon, itemIdx)
-					}
+			if rand.Intn(100) < slot.Chance {
+				itemIdx := slot.ItemStart + rand.Intn(slot.ItemCount)
+				if itemIdx >= 0 && itemIdx < len(game.Scenario.Items) {
+					cs.ItemsWon = append(cs.ItemsWon, itemIdx)
 				}
 			}
 		}
@@ -2756,8 +2755,18 @@ func classHPDie(c Class) int {
 	return 6
 }
 
-// generateTrap rolls the trap type for the chest using the reward bitmask.
-// Pascal GTTRAPTY (REWARDS.TEXT lines 176-215):
+// generateTrap selects the reward record (Pascal ENMYREWD) and rolls the trap type.
+//
+// Pascal ENMYREWD (REWARDS.TEXT lines 57-83):
+//   ATTK012=0 (no surprise):            REWARDI := REWARD1
+//   ATTK012=1 (party surprised monsters): REWARDI := REWARD1, ONEORTWO := 2
+//   ATTK012=2 (monsters surprised party): REWARDI := REWARD2
+//
+// Pascal CHSTGOLD (lines 806-823):
+//   ENMYREWD; RDREWARD;
+//   IF REWARDZ.BCHEST AND (CHSTALRM <> 1) THEN ACHEST;
+//
+// Pascal GTTRAPTY (lines 176-215):
 // 1. Check BTRAPTYP — if no bits set, trapless
 // 2. Trapless escape: random()%15 > (4 + MAZELEV)
 // 3. Weighted random walk: type 3 has weight 5, all others weight 1
@@ -2765,14 +2774,31 @@ func classHPDie(c Class) int {
 func (cs *CombatState) generateTrap(game *GameState) {
 	level := game.MazeLevel // 0-based
 
-	// Get trap bitmask from primary monster's reward record
-	bitmask := 0
+	// Pascal ENMYREWD: select reward based on encounter type (ATTK012)
+	// ATTK012=0 (random): Reward1, ATTK012=1 (cleared fight-zone): Reward1,
+	// ATTK012=2 (alarm/fixed/first fight-zone): Reward2
+	rewardIdx := -1
 	monsters := game.Scenario.Monsters
 	if len(cs.Groups) > 0 {
 		mon := &monsters[cs.Groups[0].MonsterID]
-		if mon.Reward1 >= 0 && mon.Reward1 < len(game.Scenario.Rewards) {
-			bitmask = game.Scenario.Rewards[mon.Reward1].Header.TrapBitmask & 0xFF
+		switch cs.EncounterType {
+		case 2: // alarm, fixed encounter, or first fight-zone encounter → Reward2
+			rewardIdx = mon.Reward2
+		case 1: // fight-zone already cleared → Reward1 (ONEORTWO=2)
+			rewardIdx = mon.Reward1
+		default: // random encounter → Reward1
+			rewardIdx = mon.Reward1
 		}
+	}
+
+	// Load reward and check BCHEST
+	bitmask := 0
+	if rewardIdx >= 0 && rewardIdx < len(game.Scenario.Rewards) {
+		reward := &game.Scenario.Rewards[rewardIdx]
+		if reward.Header.Chest && game.ChestAlarm != 1 {
+			cs.HasChest = true
+		}
+		bitmask = reward.Header.TrapBitmask & 0xFF
 	}
 
 	// Check if any trap types are enabled

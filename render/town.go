@@ -269,7 +269,10 @@ func (s *Screen) renderTavernMenu(x, y int, game *engine.GameState) {
 	}
 
 	if town.InputMode == engine.InputTavernPassword {
-		// From p-code CASTLE proc 30 (IC 1416): GOTOXY(0,20) "ENTER PASSWORD  >"
+		// From p-code CASTLE proc 30 (IC 1416): name stays on row 19, password on row 20
+		if town.EditChar != nil {
+			s.DrawString(x, 19, styleNormal, fmt.Sprintf("WHO WILL JOIN ? >%s", town.EditChar.Name))
+		}
 		s.DrawString(x, 20, styleNormal, fmt.Sprintf("ENTER PASSWORD  >%s", town.InputBuf))
 		s.DrawString(x+17+len(town.InputBuf), 20, styleNormal, "_")
 	}

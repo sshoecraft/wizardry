@@ -784,6 +784,7 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 			}
 		case tcell.KeyEnter:
 			if town.EditChar != nil && town.InputBuf == town.EditChar.Password {
+				town.EditChar.InMaze = true // Pascal line 179: INMAZE := TRUE
 				town.Party.Members = append(town.Party.Members, town.EditChar)
 				town.Message = fmt.Sprintf("%s JOINS THE PARTY!", town.EditChar.Name)
 			} else {
@@ -878,6 +879,7 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 				idx := int(ch-'0') - 1
 				if idx < len(town.Party.Members) && town.Party.Members[idx] != nil {
 					removed := town.Party.Members[idx]
+					removed.InMaze = false // Pascal line 204: INMAZE := FALSE
 					town.Party.Members = append(town.Party.Members[:idx], town.Party.Members[idx+1:]...)
 					town.Message = fmt.Sprintf("%s LEAVES THE PARTY.", removed.Name)
 					town.InputMode = engine.InputNone
@@ -1249,10 +1251,16 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 				town.InputMode = engine.InputNone
 				return false
 			}
-			// Find character by name (case-insensitive)
+			// Pascal ADDPARTY (CASTLE.TEXT lines 148-191):
+			// Search roster for name, skip LOST characters.
+			// Checks: OUT (InMaze/lost in maze), BAD ALIGNMENT, then password.
 			found := false
 			for _, c := range town.Roster.Characters {
 				if c == nil {
+					continue
+				}
+				// Pascal line 160: skip LOST characters in search
+				if c.Status == engine.Lost {
 					continue
 				}
 				if strings.EqualFold(c.Name, name) {
@@ -1266,16 +1274,24 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 					}
 					if inParty {
 						town.Message = fmt.Sprintf("%s IS ALREADY IN THE PARTY!", c.Name)
+					} else if c.InMaze || c.MazeLevel != 0 {
+						// Pascal line 170-172: INMAZE or LOSTXYL.LOCATION[3] <> 0
+						town.Message = "** OUT **"
 					} else if game.Scenario.ScenarioNum == 3 && !c.IsLegacy {
-						// Wiz 3: characters must undergo Rite of Passage before joining.
-						// From Pascal CASTLE.TEXT line 213: AWARDSXX[13] = FALSE → "** ONLY A MEMORY **"
 						town.Message = "** ONLY A MEMORY **"
 					} else {
-						// From p-code CASTLE proc 30 (IC 1416-1468):
-						// Always prompt "ENTER PASSWORD  >" — even for empty passwords.
-						town.EditChar = c
-						town.InputMode = engine.InputTavernPassword
-						town.InputBuf = ""
+						// Pascal line 174-177: alignment check
+						partyAlign := partyAlignment(town)
+						if partyAlign != engine.Neutral && c.Alignment != engine.Neutral && partyAlign != c.Alignment {
+							town.Message = "** BAD ALIGNMENT **"
+						} else {
+							// From p-code CASTLE proc 30 (IC 1416-1468):
+							// Prompt "ENTER PASSWORD  >"
+							town.EditChar = c
+							town.InputMode = engine.InputTavernPassword
+							town.InputBuf = ""
+							return false
+						}
 					}
 					found = true
 					break
@@ -1284,6 +1300,9 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 			if !found {
 				town.Message = "** WHO? **"
 			}
+			town.InputMode = engine.InputNone
+			town.InputBuf = ""
+			return false
 
 		case engine.InputTrainingName:
 			name := strings.TrimSpace(town.InputBuf)
@@ -1348,6 +1367,18 @@ func handleTownPrompt(game *engine.GameState, ev *tcell.EventKey) bool {
 		}
 	}
 	return false
+}
+
+// partyAlignment returns the party's alignment per Pascal GETALIGN:
+// scan all members, last non-Neutral alignment wins. Empty/all-Neutral → Neutral.
+func partyAlignment(town *engine.TownState) engine.Alignment {
+	align := engine.Neutral
+	for _, m := range town.Party.Members {
+		if m != nil && m.Alignment != engine.Neutral {
+			align = m.Alignment
+		}
+	}
+	return align
 }
 
 func goToCastle(town *engine.TownState) {
@@ -1677,7 +1708,7 @@ func fillShopBuyPage(town *engine.TownState, items []data.Item, forward bool) {
 				if idx >= total {
 					idx = 1 // wrap to item 1 (skip item 0)
 				}
-				if items[idx].Stock != 0 {
+				if items[idx].Stock != 0 && !items[idx].Cursed {
 					town.ShopPage[slot] = idx
 					found = true
 					break
@@ -1697,7 +1728,7 @@ func fillShopBuyPage(town *engine.TownState, items []data.Item, forward bool) {
 				if idx < 1 {
 					idx = total - 1 // wrap to last item
 				}
-				if items[idx].Stock != 0 {
+				if items[idx].Stock != 0 && !items[idx].Cursed {
 					town.ShopPage[slot] = idx
 					found = true
 					break
@@ -1797,6 +1828,7 @@ func handleShopInput(game *engine.GameState, town *engine.TownState, ch rune) {
 
 	case engine.ShopBuyConfirm:
 		// Y/N confirmation for unusable item purchase — p-code IC 1899
+		// Pascal SHOPS.TEXT line 358: "ITS YOUR MONEY"
 		if ch == 'Y' {
 			itemIdx := town.ShopCatalog
 			c := town.ShopChar
@@ -1807,7 +1839,7 @@ func handleShopInput(game *engine.GameState, town *engine.TownState, ch rune) {
 				if item.Stock > 0 {
 					game.Scenario.Items[itemIdx].Stock--
 				}
-				town.Message = "** JUST WHAT YOU NEEDED **"
+				town.Message = "** ITS YOUR MONEY **"
 			}
 			town.ShopStep = engine.ShopBuy
 		} else if ch == 'N' {
@@ -3498,11 +3530,23 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 				triggerEncounter = true
 			}
 			if triggerEncounter {
-				// Set surprise from CHSTALRM/FIGHTMAP (Pascal ATTK012)
 				combat := engine.NewCombat(game)
+				// Pascal ENCOUNTR (RUNNER2.TEXT lines 134-143): set ATTK012
+				level := &game.Scenario.Mazes.Levels[game.MazeLevel]
+				cell := level.Cells[game.PlayerY][game.PlayerX]
 				if game.ChestAlarm == 1 {
-					combat.Surprised = 2 // monsters surprise party
+					combat.EncounterType = 2
+					combat.Surprised = 2 // alarm: monsters surprise party
 					game.ChestAlarm = 0
+				} else if cell.Encounter {
+					// Fight-zone square: check FIGHTMAP
+					if game.FightMap[game.PlayerX][game.PlayerY] {
+						combat.EncounterType = 2 // first encounter here
+					} else {
+						combat.EncounterType = 1 // already cleared
+					}
+				} else {
+					combat.EncounterType = 0 // random encounter
 				}
 				game.Combat = combat
 				game.Phase = engine.PhaseCombat
@@ -3553,6 +3597,7 @@ func checkSquare(game *engine.GameState) {
 		hazardDamage(game)
 	case data.SqEncounter, data.SqEncounter2:
 		game.Combat = engine.NewCombat(game)
+		game.Combat.EncounterType = 2 // fixed encounter → Reward2 (chest)
 		game.Phase = engine.PhaseCombat
 		return
 	case data.SqButtons:
@@ -3575,6 +3620,7 @@ func checkSquare(game *engine.GameState) {
 		// Don't decrement — the count serves as the monster index
 		// (effectively permanent encounter)
 		game.Combat = engine.NewCombat(game)
+		game.Combat.EncounterType = 2 // fixed encounter → Reward2 (chest)
 		game.Phase = engine.PhaseCombat
 		return
 	case data.SqScnMsg:
@@ -3849,10 +3895,18 @@ func advanceCombatMessages(game *engine.GameState) {
 	}
 
 	if combat.AllMonstersDead() {
-		combat.Phase = engine.CombatChest
-		combat.ChestSubPhase = engine.ChestMenu
-		combat.Messages = nil
-		combat.MessageIndex = 0
+		if combat.HasChest {
+			// Pascal CHSTGOLD: BCHEST=true → show chest interaction (traps)
+			combat.Phase = engine.CombatChest
+			combat.ChestSubPhase = engine.ChestMenu
+			combat.Messages = nil
+			combat.MessageIndex = 0
+		} else {
+			// No chest — skip trap interaction, give rewards directly
+			// Pascal CHSTGOLD: GETREWRD/GIVEGOLD always run regardless of BCHEST
+			combat.ChestOpened = true
+			combat.FinalizeChest(game)
+		}
 		return
 	}
 
