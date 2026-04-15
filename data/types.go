@@ -251,5 +251,24 @@ type Scenario struct {
 	TitleWT     []byte        // raw WT animation data (Wiz 1 only, nil otherwise)
 	TitleStory  [][]string    // multi-page text story (fallback if no TitleFrames)
 	TitleFrames []*TitleBitmap // multi-frame title story bitmaps (Wiz 3)
-	Messages    [][]string    // SCENARIO.MESGS — message blocks indexed by MazeCell.MsgIndex
+	Messages       [][]string    // SCENARIO.MESGS — message blocks indexed by block number
+	MessagesByLine map[int]int   // maps starting line number → Messages block index (for DOMSG)
+}
+
+// MessageBlock returns the message block for a DOMSG line index.
+// Pascal DOMSG takes a starting line number, not a block index.
+// Returns nil if the line index doesn't map to a valid block.
+func (s *Scenario) MessageBlock(lineIdx int) []string {
+	if s.MessagesByLine == nil {
+		// Fallback: treat as block index (pre-fix compatibility)
+		if lineIdx >= 0 && lineIdx < len(s.Messages) {
+			return s.Messages[lineIdx]
+		}
+		return nil
+	}
+	blockIdx, ok := s.MessagesByLine[lineIdx]
+	if !ok || blockIdx < 0 || blockIdx >= len(s.Messages) {
+		return nil
+	}
+	return s.Messages[blockIdx]
 }

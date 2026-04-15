@@ -187,6 +187,10 @@ func (s *Screen) RenderCamp(game *engine.GameState) {
 			s.renderMalorScreen(game)
 			s.Show()
 			return
+		case engine.InputDumapic:
+			s.renderDumapicScreen(game)
+			s.Show()
+			return
 		case engine.InputSpellBooks:
 			s.renderSpellBooksScreen(game)
 			s.Show()
@@ -414,14 +418,22 @@ func (s *Screen) RenderMaze(game *engine.GameState) {
 	s.DrawString(menuCol, 3, styleNormal, "R)IGHT    T)IME    CLUSTER")
 	s.DrawString(menuCol, 4, styleNormal, "K)ICK     I)NSPECT")
 
-	// ═══ Right panel spells ═══
-	spellRow := rpDiv + 2
-	s.DrawString(menuCol, spellRow, styleNormal, "SPELLS :")
-	if game.LightLevel > 0 {
-		s.DrawString(menuCol+9, spellRow, styleNormal, "LIGHT")
-	}
-	if game.ProtectLevel > 0 {
-		s.DrawString(menuCol+9, spellRow+1, styleNormal, "PROTECT")
+	// ═══ Right panel lower area ═══
+	if len(game.MazeMessages) > 0 && game.MazeMsgWait {
+		retRow := rpDiv + (fullDiv-rpDiv)/2
+		s.DrawString(menuCol+4, retRow, styleNormal, "[RET] FOR MORE")
+	} else if len(game.MazeMessages) > 0 {
+		retRow := rpDiv + (fullDiv-rpDiv)/2
+		s.DrawString(menuCol+5, retRow, styleNormal, "PRESS [RET]")
+	} else {
+		spellRow := rpDiv + 2
+		s.DrawString(menuCol, spellRow, styleNormal, "SPELLS :")
+		if game.LightLevel > 0 {
+			s.DrawString(menuCol+9, spellRow, styleNormal, "LIGHT")
+		}
+		if game.ProtectLevel > 0 {
+			s.DrawString(menuCol+9, spellRow+1, styleNormal, "PROTECT")
+		}
 	}
 
 	s.Show()
@@ -465,18 +477,12 @@ func (s *Screen) renderMazeLower(game *engine.GameState, white, yellow tcell.Sty
 		s.DrawString(1, msgStart+2, styleNormal, game.MazeMessage+game.MazeDelayBuf+"_")
 	} else if len(game.MazeMessages) > 0 {
 		// Multi-line SCNMSG display with pagination
-		maxLines := 4
-		if game.MazeMsgWait {
-			maxLines = 3 // reserve last line for "[RET] FOR MORE"
-		}
-		for i := 0; i < maxLines; i++ {
+		// All 4 lines for message text; "[RET] FOR MORE" is in the right panel
+		for i := 0; i < 4; i++ {
 			idx := game.MazeMsgScroll + i
 			if idx < len(game.MazeMessages) {
 				s.DrawString(1, msgStart+i, yellow, game.MazeMessages[idx])
 			}
-		}
-		if game.MazeMsgWait {
-			s.DrawString(1, msgStart+3, styleNormal, "[RET] FOR MORE")
 		}
 	} else {
 		if game.MazeMessage != "" {
@@ -578,32 +584,34 @@ func (s *Screen) buildMazeSixel(game *engine.GameState,
 	si.DrawText2x(menuX, textY(3), "R)IGHT    T)IME    CLUSTER", fc, charSp)
 	si.DrawText2x(menuX, textY(4), "K)ICK     I)NSPECT", fc, charSp)
 
-	// ── Spells ──
-	spellRow := rpDiv + 2
-	si.DrawText2x(menuX, textY(spellRow), "SPELLS :", fc, charSp)
-	if game.LightLevel > 0 {
-		si.DrawText2x(textX(divCol+1+9), textY(spellRow), "LIGHT", fc, charSp)
-	}
-	if game.ProtectLevel > 0 {
-		si.DrawText2x(textX(divCol+1+9), textY(spellRow+1), "PROTECT", fc, charSp)
+	// ── Right panel lower area ──
+	if len(game.MazeMessages) > 0 && game.MazeMsgWait {
+		retRow := rpDiv + (fullDiv-rpDiv)/2
+		si.DrawText2x(textX(divCol+1+4), textY(retRow), "[RET] FOR MORE", sixelDim, charSp)
+	} else if len(game.MazeMessages) > 0 {
+		retRow := rpDiv + (fullDiv-rpDiv)/2
+		si.DrawText2x(textX(divCol+1+5), textY(retRow), "PRESS [RET]", sixelDim, charSp)
+	} else {
+		spellRow := rpDiv + 2
+		si.DrawText2x(menuX, textY(spellRow), "SPELLS :", fc, charSp)
+		if game.LightLevel > 0 {
+			si.DrawText2x(textX(divCol+1+9), textY(spellRow), "LIGHT", fc, charSp)
+		}
+		if game.ProtectLevel > 0 {
+			si.DrawText2x(textX(divCol+1+9), textY(spellRow+1), "PROTECT", fc, charSp)
+		}
 	}
 
 	// ── Message area ──
 	if game.MazeDelayInput {
 		si.DrawText2x(textX(1), textY(msgStart+2), game.MazeMessage+game.MazeDelayBuf+"_", fc, charSp)
 	} else if len(game.MazeMessages) > 0 {
-		maxLines := 4
-		if game.MazeMsgWait {
-			maxLines = 3
-		}
-		for i := 0; i < maxLines; i++ {
+		// All 4 lines for message text; "[RET] FOR MORE" is in the right panel
+		for i := 0; i < 4; i++ {
 			idx := game.MazeMsgScroll + i
 			if idx < len(game.MazeMessages) {
 				si.DrawText2x(textX(1), textY(msgStart+i), game.MazeMessages[idx], fc, charSp)
 			}
-		}
-		if game.MazeMsgWait {
-			si.DrawText2x(textX(1), textY(msgStart+3), "[RET] FOR MORE", sixelDim, charSp)
 		}
 	} else {
 		if game.MazeMessage != "" {

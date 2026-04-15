@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-var version = "1.0.0"
+var version = "1.1.0"
 var buildDate string // set via ldflags: -ldflags "-X main.buildDate=15-APR-26"
 
 func main() {
@@ -147,11 +147,13 @@ func main() {
 		}
 	}()
 
-	// Combat auto-advance timer: ~1.5 seconds per action group
-	// Original Apple II had ~1-2 second pauses between each combat action
-	// (from p-code WIZARDRY.proc17 delay loop + proc30 screen clear)
-	combatTicker := time.NewTicker(1500 * time.Millisecond)
+	// Combat auto-advance poll timer.
+	// Original Apple II PAUSE1 uses the T)IME delay value (global 7, range 1-5000)
+	// as a busy-wait loop count. We map it to milliseconds: delay_ms = MazeDelay * 0.3.
+	// Default MazeDelay=0 uses 1500ms. Poll every 100ms, advance when enough time elapsed.
+	combatTicker := time.NewTicker(100 * time.Millisecond)
 	defer combatTicker.Stop()
+	var lastCombatAdvance time.Time
 
 	// Story auto-advance timer: 6 seconds per page (Wiz 3 title sequence)
 	// Original Apple II auto-advances with no input required
@@ -203,8 +205,23 @@ func main() {
 		case <-combatTicker.C:
 			if game.Phase == engine.PhaseCombat && game.Combat != nil {
 				combat := game.Combat
+
+				// Compute delay from T)IME setting (MazeDelay 1-5000 → ms)
+				delayMs := 1500 // default
+				if game.MazeDelay > 0 {
+					delayMs = game.MazeDelay * 3 / 10 // ~0.3ms per unit
+					if delayMs < 50 {
+						delayMs = 50 // minimum 50ms
+					}
+				}
+				elapsed := time.Since(lastCombatAdvance)
+				if elapsed < time.Duration(delayMs)*time.Millisecond {
+					continue // not enough time yet
+				}
+
 				if combat.Phase == engine.CombatInit {
-					// Auto-advance after ~1.5s delay (simulates Apple II disk I/O time)
+					// Auto-advance after delay (simulates Apple II disk I/O time)
+					lastCombatAdvance = time.Now()
 					if combat.Surprised == 2 {
 						combat.ExecuteRound(game)
 					} else {
@@ -213,14 +230,15 @@ func main() {
 					}
 					redraw(screen, game)
 				} else if combat.Phase == engine.CombatExecute && !combat.HamanSelecting {
+					lastCombatAdvance = time.Now()
 					advanceCombatMessages(game)
 					redraw(screen, game)
 				} else if combat.Phase == engine.CombatChestResult {
+					lastCombatAdvance = time.Now()
 					advanceChestMessages(game)
 					redraw(screen, game)
 				} else if combat.Phase == engine.CombatVictory {
-					// PAUSE2 from Pascal source — auto-advance after ~1.5s
-					// First tick: show XP. Second tick: return to maze.
+					lastCombatAdvance = time.Now()
 					if !combat.ChestPauseUsed {
 						combat.ChestPauseUsed = true
 					} else {
@@ -231,6 +249,7 @@ func main() {
 					}
 					redraw(screen, game)
 				} else if combat.Phase == engine.CombatDefeat {
+					lastCombatAdvance = time.Now()
 					if !combat.ChestPauseUsed {
 						combat.ChestPauseUsed = true
 					} else {
@@ -2890,8 +2909,11 @@ func handleCampCastSpell(game *engine.GameState, ev *tcell.EventKey) {
 			c.PriestSpells[sp.Level-1]--
 		}
 		applyCampSpell(game, sp, c)
-		town.InputMode = engine.InputInspect
-		town.InputBuf = ""
+		// Don't reset input mode if the spell set its own (e.g. DUMAPIC)
+		if town.InputMode == engine.InputCastSpell {
+			town.InputMode = engine.InputInspect
+			town.InputBuf = ""
+		}
 	}
 	if ev.Key() == tcell.KeyEscape {
 		town.InputMode = engine.InputInspect
@@ -2969,8 +2991,9 @@ func applyCampSpell(game *engine.GameState, sp *engine.Spell, target *engine.Cha
 		game.LightLevel = 32000
 		town.Message = "LIGHT!"
 	case "DUMAPIC":
-		town.Message = fmt.Sprintf("L%d (%d,%d) %s",
-			game.MazeLevel+1, game.PlayerX, game.PlayerY, game.Facing)
+		// Pascal UTILITIE.TEXT p-code IC 1872-2314: full-screen location display
+		town.InputMode = engine.InputDumapic
+		return
 	default:
 		town.Message = "NOT IN CAMP"
 	}
@@ -3131,6 +3154,14 @@ func handleCampInput(game *engine.GameState, ev *tcell.EventKey) {
 	}
 	if game.Town.InputMode == engine.InputMalor {
 		handleMalorInput(game, ev)
+		return
+	}
+	if game.Town.InputMode == engine.InputDumapic {
+		// Pascal p-code IC 2304-2314: wait for 'L' key to leave
+		if ev.Key() == tcell.KeyRune && (ev.Rune() == 'L' || ev.Rune() == 'l') {
+			game.Town.InputMode = engine.InputInspect
+			game.Town.Message = ""
+		}
 		return
 	}
 	if game.Town.InputMode == engine.InputUseItem {
@@ -3320,6 +3351,60 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 		return false
 	}
 
+	// Handle SCNMSG pagination — only [RET] advances (matches "[RET] FOR MORE" prompt)
+	// All other keys are consumed while messages are showing (prevents key repeat bleed)
+	if len(game.MazeMessages) > 0 {
+		if ev.Key() == tcell.KeyEnter {
+			if game.MazeMsgWait {
+				// More pages to show — advance scroll
+				game.MazeMsgScroll += 4
+				if game.MazeMsgScroll >= len(game.MazeMessages) {
+					game.MazeMessages = nil
+					game.MazeMsgScroll = 0
+					game.MazeMsgWait = false
+				} else {
+					game.MazeMsgWait = game.MazeMsgScroll+4 < len(game.MazeMessages)
+				}
+			} else {
+				// Final page shown — Enter dismisses
+				game.MazeMessages = nil
+				game.MazeMsgScroll = 0
+				// If GETYN pending, show the search prompt now
+				if game.MazeSearchYN {
+					game.MazeMessage = "SEARCH (Y/N) ?"
+				}
+			}
+		}
+		return false // consume ALL keys while messages are showing
+	}
+
+	// Handle "SEARCH (Y/N) ?" prompt — Pascal proc 21 (SPECIALS.TEXT)
+	// AUX2=4 GETYN: Y triggers combat with AUX0 as monster index, N exits
+	if game.MazeSearchYN {
+		if ev.Key() == tcell.KeyRune {
+			ch := ev.Rune()
+			if ch == 'y' || ch == 'Y' {
+				game.MazeSearchYN = false
+				game.MazeMessage = ""
+				cell := game.SearchCell
+				if cell != nil {
+					// Pascal proc 21: global[19] = original AUX0 (monster index)
+					cell.SpclMonster = game.SearchMonster
+					game.MazeMessage = "AN ENCOUNTER"
+					game.Combat = engine.NewCombat(game)
+					game.Combat.EncounterType = 0
+					game.Phase = engine.PhaseCombat
+				}
+				game.SearchCell = nil
+			} else if ch == 'n' || ch == 'N' {
+				game.MazeSearchYN = false
+				game.MazeMessage = ""
+				game.SearchCell = nil
+			}
+		}
+		return false
+	}
+
 	if ev.Key() != tcell.KeyRune {
 		return false
 	}
@@ -3390,26 +3475,14 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 		return false
 	}
 
-	// Handle SCNMSG pagination — if waiting for keypress, scroll or dismiss
-	if game.MazeMsgWait && len(game.MazeMessages) > 0 {
-		game.MazeMsgScroll += 4
-		if game.MazeMsgScroll >= len(game.MazeMessages) {
-			// All lines shown — clear and continue
-			game.MazeMessages = nil
-			game.MazeMsgScroll = 0
-			game.MazeMsgWait = false
-		} else {
-			// More lines to show
-			game.MazeMsgWait = game.MazeMsgScroll+4 < len(game.MazeMessages)
-			return false // don't process movement — stay on message
-		}
-	}
-
 	game.MazeMessage = ""
 	game.MazeMessage2 = ""
 	game.MazeMessages = nil
 	game.MazeMsgScroll = 0
 	game.MazeMsgWait = false
+	game.MazeSearchYN = false
+	game.SearchCell = nil
+	game.SearchMonster = 0
 	game.ViewportMsg = ""
 	game.ViewportMsg2 = ""
 	moved := false // track whether player actually moved to a new square
@@ -3610,19 +3683,57 @@ func checkSquare(game *engine.GameState) {
 			game.WaitButton = true
 		}
 	case data.SqSpclEnctr:
-		// Special encounter: AUX0 (Count) = monster index AND depletion counter
-		// Count=77 at (13,5) = monster 77 = MURPHY'S GHOST, always spawns
+		// Pascal CHENCOUN (RUNNER2.TEXT lines 290-319) + SPCMISC (SPECIALS2.TEXT):
+		// If FIGHTMAP set and AUX0 != 0: trigger encounter (CHENCOUN).
+		// Otherwise: fall through to SPCMISC message/event handler using AUX2.
 		if cell.Count == 0 {
 			break
 		}
-		game.MazeMessage = "AN ENCOUNTER"
-		cell.SpclMonster = cell.Count // save monster index before decrement
-		// Don't decrement — the count serves as the monster index
-		// (effectively permanent encounter)
-		game.Combat = engine.NewCombat(game)
-		game.Combat.EncounterType = 2 // fixed encounter → Reward2 (chest)
-		game.Phase = engine.PhaseCombat
-		return
+		if cell.Encounter && game.FightMap[game.PlayerX][game.PlayerY] {
+			// CHENCOUN: trigger combat encounter
+			game.MazeMessage = "AN ENCOUNTER"
+			cell.SpclMonster = cell.Count
+			game.Combat = engine.NewCombat(game)
+			game.Combat.EncounterType = 2
+			game.Phase = engine.PhaseCombat
+			return
+		}
+		// SPCMISC fallthrough: handle via AUX2 dispatch (messages, events)
+		// Pascal SPECIALS2.TEXT lines 616-663
+		aux2 := cell.Aux2
+		if aux2 == 0 {
+			break
+		}
+		// AUX2=1: message with counter depletion
+		// AUX2=8: back-to-shop with counter depletion
+		// AUX2=4: GETYN — does NOT decrement (p-code IC 5208: AUX2!=4 gates decrement)
+		if aux2 == 1 || aux2 == 8 {
+			if cell.Count > 0 {
+				cell.Count--
+				if cell.Count == 0 {
+					cell.Type = data.SqNormal // convert to normal when depleted
+				}
+			}
+		}
+		// Display message from AUX1 line index (Pascal DOMSG: AUX1 is a starting LINE number)
+		block := game.Scenario.MessageBlock(cell.Aux1)
+		if block != nil {
+			if len(block) == 1 {
+				game.MazeMessage = block[0]
+			} else if len(block) > 1 {
+				game.MazeMessages = block
+				game.MazeMsgScroll = 0
+				game.MazeMsgWait = len(block) > 4
+			}
+		}
+		// AUX2=4: GETYN — after message, show "SEARCH (Y/N) ?"
+		// Pascal proc 21: on Y, trigger combat with AUX0 as monster index.
+		// AUX0 is NOT decremented for AUX2=4, so cell.Count is the original value.
+		if aux2 == 4 {
+			game.MazeSearchYN = true
+			game.SearchCell = cell
+			game.SearchMonster = cell.Count // AUX0 = monster index (77 = Murphy's Ghost)
+		}
 	case data.SqScnMsg:
 		// Pascal SPCMISC (SPECIALS2.TEXT): dispatches on AUX2 sub-type
 		aux2 := 0
@@ -3646,13 +3757,13 @@ func checkSquare(game *engine.GameState) {
 			}
 			game.FightMap[game.PlayerX][game.PlayerY] = false
 		default:
-			// Message display — Pascal DOMSG: show multi-line message block
-			msgIdx := cell.MsgIndex
+			// Message display — Pascal DOMSG: AUX1 is a starting LINE number
+			msgLine := cell.MsgIndex
 			if len(cell.Aux) > 1 && cell.Aux[1] > 0 {
-				msgIdx = cell.Aux[1] // AUX1 = starting message index for DOMSG
+				msgLine = cell.Aux[1]
 			}
-			if msgIdx >= 0 && msgIdx < len(game.Scenario.Messages) {
-				block := game.Scenario.Messages[msgIdx]
+			block := game.Scenario.MessageBlock(msgLine)
+			if block != nil {
 				if len(block) == 1 {
 					game.MazeMessage = block[0]
 				} else if len(block) > 1 {
@@ -3764,6 +3875,13 @@ func handleCombatInput(game *engine.GameState, ev *tcell.EventKey) {
 		return
 	}
 
+	// Input guard: consume one keypress after phase transitions to prevent
+	// key-repeat bleed (e.g. holding Enter through combat messages into victory)
+	if combat.InputGuard {
+		combat.InputGuard = false
+		return
+	}
+
 	switch combat.Phase {
 	case engine.CombatInit:
 		// Timed auto-advance — no keypress needed.
@@ -3817,10 +3935,8 @@ func handleCombatInput(game *engine.GameState, ev *tcell.EventKey) {
 			}
 			return
 		}
-		// Keypress also advances (speed through) — same as auto-advance
-		if ev.Key() == tcell.KeyEnter || ev.Key() == tcell.KeyRune {
-			advanceCombatMessages(game)
-		}
+		// Original game: combat messages auto-advance on timer only (PAUSE1).
+		// No keypress skips or speeds them up. Timer handler at combatTicker does the advancing.
 
 	case engine.CombatChest:
 		handleChestInput(game, combat, ev)
@@ -3885,6 +4001,9 @@ func advanceCombatMessages(game *engine.GameState) {
 	// All messages shown — clear the frozen display snapshot
 	combat.DisplayAliveCounts = nil
 	combat.DisplayPartySnap = nil
+
+	// Guard against key-repeat bleed into the next phase
+	combat.InputGuard = true
 
 	// Resolve round end
 	if combat.Fled {
@@ -3963,6 +4082,7 @@ func advanceChestMessages(game *engine.GameState) {
 	combat.ChestPauseUsed = false
 
 	// All messages shown — transition
+	combat.InputGuard = true
 	if combat.ChestOpened || combat.ChestLeft {
 		combat.FinalizeChest(game)
 	} else {
@@ -4178,7 +4298,8 @@ func handleCombatChoose(game *engine.GameState, ev *tcell.EventKey) {
 
 	switch ch {
 	case 'F': // Fight — only front row (positions 1-3, index 0-2) can melee
-		// From p-code CUTIL: back row members (index 3-5) cannot select F)IGHT
+		// Dead characters sort to back each round (Pascal DSPPARTY),
+		// so back row naturally fills forward positions as front row dies.
 		if combat.CurrentActor >= 3 {
 			return // back row — can't melee
 		}

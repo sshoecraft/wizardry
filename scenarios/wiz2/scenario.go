@@ -29,5 +29,11 @@ func Load() (*data.Scenario, error) {
 	if len(messagesJSON) > 0 {
 		json.Unmarshal(messagesJSON, &s.Messages)
 	}
+	s.MessagesByLine = make(map[int]int, len(s.Messages))
+	lineNum := 0
+	for i, block := range s.Messages {
+		s.MessagesByLine[lineNum] = i
+		lineNum += len(block)
+	}
 	return s, nil
 }

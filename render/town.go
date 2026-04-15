@@ -1168,6 +1168,31 @@ func (s *Screen) renderMalorScreen(game *engine.GameState) {
 	s.DrawString(0, y, styleNormal, fmt.Sprintf("# SQUARES DOWN  =%4d", town.MalorDeltaUD))
 }
 
+// renderDumapicScreen draws the DUMAPIC full-screen location display.
+// From Pascal UTILITIE.TEXT p-code IC 1872-2314:
+// Clear screen, show party location/facing/coordinates, "L)EAVE WHEN READY".
+func (s *Screen) renderDumapicScreen(game *engine.GameState) {
+	s.Clear()
+	s.ClearSixelTransition()
+
+	dirNames := [4]string{"NORTH.", "EAST.", "SOUTH.", "WEST."}
+
+	y := 0
+	s.DrawString(0, y, styleTitle, "PARTY LOCATION:")
+	y += 2
+	s.DrawString(0, y, styleNormal, "THE PARTY IS FACING "+dirNames[game.Facing])
+	y += 2
+	s.DrawString(0, y, styleNormal, fmt.Sprintf("YOU ARE %d SQUARES EAST AND", game.PlayerX))
+	y++
+	s.DrawString(0, y, styleNormal, fmt.Sprintf("%d SQUARES NORTH OF THE STAIRS", game.PlayerY))
+	y++
+	s.DrawString(0, y, styleNormal, fmt.Sprintf("TO THE CASTLE, AND %d LEVELS", game.MazeLevel+1))
+	y++
+	s.DrawString(0, y, styleNormal, "BELOW IT.")
+	y += 2
+	s.DrawString(0, y, styleNormal, "L)EAVE WHEN READY")
+}
+
 func min(a, b int) int {
 	if a < b {
 		return a

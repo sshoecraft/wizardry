@@ -206,6 +206,7 @@ type CombatState struct {
 	EncounterType int             // Pascal ATTK012: 0=random, 1=fight-zone cleared, 2=fight-zone/alarm/fixed
 	Fled         bool             // party fled successfully
 	Friendly     bool             // true if this is a friendly encounter (from CINIT disposition)
+	InputGuard   bool             // true = ignore next keypress (prevents key-repeat bleed across phase transitions)
 
 	// Spell input state
 	SpellInput     string // current spell name being typed
@@ -277,6 +278,10 @@ type CombatState struct {
 // NewCombat creates a combat encounter from the current maze cell.
 // Encounter generation traced from p-code CINIT segment (seg 5).
 func NewCombat(game *GameState) *CombatState {
+	// Pascal DSPPARTY sorts party by status on every display.
+	// Sort at combat start so dead members move to back before first choose phase.
+	sortPartyByStatus(game.Town.Party.Members)
+
 	combat := &CombatState{
 		Phase:   CombatInit,
 		Actions: make([]PartyAction, len(game.Town.Party.Members)),
@@ -575,9 +580,36 @@ func rollMonsterInitiative() int {
 // groups 0-4, members 0-alive. Each action is resolved, then PAUSE1 + clear.
 // The display (DSPENEMY/DSPPARTY) is NOT refreshed during MELEE — only the
 // message area updates. Monster/party counts stay frozen until the next CUTIL call.
+// sortPartyByStatus sorts party members so dead/worse characters move to the back.
+// Pascal DSPPARTY (COMBAT3.TEXT lines 267-270): bubble sort on STATUS field.
+// Status order: OK(0) < Asleep(1) < Afraid(2) < Paralyzed(3) < Stoned(4) < Dead(5) < Ashed(6) < Lost(7)
+func sortPartyByStatus(members []*Character) {
+	n := len(members)
+	for i := 0; i < n-1; i++ {
+		for j := i + 1; j < n; j++ {
+			si, sj := Status(99), Status(99)
+			if members[i] != nil {
+				si = members[i].Status
+			}
+			if members[j] != nil {
+				sj = members[j].Status
+			}
+			if si > sj {
+				members[i], members[j] = members[j], members[i]
+			}
+		}
+	}
+}
+
 func (cs *CombatState) ExecuteRound(game *GameState) {
 	cs.Messages = nil
 	cs.MessageIndex = 0
+
+	// Pascal DSPPARTY (COMBAT3.TEXT lines 267-270): sort party by status.
+	// Dead/ashed/lost characters bubble to the back, alive characters move forward.
+	// This is how back-row characters naturally enter the front row when front dies.
+	sortPartyByStatus(game.Town.Party.Members)
+
 	party := game.Town.Party.Members
 
 	// Snapshot display state — Pascal DSPPARTY/DSPENEMY run once at round start
@@ -2400,10 +2432,27 @@ func pickRandomAlive(party []*Character) *Character {
 }
 
 // calcMonsterXP computes XP for a single monster from its stats.
-// From Pascal source REWARDS2.TEXT CALCKILL procedure (lines 69-100).
+// From Pascal REWARDS2.TEXT CALCKILL procedure (lines 69-100).
 // The EXPAMT field in TENEMY is always 0; XP is calculated, not stored.
+//
+// CRITICAL: Pascal MLTADDKX uses DOUBLING, not linear multiplication:
+//   MLTADDKX(n, amount) = amount * 2^(n-1)  (for n > 0)
+// This was verified against Apple II emulator: Murphy's Ghost = 4450 XP.
 func calcMonsterXP(mon *data.Monster) int {
 	xp := 0
+
+	// Pascal MLTADDKX: doubles amount (n-1) times, then adds to total.
+	// Result: amount * 2^(n-1). If n=0, no contribution.
+	mltadd := func(n, amount int) {
+		if n <= 0 {
+			return
+		}
+		val := amount
+		for i := 1; i < n; i++ {
+			val *= 2
+		}
+		xp += val
+	}
 
 	// Base: HP dice level * HP dice factor * (20 or 40 based on breath)
 	base := mon.HP.Num * mon.HP.Sides
@@ -2414,60 +2463,48 @@ func calcMonsterXP(mon *data.Monster) int {
 	}
 	xp += base
 
-	// Mage spells: count set bits * 35
-	mage := 0
-	for b := uint(0); b < 16; b++ {
-		if mon.MageSpells&(1<<b) != 0 {
-			mage++
-		}
-	}
-	xp += mage * 35
+	// Mage spells: MLTADDKX(MAGSPELS, 35) — raw integer value, not bit count
+	mltadd(int(mon.MageSpells), 35)
 
-	// Priest spells: count set bits * 35
-	priest := 0
-	for b := uint(0); b < 16; b++ {
-		if mon.PriestSpells&(1<<b) != 0 {
-			priest++
-		}
-	}
-	xp += priest * 35
+	// Priest spells: MLTADDKX(PRISPELS, 35)
+	mltadd(int(mon.PriestSpells), 35)
 
-	// Drain * 200
-	xp += mon.Drain * 200
+	// Drain: MLTADDKX(DRAINAMT, 200)
+	mltadd(mon.Drain, 200)
 
-	// Heal * 90
-	xp += mon.Heal * 90
+	// Heal: MLTADDKX(HEALPTS, 90)
+	mltadd(mon.Heal, 90)
 
 	// AC factor: 40 * (11 - AC)
 	xp += 40 * (11 - mon.AC)
 
-	// Extra attack types: if > 1, add count * 30
+	// Extra attack types: MLTADDKX(RECSN, 30) if RECSN > 1
 	if mon.NumAttackTypes > 1 {
-		xp += mon.NumAttackTypes * 30
+		mltadd(mon.NumAttackTypes, 30)
 	}
 
-	// Unaffect: (unaffect/10 + 1) * 40 if > 0
+	// Unaffect: MLTADDKX((UNAFFCT DIV 10) + 1, 40) if UNAFFCT > 0
 	if mon.Unaffect > 0 {
-		xp += (int(mon.Unaffect)/10 + 1) * 40
+		mltadd(int(mon.Unaffect)/10+1, 40)
 	}
 
-	// WepVsType3 resistance count * 35
+	// WepVsType3: count bits 1-6 only (Pascal: FOR WEPSTY3I := 1 TO 6)
 	wepRes := 0
-	for b := uint(0); b < 16; b++ {
+	for b := uint(1); b <= 6; b++ {
 		if mon.WepVsType3&(1<<b) != 0 {
 			wepRes++
 		}
 	}
-	xp += wepRes * 35
+	mltadd(wepRes, 35)
 
-	// SPPC ability count * 40
+	// SPPC: count bits 0-6 (Pascal: FOR SPPCI := 0 TO 6)
 	sppcCount := 0
-	for b := uint(0); b < 16; b++ {
+	for b := uint(0); b <= 6; b++ {
 		if mon.SPPC&(1<<b) != 0 {
 			sppcCount++
 		}
 	}
-	xp += sppcCount * 40
+	mltadd(sppcCount, 40)
 
 	if xp < 1 {
 		xp = 1

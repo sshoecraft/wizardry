@@ -129,6 +129,7 @@ const (
 	InputTempleHelp   // typing name at "WHO ARE YOU HELPING ? >"
 	InputConfirmCreate // "DO YOU WANT TO CREATE IT? Y/N ? >"
 	InputMalor         // MALOR teleport: N/S/E/W/U/D displacement, RETURN to teleport
+	InputDumapic       // DUMAPIC full-screen location display, L to leave
 	InputClassChange   // class change selection: A-H picks class, RET cancels
 	InputConfirmReroll // "ARE YOU SURE YOU WANT TO REROLL (Y/N) ?"
 	InputConfirmDelete // "ARE YOU SURE YOU WANT TO DELETE (Y/N) ?"

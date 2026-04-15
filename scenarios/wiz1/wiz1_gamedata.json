@@ -4657,7 +4657,7 @@
       "team_percent": 100,
       "mage_spells": 0,
       "priest_spells": 0,
-      "unique": 1,
+      "unique": 0,
       "breathe": 0,
       "unaffect": 0,
       "wep_vs_type3": 0,
@@ -5325,7 +5325,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 68036,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 245,
       "usable_by": [
@@ -5362,7 +5362,7 @@
       "change_to": 0,
       "change_chance": 25,
       "price": 3000,
-      "stock": 1,
+      "stock": 3,
       "spell_power": 2,
       "class_use": 18,
       "usable_by": [
@@ -5395,7 +5395,7 @@
       "change_to": 0,
       "change_chance": 100,
       "price": 500,
-      "stock": 1,
+      "stock": 4,
       "spell_power": 3,
       "class_use": 255,
       "usable_by": [
@@ -5496,7 +5496,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 1500,
-      "stock": 1,
+      "stock": 0,
       "spell_power": 0,
       "class_use": 225,
       "usable_by": [
@@ -5627,7 +5627,7 @@
       "change_to": 0,
       "change_chance": 100,
       "price": 500,
-      "stock": 25,
+      "stock": 27,
       "spell_power": 1,
       "class_use": 255,
       "usable_by": [
@@ -5662,7 +5662,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 1000,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 225,
       "usable_by": [
@@ -5697,7 +5697,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 1000,
-      "stock": 1,
+      "stock": 2,
       "spell_power": 0,
       "class_use": 233,
       "usable_by": [
@@ -5733,7 +5733,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 1000,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 245,
       "usable_by": [
@@ -5875,7 +5875,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 1500,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 125,
       "usable_by": [
@@ -5940,7 +5940,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 1500,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 229,
       "usable_by": [
@@ -6004,7 +6004,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 5000,
-      "stock": 0,
+      "stock": 2,
       "spell_power": 4,
       "class_use": 255,
       "usable_by": [
@@ -6790,7 +6790,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 8000,
-      "stock": 0,
+      "stock": 2,
       "spell_power": 0,
       "class_use": 229,
       "usable_by": [
@@ -7065,7 +7065,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 8000,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 245,
       "usable_by": [
@@ -7243,7 +7243,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 8000,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 229,
       "usable_by": [
@@ -7829,7 +7829,7 @@
       "change_to": 0,
       "change_chance": 0,
       "price": 3276800,
-      "stock": 0,
+      "stock": 1,
       "spell_power": 0,
       "class_use": 255,
       "usable_by": [

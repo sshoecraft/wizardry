@@ -36,5 +36,14 @@ func Load() (*data.Scenario, error) {
 	if len(messagesJSON) > 0 {
 		json.Unmarshal(messagesJSON, &s.Messages)
 	}
+	// Build line-number → block-index map for DOMSG.
+	// Pascal DOMSG takes a starting LINE number, not a block index.
+	// AUX1 values in maze data are line indices into SCENARIO.MESGS.
+	s.MessagesByLine = make(map[int]int, len(s.Messages))
+	lineNum := 0
+	for i, block := range s.Messages {
+		s.MessagesByLine[lineNum] = i
+		lineNum += len(block)
+	}
 	return s, nil
 }

@@ -58,6 +58,9 @@ type GameState struct {
 	MazeMessages []string // multi-line message block (SCNMSG)
 	MazeMsgScroll int     // scroll offset into MazeMessages (for "[RET] FOR MORE" pagination)
 	MazeMsgWait  bool    // true = waiting for keypress to show more lines
+	MazeSearchYN bool    // true = show "SEARCH (Y/N) ?" after message completes (AUX2=4 GETYN)
+	SearchCell   *data.MazeCell // cell that triggered the search prompt (for combat on Y)
+	SearchMonster int   // original AUX0 value (monster index) before count decrement
 	ViewportMsg  string // text shown in the 3D viewport line 1 — clears on next action
 	ViewportMsg2 string // viewport line 2 (Pascal rows 5-6 for VERYDARK)
 	ShowMap      bool   // true = showing map overlay
