@@ -6,6 +6,15 @@ import (
 	"wizardry/engine"
 )
 
+// drawCentered draws text centered within the 40-column logical display.
+func (s *Screen) drawCentered(y int, style tcell.Style, text string) {
+	pad := (40 - len(text)) / 2
+	if pad < 0 {
+		pad = 0
+	}
+	s.DrawString(pad, y, style, text)
+}
+
 // Title art frames — converted from Apple II Hi-Res boot disk WT bitmap.
 // 24 lines × ~70 cols to fit standard 80×24 terminal.
 
@@ -183,34 +192,58 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 			}
 			s.DrawString(0, y, white, name)
 			y += 4
-			s.DrawString(0, y, white, "COPYRIGHT (C)1981 ALL RIGHTS RESERVED BY")
-			y++
-			s.DrawString(0, y, white, "ANDREW GREENBERG, INC & ROBERT WOODHEAD,")
-			y++
-			s.DrawString(0, y, white, "INC.")
-			y += 4
-			s.DrawString(0, y, white, "  S)TART GAME  U)TILITIES")
-		} else {
-			// Wiz 1: full copyright + version + menu
-			// From p-code OPTIONS (seg 3), exact strings at offsets 43-522:
-			y := 1
-			s.DrawString(0, y, white, "COPYRIGHT (C)1981 ALL RIGHTS RESERVED BY")
-			y++
-			s.DrawString(0, y, white, "ANDREW GREENBERG, INC & ROBERT WOODHEAD,")
-			y++
-			s.DrawString(0, y, white, "INC.  THIS PROGRAM  IS  PROTECTED  UNDER")
-			y++
-			s.DrawString(0, y, white, "THE LAWS OF THE UNITED STATES  AND OTHER")
-			y++
-			s.DrawString(0, y, white, "COUNTRIES,  AND ILLEGAL DISTRIBUTION MAY")
-			y++
-			s.DrawString(0, y, white, "RESULT IN CIVIL  LIABILITY  AND CRIMINAL")
-			y++
-			s.DrawString(0, y, white, "PROSECUTION.")
+			s.drawCentered(y, white, "NOTICE")
 			y += 2
-			s.DrawString(0, y, white, "  VERSION 2.1 OF 22-JAN-82")
+			s.drawCentered(y, white, "THIS SOFTWARE IS A MODERN RECREATION")
+			y++
+			s.drawCentered(y, white, "OF A CLASSIC DUNGEON ADVENTURE FROM")
+			y++
+			s.drawCentered(y, white, "THE EARLY DAYS OF PERSONAL COMPUTING.")
+			y++
+			s.drawCentered(y, white, "IT IS INTENDED FOR ENTERTAINMENT AND")
+			y++
+			s.drawCentered(y, white, "EDUCATIONAL USE. THE AUTHORS MAKE NO")
+			y++
+			s.drawCentered(y, white, "CLAIM TO THE ORIGINAL WORK, BUT OFFER")
+			y++
+			s.drawCentered(y, white, "THIS VERSION AS A TRIBUTE TO ITS")
+			y++
+			s.drawCentered(y, white, "INFLUENCE AND LEGACY.")
+			y += 2
+			s.drawCentered(y, white, "ORIGINAL GAME BY ANDREW GREENBERG")
+			y++
+			s.drawCentered(y, white, "AND ROBERT WOODHEAD")
 			y += 4
-			s.DrawString(0, y, white, "  S)TART GAME  U)TILITIES  T)ITLE PAGE")
+			s.drawCentered(y, white, "S)TART GAME  U)TILITIES")
+		} else {
+			// Wiz 1: notice + version + menu
+			y := 1
+			s.drawCentered(y, white, "NOTICE")
+			y += 2
+			s.drawCentered(y, white, "THIS SOFTWARE IS A MODERN RECREATION")
+			y++
+			s.drawCentered(y, white, "OF A CLASSIC DUNGEON ADVENTURE FROM")
+			y++
+			s.drawCentered(y, white, "THE EARLY DAYS OF PERSONAL COMPUTING.")
+			y++
+			s.drawCentered(y, white, "IT IS INTENDED FOR ENTERTAINMENT AND")
+			y++
+			s.drawCentered(y, white, "EDUCATIONAL USE. THE AUTHORS MAKE NO")
+			y++
+			s.drawCentered(y, white, "CLAIM TO THE ORIGINAL WORK, BUT OFFER")
+			y++
+			s.drawCentered(y, white, "THIS VERSION AS A TRIBUTE TO ITS")
+			y++
+			s.drawCentered(y, white, "INFLUENCE AND LEGACY.")
+			y += 2
+			s.drawCentered(y, white, "ORIGINAL GAME BY ANDREW GREENBERG")
+			y++
+			s.drawCentered(y, white, "AND ROBERT WOODHEAD")
+			y += 2
+			versionLine := "VERSION " + game.Version + " OF " + game.BuildDate
+			s.drawCentered(y, white, versionLine)
+			y += 4
+			s.drawCentered(y, white, "S)TART GAME  U)TILITIES  T)ITLE PAGE")
 		}
 	}
 

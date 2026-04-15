@@ -17,7 +17,8 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-const version = "0.15.6"
+var version = "1.0.0"
+var buildDate string // set via ldflags: -ldflags "-X main.buildDate=15-APR-26"
 
 func main() {
 	scenarioName := "1"
@@ -62,6 +63,17 @@ func main() {
 	}
 
 	game := engine.New(scenario)
+
+	// Set version info for title screen display
+	// Strip trailing ".0" for display (1.0.0 → 1.0, 1.1.0 → 1.1, 1.1.1 → 1.1.1)
+	displayVersion := strings.TrimSuffix(version, ".0")
+	game.Version = displayVersion
+	if buildDate == "" {
+		// Not set via ldflags — use current date
+		buildDate = strings.ToUpper(time.Now().Format("02-Jan-06"))
+	}
+	game.BuildDate = buildDate
+
 	game.Load() // restore roster/party from ~/.config/wizardry/
 
 	// Recalculate AC for all characters from equipped items

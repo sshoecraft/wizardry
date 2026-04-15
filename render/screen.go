@@ -117,6 +117,14 @@ func (s *Screen) DrawString(x, y int, style tcell.Style, str string) {
 	}
 }
 
+// DrawStringRaw writes a string at raw screen coordinates (no scaling).
+// Use for prose text that should not be character-spaced.
+func (s *Screen) DrawStringRaw(x, y int, style tcell.Style, str string) {
+	for i, ch := range str {
+		s.tcell.SetContent(x+i, y, ch, nil, style)
+	}
+}
+
 // SetCell draws a single character at logical position x.
 // Horizontal borders (─) fill scale columns. Vertical borders (│) draw once.
 func (s *Screen) SetCell(x, y int, ch rune, style tcell.Style) {

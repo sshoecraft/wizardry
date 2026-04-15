@@ -39,12 +39,14 @@ func (d Direction) DY() int { return [...]int{1, 0, -1, 0}[d] }
 
 // GameState represents the current state of a Wizardry game session.
 type GameState struct {
-	Scenario *data.Scenario
-	Phase    Phase
-	Town     *TownState
-	Combat   *CombatState  // active combat encounter (nil when not in combat)
-	Title    *TitleState   // title screen state (nil after title dismissed)
-	Util     *UtilState    // utilities state (nil when not in utilities)
+	Scenario  *data.Scenario
+	Phase     Phase
+	Town      *TownState
+	Combat    *CombatState  // active combat encounter (nil when not in combat)
+	Title     *TitleState   // title screen state (nil after title dismissed)
+	Util      *UtilState    // utilities state (nil when not in utilities)
+	Version   string        // display version (e.g. "1.0")
+	BuildDate string        // build date in DD-MMM-YY format (e.g. "15-APR-26")
 
 	// Dungeon position — Pascal coords: (0,0) facing North, X=East, Y=North
 	MazeLevel    int // 0-based (0 = B1F)
