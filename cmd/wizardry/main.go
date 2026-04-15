@@ -595,7 +595,10 @@ func handleTitleInput(screen *render.Screen, game *engine.GameState, ev *tcell.E
 			game.Phase = engine.PhaseTown
 		case 'T': // T)ITLE PAGE → re-show title art/story
 			if len(game.Scenario.TitleFrames) > 0 || len(game.Scenario.TitleStory) > 0 {
-				// Wiz 3: restart the story sequence
+				// Wiz 3: restart the story sequence — clear screen first
+				// to prevent menu text bleeding through sixel frames
+				screen.Clear()
+				screen.Show()
 				title.Step = engine.TitleStory
 				title.StoryFrame = 0
 				return

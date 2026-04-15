@@ -181,44 +181,8 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 	case engine.TitleMenu:
 		if game.Scenario.Title == nil {
 			// Wiz 3: text-only title with game name (no title image)
-			y := 2
-			name := game.Scenario.Game
-			pad := (40 - len(name)) / 2
-			if pad < 0 {
-				pad = 0
-			}
-			for i := 0; i < pad; i++ {
-				name = " " + name
-			}
-			s.DrawString(0, y, white, name)
-			y += 2
-			s.drawCentered(y, white, "NOTICE")
-			y += 2
-			s.drawCentered(y, white, "THIS SOFTWARE IS A MODERN RECREATION")
-			y++
-			s.drawCentered(y, white, "OF A CLASSIC DUNGEON ADVENTURE FROM")
-			y++
-			s.drawCentered(y, white, "THE EARLY DAYS OF PERSONAL COMPUTING.")
-			y++
-			s.drawCentered(y, white, "IT IS INTENDED FOR ENTERTAINMENT AND")
-			y++
-			s.drawCentered(y, white, "EDUCATIONAL USE. THE AUTHORS MAKE NO")
-			y++
-			s.drawCentered(y, white, "CLAIM TO THE ORIGINAL WORK, BUT OFFER")
-			y++
-			s.drawCentered(y, white, "THIS VERSION AS A TRIBUTE TO ITS")
-			y++
-			s.drawCentered(y, white, "INFLUENCE AND LEGACY.")
-			y += 2
-			s.drawCentered(y, white, "ORIGINAL GAME BY ANDREW GREENBERG")
-			y++
-			s.drawCentered(y, white, "AND ROBERT WOODHEAD")
-			y += 2
-			s.drawCentered(y, white, "S)TART GAME  U)TILITIES")
-		} else {
-			// Wiz 1: notice + version + menu
 			y := 1
-			s.drawCentered(y, white, "NOTICE")
+			s.DrawString(16, y, white, "NOTICE")
 			y += 2
 			s.drawCentered(y, white, "THIS SOFTWARE IS A MODERN RECREATION")
 			y++
@@ -241,7 +205,36 @@ func (s *Screen) RenderTitle(game *engine.GameState) {
 			s.drawCentered(y, white, "AND ROBERT WOODHEAD")
 			y += 2
 			versionLine := "VERSION " + game.Version + " OF " + game.BuildDate
-			s.drawCentered(y, white, versionLine)
+			s.DrawString(7, y, white, versionLine)
+			y += 4
+			s.drawCentered(y, white, "S)TART GAME  U)TILITIES  T)ITLE PAGE")
+		} else {
+			// Wiz 1: notice + version + menu
+			y := 1
+			s.DrawString(16, y, white, "NOTICE")
+			y += 2
+			s.drawCentered(y, white, "THIS SOFTWARE IS A MODERN RECREATION")
+			y++
+			s.drawCentered(y, white, "OF A CLASSIC DUNGEON ADVENTURE FROM")
+			y++
+			s.drawCentered(y, white, "THE EARLY DAYS OF PERSONAL COMPUTING.")
+			y++
+			s.drawCentered(y, white, "IT IS INTENDED FOR ENTERTAINMENT AND")
+			y++
+			s.drawCentered(y, white, "EDUCATIONAL USE. THE AUTHORS MAKE NO")
+			y++
+			s.drawCentered(y, white, "CLAIM TO THE ORIGINAL WORK, BUT OFFER")
+			y++
+			s.drawCentered(y, white, "THIS VERSION AS A TRIBUTE TO ITS")
+			y++
+			s.drawCentered(y, white, "INFLUENCE AND LEGACY.")
+			y += 2
+			s.drawCentered(y, white, "ORIGINAL GAME BY ANDREW GREENBERG")
+			y++
+			s.drawCentered(y, white, "AND ROBERT WOODHEAD")
+			y += 2
+			versionLine := "VERSION " + game.Version + " OF " + game.BuildDate
+			s.DrawString(7, y, white, versionLine)
 			y += 4
 			s.drawCentered(y, white, "S)TART GAME  U)TILITIES  T)ITLE PAGE")
 		}
