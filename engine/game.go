@@ -61,6 +61,9 @@ type GameState struct {
 	MazeSearchYN bool    // true = show "SEARCH (Y/N) ?" after message completes (AUX2=4 GETYN)
 	SearchCell   *data.MazeCell // cell that triggered the search prompt (for combat on Y)
 	SearchMonster int   // original AUX0 value (monster index) before count decrement
+	MazePendingBack2Shop bool // true = warp to castle after message dismissed (AUX2=8 BCK2SHOP)
+	MazePendingTryGet   bool // true = give item to party after message dismissed (AUX2=2 TRYGET)
+	MazeTryGetItem      int  // item index (raw) to give via TRYGET
 	ViewportMsg  string // text shown in the 3D viewport line 1 — clears on next action
 	ViewportMsg2 string // viewport line 2 (Pascal rows 5-6 for VERYDARK)
 	ShowMap      bool   // true = showing map overlay

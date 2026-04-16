@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-var version = "1.1.1"
+var version = "1.2.0"
 var buildDate string // set via ldflags: -ldflags "-X main.buildDate=15-APR-26"
 
 func main() {
@@ -3379,6 +3379,50 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 				if game.MazeSearchYN {
 					game.MazeMessage = "SEARCH (Y/N) ?"
 				}
+				// BCK2SHOP (AUX2=8): warp party back to castle after message.
+				// Pascal BCK2SHOP: MAZELEV := 0; XGOTO := XNEWMAZE.
+				if game.MazePendingBack2Shop {
+					game.MazePendingBack2Shop = false
+					for _, m := range game.Town.Party.Members {
+						if m != nil {
+							m.InMaze = false
+						}
+					}
+					game.MazeMessage = ""
+					game.Phase = engine.PhaseTown
+					game.Town.Location = engine.Castle
+					game.Town.InputMode = engine.InputNone
+				}
+				// TRYGET (AUX2=2): give item to first party member who doesn't have it.
+				// Pascal GOTITEM: EQINDEX = item_index + 1000; skips if char already has it
+				// or if inventory is full (POSSCNT = 8).
+				if game.MazePendingTryGet {
+					eqIdx := game.MazeTryGetItem + 1000
+					game.MazePendingTryGet = false
+					game.MazeTryGetItem = 0
+					for _, m := range game.Town.Party.Members {
+						if m == nil || m.ItemCount >= 8 {
+							continue
+						}
+						alreadyHas := false
+						for i := 0; i < m.ItemCount; i++ {
+							if m.Items[i].ItemIndex == eqIdx {
+								alreadyHas = true
+								break
+							}
+						}
+						if !alreadyHas {
+							m.Items[m.ItemCount] = engine.Possession{
+								ItemIndex:  eqIdx,
+								Equipped:   false,
+								Identified: false,
+							}
+							m.ItemCount++
+							game.MazeMessage = m.Name + " GOT ITEM"
+							break
+						}
+					}
+				}
 			}
 		}
 		return false // consume ALL keys while messages are showing
@@ -3481,6 +3525,35 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 		return false
 	}
 
+	// TRYGET (AUX2=2): single-line message path — give item on first keypress after message.
+	// Multi-line path fires in the MazeMessages dismissal handler above.
+	if game.MazePendingTryGet {
+		eqIdx := game.MazeTryGetItem + 1000
+		game.MazePendingTryGet = false
+		game.MazeTryGetItem = 0
+		for _, m := range game.Town.Party.Members {
+			if m == nil || m.ItemCount >= 8 {
+				continue
+			}
+			alreadyHas := false
+			for i := 0; i < m.ItemCount; i++ {
+				if m.Items[i].ItemIndex == eqIdx {
+					alreadyHas = true
+					break
+				}
+			}
+			if !alreadyHas {
+				m.Items[m.ItemCount] = engine.Possession{
+					ItemIndex:  eqIdx,
+					Equipped:   false,
+					Identified: false,
+				}
+				m.ItemCount++
+				game.MazeMessage = m.Name + " GOT ITEM"
+				return false // consume key — player must press again to dismiss "GOT ITEM"
+			}
+		}
+	}
 	game.MazeMessage = ""
 	game.MazeMessage2 = ""
 	game.MazeMessages = nil
@@ -3489,6 +3562,9 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 	game.MazeSearchYN = false
 	game.SearchCell = nil
 	game.SearchMonster = 0
+	game.MazePendingBack2Shop = false
+	game.MazePendingTryGet = false
+	game.MazeTryGetItem = 0
 	game.ViewportMsg = ""
 	game.ViewportMsg2 = ""
 	moved := false // track whether player actually moved to a new square
@@ -3705,7 +3781,7 @@ func checkSquare(game *engine.GameState) {
 			return
 		}
 		// SPCMISC fallthrough: handle via AUX2 dispatch (messages, events)
-		// Pascal SPECIALS2.TEXT lines 616-663
+		// Pascal SPECIALS2.TEXT lines 657-722
 		aux2 := cell.Aux2
 		if aux2 == 0 {
 			break
@@ -3721,24 +3797,89 @@ func checkSquare(game *engine.GameState) {
 				}
 			}
 		}
-		// Display message from AUX1 line index (Pascal DOMSG: AUX1 is a starting LINE number)
-		block := game.Scenario.MessageBlock(cell.Aux1)
-		if block != nil {
-			if len(block) == 1 {
-				game.MazeMessage = block[0]
-			} else if len(block) > 1 {
-				game.MazeMessages = block
-				game.MazeMsgScroll = 0
-				game.MazeMsgWait = len(block) > 4
+		// Pascal: IF NOT((AUX2 > 12) OR (AUX2 = 5) OR (AUX2 = 6)) THEN DOMSG(AUX1, ...)
+		// AUX2=5 (ITM2PASS) and AUX2=6 (CHKALIGN) skip the main message; any message
+		// comes from within BOUNCEBK after the item/align check fails.
+		showMsg := aux2 != 5 && aux2 != 6 && aux2 <= 12
+		if showMsg {
+			// Display message from AUX1 line index (Pascal DOMSG)
+			block := game.Scenario.MessageBlock(cell.Aux1)
+			if block != nil {
+				if len(block) == 1 {
+					game.MazeMessage = block[0]
+				} else if len(block) > 1 {
+					game.MazeMessages = block
+					game.MazeMsgScroll = 0
+					game.MazeMsgWait = len(block) > 4
+				}
 			}
 		}
-		// AUX2=4: GETYN — after message, show "SEARCH (Y/N) ?"
-		// Pascal proc 21: on Y, trigger combat with AUX0 as monster index.
-		// AUX0 is NOT decremented for AUX2=4, so cell.Count is the original value.
-		if aux2 == 4 {
+		switch aux2 {
+		case 2:
+			// TRYGET (SPECIALS2.TEXT P01031A): after message, give item AUX0 to first
+			// party member who doesn't already have it.
+			// Pascal stores EQINDEX = item_index + 1000 for possessed quest items.
+			game.MazePendingTryGet = true
+			game.MazeTryGetItem = cell.Count // raw item index (AUX0); +1000 applied on give
+		case 4:
+			// GETYN (DOSEARCH): after message, show "SEARCH (Y/N) ?"
+			// Pascal DOSEARCH: on Y, trigger combat with AUX0 as monster index.
+			// AUX0 is NOT decremented for AUX2=4.
 			game.MazeSearchYN = true
 			game.SearchCell = cell
 			game.SearchMonster = cell.Count // AUX0 = monster index (77 = Murphy's Ghost)
+		case 5:
+			// ITM2PASS (SPECIALS2.TEXT P010321): pass if party holds item AUX0, else BOUNCEBK.
+			// Pascal: AUX0 += 1000; check POSS.EQINDEX == AUX0; if match EXITSPCL else BOUNCEBK.
+			// In Go, quest items are stored with EQINDEX = raw_index + 1000 (from GOTITEM/dsk.go).
+			itemTarget := cell.Count + 1000
+			partyHasItem := false
+			for _, m := range game.Town.Party.Members {
+				if m == nil {
+					continue
+				}
+				for i := 0; i < m.ItemCount; i++ {
+					if m.Items[i].ItemIndex == itemTarget {
+						partyHasItem = true
+					}
+				}
+			}
+			if !partyHasItem {
+				// BOUNCEBK: reverse last movement direction, then show message at AUX1.
+				// Pascal BOUNCEBK: CASE DIRECTIO OF 0: MAZEY-=1; 1: MAZEX-=1; ...
+				rev := game.Facing.Reverse()
+				game.PlayerX = ((game.PlayerX + rev.DX()) % 20 + 20) % 20
+				game.PlayerY = ((game.PlayerY + rev.DY()) % 20 + 20) % 20
+				// BOUNCEBK shows DOMSG(AUX1, FALSE) if AUX1 >= 0.
+				if cell.Aux1 >= 0 {
+					block := game.Scenario.MessageBlock(cell.Aux1)
+					if block != nil {
+						if len(block) == 1 {
+							game.MazeMessage = block[0]
+						} else if len(block) > 1 {
+							game.MazeMessages = block
+							game.MazeMsgScroll = 0
+							game.MazeMsgWait = len(block) > 4
+						}
+					}
+				}
+			}
+		case 8:
+			// BCK2SHOP: after message, warp party back to castle.
+			// Pascal BCK2SHOP: MAZELEV := 0; XGOTO := XNEWMAZE (SPECIALS2 line 353-358).
+			game.MazePendingBack2Shop = true
+		case 9:
+			// LOOKOUT (SPECIALS2.TEXT P01032A): fill FIGHTMAP in radius AUX0 around player.
+			// For SqSpclEnctr, AUX0 = cell.Count (radius).
+			radius := cell.Count
+			for x2 := -radius; x2 <= radius; x2++ {
+				for y2 := -radius; y2 <= radius; y2++ {
+					fx := ((game.PlayerX + x2) % 20 + 20) % 20
+					fy := ((game.PlayerY + y2) % 20 + 20) % 20
+					game.FightMap[fx][fy] = true
+				}
+			}
+			game.FightMap[game.PlayerX][game.PlayerY] = false
 		}
 	case data.SqScnMsg:
 		// Pascal SPCMISC (SPECIALS2.TEXT): dispatches on AUX2 sub-type
