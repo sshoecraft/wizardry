@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-var version = "1.2.0"
+var version = "1.2.1"
 var buildDate string // set via ldflags: -ldflags "-X main.buildDate=15-APR-26"
 
 func main() {
@@ -3393,27 +3393,95 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 					game.Town.Location = engine.Castle
 					game.Town.InputMode = engine.InputNone
 				}
-				// TRYGET (AUX2=2): give item to first party member who doesn't have it.
-				// Pascal GOTITEM: EQINDEX = item_index + 1000; skips if char already has it
-				// or if inventory is full (POSSCNT = 8).
+				// TRYGET (AUX2=2): give item to first eligible party member.
+				// Pascal GOTITEM (SPECIALS2.TEXT P010315 w/ WC034 fix): iterate party,
+				// per char show "ALREADY HAS ONE" / "IS FULL" / "GOT ITEM" and stop on
+				// first successful give. EQINDEX stores the raw item index (0-99).
 				if game.MazePendingTryGet {
-					eqIdx := game.MazeTryGetItem + 1000
+					itemIdx := game.MazeTryGetItem
 					game.MazePendingTryGet = false
 					game.MazeTryGetItem = 0
 					for _, m := range game.Town.Party.Members {
-						if m == nil || m.ItemCount >= 8 {
+						if m == nil {
 							continue
 						}
 						alreadyHas := false
 						for i := 0; i < m.ItemCount; i++ {
-							if m.Items[i].ItemIndex == eqIdx {
+							if m.Items[i].ItemIndex == itemIdx {
 								alreadyHas = true
 								break
 							}
 						}
-						if !alreadyHas {
+						if alreadyHas {
+							game.MazeMessage = m.Name + " ALREADY HAS ONE"
+							continue
+						}
+						if m.ItemCount >= 8 {
+							game.MazeMessage = m.Name + " IS FULL"
+							continue
+						}
+						m.Items[m.ItemCount] = engine.Possession{
+							ItemIndex:  itemIdx,
+							Equipped:   false,
+							Identified: false,
+						}
+						m.ItemCount++
+						game.MazeMessage = m.Name + " GOT ITEM"
+						break
+					}
+				}
+			}
+		}
+		return false // consume ALL keys while messages are showing
+	}
+
+	// Handle "SEARCH (Y/N) ?" prompt — Pascal GETYN (SPECIALS2.TEXT P010319)
+	// AUX2=4: Y branches on sign of AUX0 — positive triggers combat with AUX0
+	// as monster index, negative calls TRYGET with ABS(AUX0) as quest item ID.
+	// N exits SPECIALS with no effect.
+	if game.MazeSearchYN {
+		if ev.Key() == tcell.KeyRune {
+			ch := ev.Rune()
+			if ch == 'y' || ch == 'Y' {
+				game.MazeSearchYN = false
+				game.MazeMessage = ""
+				cell := game.SearchCell
+				aux0 := game.SearchMonster
+				if cell != nil {
+					if aux0 > 0 {
+						// Combat with monster AUX0 (e.g., Murphy's Ghost = 77)
+						cell.SpclMonster = aux0
+						game.MazeMessage = "AN ENCOUNTER"
+						game.Combat = engine.NewCombat(game)
+						game.Combat.EncounterType = 0
+						game.Phase = engine.PhaseCombat
+					} else if aux0 < 0 {
+						// TRYGET: give ABS(AUX0) as raw item index.
+						// SPCMISC pre-processing already applied AUX0 += 1000 for values
+						// ≤ -1000, so ABS(aux0) is the raw item index (0-99). Matches
+						// Pascal GOTITEM (SPECIALS2.TEXT P010315 w/ WC034 messages).
+						itemIdx := -aux0
+						for _, m := range game.Town.Party.Members {
+							if m == nil {
+								continue
+							}
+							alreadyHas := false
+							for i := 0; i < m.ItemCount; i++ {
+								if m.Items[i].ItemIndex == itemIdx {
+									alreadyHas = true
+									break
+								}
+							}
+							if alreadyHas {
+								game.MazeMessage = m.Name + " ALREADY HAS ONE"
+								continue
+							}
+							if m.ItemCount >= 8 {
+								game.MazeMessage = m.Name + " IS FULL"
+								continue
+							}
 							m.Items[m.ItemCount] = engine.Possession{
-								ItemIndex:  eqIdx,
+								ItemIndex:  itemIdx,
 								Equipped:   false,
 								Identified: false,
 							}
@@ -3422,28 +3490,6 @@ func handleMazeInput(screen *render.Screen, game *engine.GameState, ev *tcell.Ev
 							break
 						}
 					}
-				}
-			}
-		}
-		return false // consume ALL keys while messages are showing
-	}
-
-	// Handle "SEARCH (Y/N) ?" prompt — Pascal proc 21 (SPECIALS.TEXT)
-	// AUX2=4 GETYN: Y triggers combat with AUX0 as monster index, N exits
-	if game.MazeSearchYN {
-		if ev.Key() == tcell.KeyRune {
-			ch := ev.Rune()
-			if ch == 'y' || ch == 'Y' {
-				game.MazeSearchYN = false
-				game.MazeMessage = ""
-				cell := game.SearchCell
-				if cell != nil {
-					// Pascal proc 21: global[19] = original AUX0 (monster index)
-					cell.SpclMonster = game.SearchMonster
-					game.MazeMessage = "AN ENCOUNTER"
-					game.Combat = engine.NewCombat(game)
-					game.Combat.EncounterType = 0
-					game.Phase = engine.PhaseCombat
 				}
 				game.SearchCell = nil
 			} else if ch == 'n' || ch == 'N' {
@@ -3788,12 +3834,25 @@ func checkSquare(game *engine.GameState) {
 		}
 		// AUX2=1: message with counter depletion
 		// AUX2=8: back-to-shop with counter depletion
-		// AUX2=4: GETYN — does NOT decrement (p-code IC 5208: AUX2!=4 gates decrement)
+		// AUX2=4: GETYN — see AUX0 transform below (Pascal SPCMISC)
+		// Pascal SPECIALS2.TEXT lines 626-645: AUX0 transforms only apply when AUX2 in {1,4,8}
+		aux0 := cell.Count
 		if aux2 == 1 || aux2 == 8 {
 			if cell.Count > 0 {
 				cell.Count--
 				if cell.Count == 0 {
 					cell.Type = data.SqNormal // convert to normal when depleted
+				}
+			}
+		} else if aux2 == 4 {
+			// Pascal: IF AUX0 < 0 THEN
+			//   IF AUX0 > -1000 THEN MAZEFLOR.AUX0 := 0  (one-shot trigger consumed)
+			//   ELSE AUX0 := AUX0 + 1000                  (quest-item encoding)
+			if aux0 < 0 {
+				if aux0 > -1000 {
+					cell.Count = 0
+				} else {
+					aux0 = aux0 + 1000
 				}
 			}
 		}
@@ -3816,23 +3875,21 @@ func checkSquare(game *engine.GameState) {
 		}
 		switch aux2 {
 		case 2:
-			// TRYGET (SPECIALS2.TEXT P01031A): after message, give item AUX0 to first
-			// party member who doesn't already have it.
-			// Pascal stores EQINDEX = item_index + 1000 for possessed quest items.
+			// TRYGET (SPECIALS2.TEXT P010316): after message, give item AUX0 to first
+			// party member. Pascal GOTITEM stores EQINDEX := ITEMX directly.
 			game.MazePendingTryGet = true
-			game.MazeTryGetItem = cell.Count // raw item index (AUX0); +1000 applied on give
+			game.MazeTryGetItem = aux0
 		case 4:
-			// GETYN (DOSEARCH): after message, show "SEARCH (Y/N) ?"
-			// Pascal DOSEARCH: on Y, trigger combat with AUX0 as monster index.
-			// AUX0 is NOT decremented for AUX2=4.
+			// GETYN (SPECIALS2.TEXT P010319): after message, show "SEARCH (Y/N) ?"
+			// On Y: positive AUX0 → combat with monster AUX0; negative AUX0 → TRYGET
+			// with ABS(AUX0) as item index. aux0 already has the -1000 transform applied.
 			game.MazeSearchYN = true
 			game.SearchCell = cell
-			game.SearchMonster = cell.Count // AUX0 = monster index (77 = Murphy's Ghost)
+			game.SearchMonster = aux0
 		case 5:
-			// ITM2PASS (SPECIALS2.TEXT P010321): pass if party holds item AUX0, else BOUNCEBK.
-			// Pascal: AUX0 += 1000; check POSS.EQINDEX == AUX0; if match EXITSPCL else BOUNCEBK.
-			// In Go, quest items are stored with EQINDEX = raw_index + 1000 (from GOTITEM/dsk.go).
-			itemTarget := cell.Count + 1000
+			// ITM2PASS (SPECIALS2.TEXT P01031B): pass if party holds item AUX0, else BOUNCEBK.
+			// Pascal checks POSS.EQINDEX == AUX0 directly — item indices are raw (0-99).
+			itemTarget := cell.Count
 			partyHasItem := false
 			for _, m := range game.Town.Party.Members {
 				if m == nil {
