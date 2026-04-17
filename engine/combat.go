@@ -611,6 +611,26 @@ func (cs *CombatState) ExecuteRound(game *GameState) {
 
 	party := game.Town.Party.Members
 
+	// Pascal DSPPARTY (COMBAT3.TEXT lines 286-291): per-round identification roll.
+	// For each party member, (RANDOM MOD 99) < (IQ + PIETY + LEVEL) → a random
+	// group from 1..4 (0..3 here) gets IDENTIFI := TRUE. Rolls even for dead
+	// members, matching the Pascal loop which has no status guard on this check.
+	for _, m := range party {
+		if m == nil {
+			continue
+		}
+		if rand.Intn(99) < m.IQ+m.Piety+m.Level {
+			gi := rand.Intn(4)
+			if gi < len(cs.Groups) {
+				g := cs.Groups[gi]
+				g.Identified = true
+				for _, cm := range g.Members {
+					cm.Identified = true
+				}
+			}
+		}
+	}
+
 	// Snapshot display state — Pascal DSPPARTY/DSPENEMY run once at round start
 	// in CUTIL, NOT during MELEE. Freeze both monster counts and party stats.
 	cs.DisplayAliveCounts = make([]int, len(cs.Groups))
@@ -1054,7 +1074,8 @@ func (cs *CombatState) executePartySlot(slot int, party []*Character, game *Game
 			cs.endAction()
 
 		case ActionParry:
-			// Parry is silent — no message in the original (confirmed: no PARR string in source)
+			cs.addMessage(fmt.Sprintf("%s PARRIED.", member.Name))
+			cs.endAction()
 
 		case ActionRun:
 			runChance := 50 + member.Agility*2

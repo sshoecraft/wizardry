@@ -17,7 +17,7 @@ import (
 	"wizardry/scenarios/wiz3"
 )
 
-var version = "1.2.1"
+var version = "1.2.2"
 var buildDate string // set via ldflags: -ldflags "-X main.buildDate=15-APR-26"
 
 func main() {
